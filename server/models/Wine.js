@@ -62,7 +62,7 @@ const wineSchema = new Schema({
         type: Number,
         required: true,
     },
-    price: {
+    basePrice: {
         type: Number,
         required: true,
     },
@@ -70,15 +70,17 @@ const wineSchema = new Schema({
         type: String,
         required: true,
     },
-    isPromo:{
-        type: Boolean,
-        default: false,
-    },
-    discount: {
+    discountPercentage: {
         type: Number,
         default: 0,
-    }
-
+        min: 0,
+    },
+    // isPromo:{
+    //     type: Boolean,
+    //     default: false,
+    // },
 });
+wineSchema.virtual('isPromo').get(function () {return this.discountPercentage > 0;});
+wineSchema.virtual('currentPrice').get(function () {return Number((this.basePrice * (1 - (this.discountPercentage / 100))).toFixed(2));});
 
 module.exports = model('Wine', wineSchema);
