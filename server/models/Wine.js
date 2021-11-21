@@ -79,7 +79,8 @@ const wineSchema = new Schema({
     //     type: Boolean,
     //     default: false,
     // },
-});
+}, {toJSON: {virtuals: true}});
+
 wineSchema.virtual('isPromo').get(function () {return this.discountPercentage > 0;});
 wineSchema.virtual('currentPrice').get(function () {return Number((this.basePrice * (1 - (this.discountPercentage / 100))).toFixed(2));});
 
