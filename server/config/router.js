@@ -1,5 +1,8 @@
 const router = require('express').Router();
+const wineController = require('../controllers/wineController');
+const userController = require('../controllers/userController');
 
-// import controllers and use them on specific routes
+router.use('/wine', wineController);
+router.use('/user', userController);
 
 module.exports = router;
