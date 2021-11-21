@@ -25,7 +25,7 @@ const orderSchema = new Schema({
         quantity: {type: Number, default: 1, min: 1},
         price: {type: Number, default: 1, min: 1}
     }],
-});
+}, {toJSON: {virtuals: true}});
 orderSchema.virtual('_isComplete').get(function () {return this.status != 'Complete';});
 
 module.exports = model('Order', orderSchema);
