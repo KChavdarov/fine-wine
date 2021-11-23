@@ -1,0 +1,24 @@
+@import './variables.scss';
+
+html {
+    font: $baseFontSize $primaryFont;
+    line-height: 1.5;
+
+    @include breakpoint {
+        font-size: $mobileFontSize;
+    }
+}
+
+form,
+input,
+button {
+    font: $baseFontSize $primaryFont;
+    line-height: 1.5;
+}
+
+@each $header,
+$size in (h1: 2.5em, h2: 2.1em, h3: 1.7em, h4: 1.4em, h5: 1.2em, h6: 1em) {
+    #{$header} {
+        font-size: $size;
+    }
+}

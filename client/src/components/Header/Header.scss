@@ -1,0 +1,121 @@
+@import '../../styles/variables.scss';
+
+.site-header {
+    background: $primary;
+    width: 100%;
+    position: fixed;
+    height: $headerSize;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .site-navigation {
+        width: 90%;
+        max-width: 1920px;
+        display: flex;
+
+        .navigation-items {
+            flex: 1 1 33%;
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns: repeat(4, auto);
+            align-items: center;
+
+            &.active {
+                transform: translateX(0%);
+            }
+
+            @include breakpoint {
+                position: absolute;
+                z-index: 200;
+                height: 100vh;
+                background-color: lightgrey;
+                left: 0;
+                top: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 70%;
+                max-width: 20rem;
+                transform: translateX(-100%);
+                transition: transform 0.2s ease-in;
+            }
+
+            .nav-link {
+                a {
+                    color: white;
+                }
+
+                @include breakpoint {
+                    width: 100%;
+                    text-align: center;
+                    padding: 0.5rem 1rem;
+
+                    & a {
+                        color: $dark;
+                    }
+                }
+            }
+        }
+    }
+
+    .site-logo {
+        flex: 1 1 50%;
+        min-width: 12rem;
+        font-size: 2rem;
+        text-align: center;
+
+        a {
+            color: white;
+        }
+    }
+
+    .nav-button {
+        flex: 1 1 33%;
+        display: flex;
+        align-items: center;
+
+        &:first-child {
+            justify-content: flex-start;
+        }
+
+        &:last-child {
+            justify-content: flex-end;
+        }
+
+        a,
+        button {
+            color: white;
+            font-size: 1.4rem;
+        }
+    }
+
+    .menu-icon {
+        display: none;
+
+        @include breakpoint {
+            display: flex;
+            z-index: 300;
+        }
+    }
+
+    .menu-backdrop {
+        height: 100vh;
+        display: none;
+
+        @include breakpoint {
+            &.active {
+                display: block;
+                position: absolute;
+                z-index: 100;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+//Fonts
+$primaryFont: 'Helvetica',
+Verdana,
+Geneva,
+Tahoma,
+sans-serif;
+
+$baseFontSize: 18px;
+$mobileFontSize: 16px;
+
+//Colors
+$dark: rgb(44, 44, 44);
+$light: rgb(230, 230, 230);
+$primary: rgb(0, 73, 184);
+$accent: rgb(255, 196, 0);
+
+//Others
+$headerSize: 4rem;
+
+%pseudo {
+    display: block;
+    content: '';
+}
+
+@mixin breakpoint {
+    @media screen and (max-width: 1000px) {
+        @content;
+    }
+}
