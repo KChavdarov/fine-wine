@@ -1,6 +1,15 @@
 @import './styles/variables.scss';
 
-.site-content {
-    margin-top: $headerSize;
-    overflow: hidden;
+.App {
+    padding-top: $headerSize;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1440px;
+    width: 80%;
+
+    @include breakpoint {
+        width: 90%;
+    }
 }

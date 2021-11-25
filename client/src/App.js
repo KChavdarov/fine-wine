@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Header />
 
-      <main className="site-content">
+      <main className="site-content container">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/catalogue" element={<Catalogue />} />

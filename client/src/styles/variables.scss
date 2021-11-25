@@ -5,17 +5,18 @@ Geneva,
 Tahoma,
 sans-serif;
 
-$baseFontSize: 18px;
-$mobileFontSize: 16px;
+$baseFontSize: 16px;
+$mobileFontSize: 14px;
 
 //Colors
 $dark: rgb(44, 44, 44);
 $light: rgb(230, 230, 230);
-$primary: rgb(0, 73, 184);
-$accent: rgb(255, 196, 0);
+// $primary: rgb(0, 73, 184);
+$primary: rgb(133, 0, 82);
+$accent: rgb(243, 253, 199);
 
 //Others
-$headerSize: 4rem;
+$headerSize: 6rem;
 
 %pseudo {
     display: block;

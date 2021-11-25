@@ -1,7 +1,6 @@
 @import '../../styles/variables.scss';
 
 .site-header {
-    background: $primary;
     width: 100%;
     position: fixed;
     height: $headerSize;
@@ -12,8 +11,6 @@
     align-items: center;
 
     .site-navigation {
-        width: 90%;
-        max-width: 1920px;
         display: flex;
 
         .navigation-items {
@@ -45,7 +42,7 @@
 
             .nav-link {
                 a {
-                    color: white;
+                    color: $primary;
                 }
 
                 @include breakpoint {
@@ -68,7 +65,8 @@
         text-align: center;
 
         a {
-            color: white;
+            font-weight: bold;
+            color: $primary;
         }
     }
 
@@ -87,7 +85,7 @@
 
         a,
         button {
-            color: white;
+            color: $primary;
             font-size: 1.4rem;
         }
     }
@@ -97,7 +95,7 @@
 
         @include breakpoint {
             display: flex;
-            z-index: 300;
+            // z-index: 300;
         }
     }
 
