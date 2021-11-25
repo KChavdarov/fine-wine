@@ -1,7 +1,8 @@
 import './Header.scss';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import {menuItems} from './menuItems';
-import {FaShoppingCart, FaBars, FaTimes} from 'react-icons/fa';
+import {BsCart2, BsList, BsX} from 'react-icons/bs';
+import {ImGlass} from 'react-icons/im';
 import {useState} from 'react';
 
 export function Header() {
@@ -18,22 +19,26 @@ export function Header() {
     return (
         <header className="site-header">
             <div className="container">
-                <nav className="site-navigation">
+                <nav className="site-navigation" >
 
-                    <div className="nav-button menu-icon" onClick={toggleMenu} ><button>{isOpen ? <FaTimes /> : <FaBars />}</button></div>
+                    <div className="nav-button menu-icon" ><button onClick={toggleMenu}>{isOpen ? <BsX /> : <BsList />}</button></div>
 
-                    <ul className={isOpen ? 'navigation-items active' : 'navigation-items'} onClick={closeMenu}>
-                        {menuItems.map(i => <li className="nav-link" key={i.title}><Link to={i.url}>{i.title}</Link></li>)}
+                    <ul className="navigation-items" onClick={closeMenu}>
+                        {menuItems.map(i => <li className="nav-link" key={i.title}><NavLink className={({isActive}) => isActive ? 'nav-active' : ''} to={i.url}>{i.title}</NavLink></li>)}
                     </ul>
 
-                    <div className={isOpen ? 'menu-backdrop active' : 'menu-backdrop'} onClick={closeMenu}></div>
+                    <div className="site-logo" onClick={closeMenu}><Link to="/">Fine <ImGlass /> wine</Link></div>
 
-                    <div className="site-logo"><Link to="/">Fine Wine</Link></div>
-
-                    <div className="nav-button"><Link to="/user/cart"><FaShoppingCart /></Link></div>
+                    <div className="nav-button" onClick={closeMenu}><Link to="/user/cart"><BsCart2 /></Link></div>
 
                 </nav>
+
+                <div className={isOpen ? 'mobile-menu active' : 'mobile-menu'} onClick={closeMenu}>
+                    <ul className="mobile-menu-items" >
+                        {menuItems.map(i => <li className="menu-link" key={i.title}><Link to={i.url}>{i.title}</Link></li>)}
+                    </ul>
+                </div>
             </div>
-        </header>
+        </header >
     );
 }
