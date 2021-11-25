@@ -2,12 +2,13 @@
 
 .App {
     padding-top: $headerSize;
+    overflow: hidden;
 }
 
 .container {
     margin: 0 auto;
     max-width: 1440px;
-    width: 80%;
+    width: 85%;
 
     @include breakpoint {
         width: 90%;
