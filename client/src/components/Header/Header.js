@@ -1,7 +1,7 @@
 import './Header.scss';
 import {Link, NavLink} from 'react-router-dom';
 import {menuItems} from './menuItems';
-import {BsCart2, BsList, BsX} from 'react-icons/bs';
+import {BsCart2, BsList, BsX, BsPerson, BsStar} from 'react-icons/bs';
 import {ImGlass} from 'react-icons/im';
 import {useState} from 'react';
 
@@ -29,7 +29,13 @@ export function Header() {
 
                     <div className="site-logo" onClick={closeMenu}><Link to="/">Fine <ImGlass /> wine</Link></div>
 
-                    <div className="nav-button" onClick={closeMenu}><Link to="/user/cart"><BsCart2 /></Link></div>
+                    <div className="nav-button" onClick={closeMenu}>
+                        <div className="user-links">
+                            <Link to="/user/favorites"><BsStar /></Link>
+                            <Link to="/user/profile"><BsPerson /></Link>
+                        </div>
+                        <Link to="/user/cart"><BsCart2 /></Link>
+                    </div>
 
                 </nav>
 
