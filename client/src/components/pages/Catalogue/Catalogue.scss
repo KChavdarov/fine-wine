@@ -1,0 +1,15 @@
+$gap: 1rem;
+
+.catalogue {
+
+    .products-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-gap: $gap;
+        // padding: $gap;
+
+        @media screen and (max-width: 450px) {
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        }
+    }
+}

@@ -1,0 +1,109 @@
+@import '/src/styles/variables.scss';
+
+.product-card {
+
+    padding: 2rem;
+    box-shadow: 0 0 10px 0px #0000002e;
+    overflow: hidden;
+    border-radius: 0.5rem;
+
+    .card-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .card-header {
+            text-align: center;
+            color: $primary;
+            height: 4rem;
+        }
+
+        .image-container {
+            height: 12rem;
+            margin-bottom: 1rem;
+            padding: 0.2rem;
+
+            img {
+                height: 100%;
+                width: auto;
+                transition: transform 0.2s linear;
+            }
+        }
+
+        .product-details {
+            text-align: center;
+            font-size: 0.8rem;
+
+            .name {
+                font: 1.5em $serif;
+                font-weight: bold;
+                height: 3rem;
+                margin: 0.5rem 0;
+            }
+
+            .grapes {
+                color: $primary;
+                height: 3em;
+            }
+
+            .geo {
+                color: $primary;
+                height: 3em;
+            }
+        }
+
+        .prices {
+            font-size: 1.5em;
+
+            span {
+                display: inline-block;
+                margin: 0.5rem;
+            }
+
+            .old-price {
+                font-size: 0.7em;
+                text-decoration: line-through;
+            }
+
+            .current-price {
+                color: rgb(199, 0, 0);
+            }
+        }
+    }
+
+    &:hover,
+    &:active {
+        img {
+            transform: scale(1.1);
+        }
+
+        box-shadow: 0 0 10px 0px rgba($color: $primary, $alpha: 0.4);
+    }
+
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .action-button {
+            font-size: 1em;
+            display: block;
+            margin: 1em;
+            padding: 0.5em;
+            width: 80%;
+            border: 1px solid black;
+            border-radius: 1rem;
+            border-color: $primary;
+            color: $primary;
+
+            &:hover,
+            &:active {
+                background: $primary;
+                color: white;
+                transition: background-color 0.2s linear;
+            }
+        }
+    }
+}
