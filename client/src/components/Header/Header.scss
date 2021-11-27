@@ -10,6 +10,7 @@
     justify-content: center;
     align-items: center;
     background: $background;
+    z-index: 1000;
 
     div.mobile-menu {
         position: absolute;
