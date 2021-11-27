@@ -36,6 +36,8 @@ export function ProductCard({product}) {
                     }
                 </div>
 
+                {product.isPromo && <span className="sale-logo">great price!</span>}
+
             </div>
 
             <div className="buttons">

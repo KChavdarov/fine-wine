@@ -1,7 +1,8 @@
 @import '/src/styles/variables.scss';
+$sale: rgb(199, 0, 0);
 
 .product-card {
-
+    position: relative;
     padding: 2rem;
     box-shadow: 0 0 10px 0px #0000002e;
     overflow: hidden;
@@ -66,7 +67,39 @@
             }
 
             .current-price {
-                color: rgb(199, 0, 0);
+                color: $sale;
+            }
+        }
+
+        .sale-logo {
+            text-align: center;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            height: 5em;
+            width: 5em;
+            background-color: $sale;
+            color: white;
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            box-shadow: 0 0 10px 0px $sale;
+            animation: pulse;
+            animation-duration: 0.8s;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+
+
+            @keyframes pulse {
+                from {
+                    box-shadow: 0 0 10px 0px $sale;
+                }
+
+                to {
+                    box-shadow: 0 0 10px 3px $sale;
+                }
             }
         }
     }
