@@ -36,7 +36,7 @@ const wineSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ['Red', 'White', 'Rose', 'Sparkling', 'Dessert']
+        enum: ['red', 'white', 'rose', 'sparkling', 'dessert']
     },
     brand: {
         type: String,
@@ -75,13 +75,19 @@ const wineSchema = new Schema({
         default: 0,
         min: 0,
     },
-    // isPromo:{
-    //     type: Boolean,
-    //     default: false,
-    // },
-}, {toJSON: {virtuals: true}});
+    isPromo: {
+        type: Boolean,
+        default: function () {return this.discountPercentage > 0;},
+    },
+    currentPrice: {
+        type: Number,
+        default: function () {return Number((this.basePrice * (1 - (this.discountPercentage / 100))).toFixed(2));}
+    }
+},
+    //  {toJSON: {virtuals: true}}
+);
 
-wineSchema.virtual('isPromo').get(function () {return this.discountPercentage > 0;});
-wineSchema.virtual('currentPrice').get(function () {return Number((this.basePrice * (1 - (this.discountPercentage / 100))).toFixed(2));});
+// wineSchema.virtual('isPromo').get(function () {return this.discountPercentage > 0;});
+// wineSchema.virtual('currentPrice').get(function () {return Number((this.basePrice * (1 - (this.discountPercentage / 100))).toFixed(2));});
 
 module.exports = model('Wine', wineSchema);

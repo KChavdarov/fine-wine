@@ -5,10 +5,37 @@ module.exports = {
     getOne,
     create,
     deleteOne,
+    getCategories,
 };
 
-async function getAll() {
-    return Wine.find({isDeleted: false});
+async function getCategories() {
+    const fields = [
+        'type',
+        'brand',
+        'grape',
+        'country',
+        'region',
+        'year',
+        'volume',
+        'currentPrice',
+        'isPromo'
+    ];
+
+    function getDistinct(field) {
+        return Wine.find().distinct(field);
+    }
+
+    // const fields = Object.keys(Wine.schema.obj);
+
+    const distinctFields = fields.map((field) => getDistinct(field).then((result) => ({[field]: result})));
+    const categories = Object.assign(... await Promise.all(distinctFields));
+
+    return categories;
+}
+
+async function getAll(query = {}) {
+    query.isDeleted = false;
+    return Wine.find(query);
 }
 
 async function getOne(id) {
