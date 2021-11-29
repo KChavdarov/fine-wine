@@ -13,8 +13,11 @@ export function Catalogue() {
 
     useEffect(() => {
         getFilters();
-        getProducts();
     }, []);
+
+    useEffect(() => {
+        getProducts();
+    }, [searchParams]);
 
 
     function parseQueryString(queryString) {
@@ -28,9 +31,7 @@ export function Catalogue() {
 
     async function getFilters() {
         const categories = await wineService.getCategories();
-        console.log(categories);
         const selected = parseQueryString(searchParams);
-        console.log(selected);
 
         const filters = Object.entries(categories)
             .reduce((acc, [category, fields]) => {
@@ -51,6 +52,31 @@ export function Catalogue() {
         setIsLoading(false);
     }
 
+    function checkboxHandler(event, category) {
+        const name = event.target.name;
+        const checked = event.target.checked;
+        const updatedFilter = {[name]: checked};
+
+        setFilters(prevState => {
+            const filters = prevState[category];
+            const updatedFilters = {...filters, ...updatedFilter};
+            const newState = {...prevState};
+            newState[category] = updatedFilters;
+            return newState;
+        });
+    }
+
+    function filtersSubmitHandler(event) {
+        event.preventDefault();
+        const selectedFilters = Object.entries(filters)
+            .reduce((acc, [category, fields]) => {
+                const checked = Object.keys(fields).filter(field => fields[field]);
+                if (Object.keys(checked).length > 0) {acc[category] = checked;}
+                return acc;
+            }, {});
+
+        setSearchParams(selectedFilters);
+    }
 
     const content = isLoading
         ? <p>Loading ...</p>
@@ -60,7 +86,7 @@ export function Catalogue() {
         <div className="catalogue container">
             <h1>Wine Catalogue</h1>
 
-            <Filters filters={filters} />
+            <Filters filters={filters} checkboxHandler={checkboxHandler} filtersSubmitHandler={filtersSubmitHandler} />
 
             <section className="products-container">
                 {content}
