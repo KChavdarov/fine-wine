@@ -2,20 +2,55 @@ import './Catalogue.scss';
 import {useEffect, useState} from 'react';
 import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
+import {Filters} from './Filters';
+import {useSearchParams} from 'react-router-dom';
 
 export function Catalogue() {
+    const [filters, setFilters] = useState({});
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    useEffect(() => {
+        getFilters();
+        getProducts();
+    }, []);
+
+
+    function parseQueryString(queryString) {
+        const keys = [...searchParams.keys()];
+        const result = keys.reduce((a, c) => {
+            a[c] = queryString.getAll(c);
+            return a;
+        }, {});
+        return result;
+    }
+
+    async function getFilters() {
+        const categories = await wineService.getCategories();
+        console.log(categories);
+        const selected = parseQueryString(searchParams);
+        console.log(selected);
+
+        const filters = Object.entries(categories)
+            .reduce((acc, [category, fields]) => {
+                acc[category] = fields.reduce((a, c) => {
+                    a[c] = Boolean(selected[category]?.includes(c));
+                    return a;
+                }, {});
+
+                return acc;
+            }, {});
+
+        setFilters(() => filters);
+    }
 
     async function getProducts() {
-        const products = await wineService.getAll();
+        const products = await wineService.getAll(searchParams);
         setProducts(() => products);
         setIsLoading(false);
     }
 
-    useEffect(() => {
-        getProducts();
-    }, []);
 
     const content = isLoading
         ? <p>Loading ...</p>
@@ -24,24 +59,8 @@ export function Catalogue() {
     return (
         <div className="catalogue container">
             <h1>Wine Catalogue</h1>
-            <section className="filters">
-                <h4>Filters</h4>
-                <form>
-                    <label htmlFor="type">Type</label>
-                    <select name="type" id="type">
-                        <option value="red">Red</option>
-                        <option value="white">White</option>
-                        <option value="rose">Rose</option>
-                        <option value="sparkling">Sparkling</option>
-                        <option value="dessert">Dessert</option>
-                    </select>
-                    <label htmlFor="country">Country</label>
-                    <select name="country" id="country">
-                        <option value="United States">United States</option>
-                        <option value="France">France</option>
-                    </select>
-                </form>
-            </section>
+
+            <Filters filters={filters} />
 
             <section className="products-container">
                 {content}
