@@ -3,12 +3,13 @@ $sale: rgb(199, 0, 0);
 
 .product-card {
     position: relative;
-    padding: 2rem;
     box-shadow: 0 0 10px 0px #0000002e;
     overflow: hidden;
     border-radius: 0.5rem;
 
     .card-main {
+        padding: 2rem;
+        cursor: pointer;
         display: flex;
         flex-direction: column;
         align-items: center;
