@@ -17,6 +17,7 @@ $sale: rgb(199, 0, 0);
             text-align: center;
             color: $primary;
             height: 4rem;
+            text-transform: capitalize;
         }
 
         .image-container {
@@ -34,6 +35,7 @@ $sale: rgb(199, 0, 0);
         .product-details {
             text-align: center;
             font-size: 0.8rem;
+            text-transform: capitalize;
 
             .name {
                 font: 1.5em $serif;
