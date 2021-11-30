@@ -1,6 +1,6 @@
 import {useState} from 'react';
 
-export function FilterGroup({category, fields, checkboxHandler}) {
+export function CheckboxGroup({category, fields, checkboxHandler}) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (

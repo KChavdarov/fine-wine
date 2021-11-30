@@ -6,7 +6,19 @@ import {Filters} from './Filters';
 import {useSearchParams} from 'react-router-dom';
 
 export function Catalogue() {
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState({
+        type: {},
+        brand: {},
+        grape: {},
+        country: {},
+        region: {},
+        year: {},
+        volume: {},
+        isPromo: {},
+        priceRange: {min: 0, max: 1000},
+        minPrice: 0,
+        maxPrice: 1000,
+    });
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -34,6 +46,7 @@ export function Catalogue() {
         const selected = parseQueryString(searchParams);
 
         const filters = Object.entries(categories)
+            .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice'))
             .reduce((acc, [category, fields]) => {
                 acc[category] = fields.reduce((a, c) => {
                     a[c] = Boolean(selected[category]?.includes(c));
@@ -42,6 +55,14 @@ export function Catalogue() {
 
                 return acc;
             }, {});
+
+        filters.minPrice = categories.minPrice;
+        filters.maxPrice = categories.maxPrice;
+
+        filters.priceRange = {
+            min: categories.minPrice,
+            max: categories.maxPrice
+        };
 
         setFilters(() => filters);
     }
@@ -66,14 +87,37 @@ export function Catalogue() {
         });
     }
 
+    function rangeHandler(event) {
+        const name = event.target.name;
+        const updatedFilter = {[name]: Number(event.target.value) || 0};
+
+        setFilters(prevState => {
+            let minPrice = prevState.minPrice;
+            let maxPrice = prevState.maxPrice;
+            const newValue = Number(event.target.value);
+
+            if (name === 'minPrice') {
+                minPrice = Math.min(maxPrice - 10, newValue);
+            } else if (name === 'maxPrice') {
+                maxPrice = Math.max(minPrice + 10, newValue);
+            }
+
+            return {...prevState, minPrice, maxPrice};
+        });
+    }
+
     function filtersSubmitHandler(event) {
         event.preventDefault();
         const selectedFilters = Object.entries(filters)
+            .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
             .reduce((acc, [category, fields]) => {
                 const checked = Object.keys(fields).filter(field => fields[field]);
                 if (Object.keys(checked).length > 0) {acc[category] = checked;}
                 return acc;
             }, {});
+
+        selectedFilters.minPrice = filters.minPrice;
+        selectedFilters.maxPrice = filters.maxPrice;
 
         setSearchParams(selectedFilters);
     }
@@ -86,7 +130,7 @@ export function Catalogue() {
         <div className="catalogue container">
             <h1>Wine Catalogue</h1>
 
-            <Filters filters={filters} checkboxHandler={checkboxHandler} filtersSubmitHandler={filtersSubmitHandler} />
+            {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler}} />}
 
             <section className="products-container">
                 {content}
