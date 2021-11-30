@@ -8,7 +8,7 @@ router.get('/categories', async (req, res) => {
         const categories = await wineService.getCategories();
         res.status(200).json(categories);
     } catch (error) {
-        const errors = parseErrorMessage(errors);
+        const errors = parseErrorMessage(error);
         res.status(400).json(errors);
     }
 });
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
         wineService.getCategories();
         res.status(200).json(wines);
     } catch (error) {
-        const errors = parseErrorMessage(errors);
+        const errors = parseErrorMessage(error);
         res.status(400).json(errors);
     }
 });
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
         const wine = await wineService.getOne(wineId);
         res.status(200).json(wine);
     } catch (error) {
-        const errors = parseErrorMessage(errors);
+        const errors = parseErrorMessage(error);
         res.status(400).json(errors);
     }
 });

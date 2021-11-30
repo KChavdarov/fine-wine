@@ -22,7 +22,7 @@ async function getCategories() {
     ];
 
     function getDistinct(field) {
-        return Wine.find().distinct(field);
+        return Wine.find({isDeleted: false}).distinct(field);
     }
 
     // const fields = Object.keys(Wine.schema.obj);
@@ -30,11 +30,28 @@ async function getCategories() {
     const distinctFields = fields.map((field) => getDistinct(field).then((result) => ({[field]: result})));
     const categories = Object.assign(... await Promise.all(distinctFields));
 
+    categories.minPrice = Math.floor(Math.min(...categories.currentPrice));
+    categories.maxPrice = Math.ceil(Math.max(...categories.currentPrice));
+
+    delete categories.currentPrice;
+
     return categories;
 }
 
-async function getAll(query = {}) {
+async function getAll(data = {}) {
+    const query = {...data};
     query.isDeleted = false;
+    if (data.minPrice || data.maxPrice) {
+        query.currentPrice = {};
+
+        if (data.minPrice) {
+            query.currentPrice['$gte'] = data.minPrice;
+        };
+
+        if (data.maxPrice) {
+            query.currentPrice['$lte'] = data.maxPrice;
+        }
+    }
     return Wine.find(query);
 }
 
