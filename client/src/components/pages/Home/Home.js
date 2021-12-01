@@ -5,11 +5,8 @@ export function Home() {
     return (
         <>
             <Carousel />
-            <ProductsShowcase query={{isPromo: true}} />
-            <ProductsShowcase />
-            <section>Latest products</section>
-            <section>Top rated products</section>
-            <section>Testimonials</section>
+            <ProductsShowcase query={{isPromo: true}} title="Best deals" />
+            <ProductsShowcase title="Latest products" />
         </>
     );
 }
