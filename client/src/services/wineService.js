@@ -16,3 +16,8 @@ export async function getAll(query) {
     const wines = await http.get(endpoint + '?' + query);
     return wines;
 }
+
+export async function getLatest(query) {
+    const wines = await http.get(endpoint + '/latest?' + query);
+    return wines;
+}

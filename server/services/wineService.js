@@ -6,6 +6,7 @@ module.exports = {
     create,
     deleteOne,
     getCategories,
+    getLatest,
 };
 
 async function getCategories() {
@@ -53,6 +54,12 @@ async function getAll(data = {}) {
         }
     }
     return Wine.find(query);
+}
+
+async function getLatest(data = {}) {
+    const query = {...data};
+    query.isDeleted = false;
+    return Wine.find(query).limit(5).sort('-_createdAt');
 }
 
 async function getOne(id) {
