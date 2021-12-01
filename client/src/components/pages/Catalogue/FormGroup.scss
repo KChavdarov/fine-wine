@@ -1,0 +1,176 @@
+@import '/src/styles/variables.scss';
+
+.filter-group {
+    padding: 1em;
+
+    .filter-group-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 1em;
+        border-bottom: 2px solid $secondary;
+
+        .filter-group-heading {
+            text-transform: capitalize;
+            flex-grow: 1;
+        }
+
+        &:hover {
+            border-color: $primary;
+        }
+    }
+
+    .filter-group-content {
+        opacity: 0;
+        max-height: 0;
+        transition: max-height 0.7s ease-in-out, opacity 0.5s linear;
+        overflow: hidden;
+        text-transform: capitalize;
+        padding: 0.5em 0;
+
+        &.active {
+            opacity: 1;
+            max-height: 20em;
+        }
+    }
+
+    .selection {
+        text-align: center;
+
+        .price {
+            margin: auto 0.5em;
+        }
+    }
+
+    .slider-container {
+        position: relative;
+        font-size: 0.8rem;
+        margin: 2em;
+
+        .slider {
+            position: relative;
+            z-index: 1;
+            height: 0.7em;
+            margin: 0 1em;
+
+            .track {
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                border-radius: 0.3em;
+                background-color: $secondary;
+            }
+
+            .range {
+                position: absolute;
+                z-index: 2;
+                top: 0;
+                bottom: 0;
+
+                border-radius: 0.3em;
+                background-color: $primary;
+            }
+
+            .thumb {
+                position: absolute;
+                z-index: 3;
+                width: 2.2em;
+                height: 2.2em;
+                border-radius: 50%;
+                background-color: $primary;
+
+                &.left {
+                    transform: translate(-1.1em, -0.7em);
+                }
+
+                &.right {
+                    transform: translate(1.1em, -0.7em);
+                }
+
+            }
+        }
+
+        input[type=range] {
+            position: absolute;
+            pointer-events: none;
+            -webkit-appearance: none;
+            z-index: 3;
+            height: 0.7em;
+            width: 100%;
+            opacity: 0;
+
+            &::-webkit-slider-thumb {
+                pointer-events: all;
+                width: 2.2em;
+                height: 2.2em;
+                border: 0 none;
+                border-radius: 0;
+                -webkit-appearance: none;
+                background: red;
+            }
+        }
+    }
+
+    .check-group {
+        margin-bottom: 0.5em;
+
+        label {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding-left: 2em;
+            cursor: pointer;
+
+            &:hover .checkMark {
+                background-color: $secondary;
+            }
+
+            & input:checked~.checkMark {
+                background-color: $primary;
+
+                &::after {
+                    display: block;
+                }
+
+            }
+
+            input[type=checkbox] {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+            .checkMark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 1.5em;
+                width: 1.5em;
+                border-radius: 50%;
+                background-color: $light;
+
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    display: none;
+                    left: 0.55em;
+                    top: 0.25em;
+                    width: 0.4em;
+                    height: 0.8em;
+                    border: solid white;
+                    border-width: 0 3px 3px 0;
+                    -webkit-transform: rotate(45deg);
+                    -ms-transform: rotate(45deg);
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+}

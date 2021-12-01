@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
-import {useSearchParams} from 'react-router-dom';
+import {useSearchParams, useNavigate} from 'react-router-dom';
 
 export function Catalogue() {
     const [filters, setFilters] = useState({
@@ -14,20 +14,18 @@ export function Catalogue() {
         region: {},
         year: {},
         volume: {},
-        isPromo: {},
         priceRange: {min: 0, max: 1000},
         minPrice: 0,
         maxPrice: 1000,
+        // isPromo: {},
     });
     const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
-
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+    
     useEffect(() => {
         getFilters();
-    }, []);
-
-    useEffect(() => {
         getProducts();
     }, [searchParams]);
 
@@ -46,7 +44,7 @@ export function Catalogue() {
         const selected = parseQueryString(searchParams);
 
         const filters = Object.entries(categories)
-            .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice'))
+            .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'isPromo'))
             .reduce((acc, [category, fields]) => {
                 acc[category] = fields.reduce((a, c) => {
                     a[c] = Boolean(selected[category]?.includes(c));
@@ -56,8 +54,8 @@ export function Catalogue() {
                 return acc;
             }, {});
 
-        filters.minPrice = categories.minPrice;
-        filters.maxPrice = categories.maxPrice;
+        filters.minPrice = selected.minPrice || categories.minPrice;
+        filters.maxPrice = selected.maxPrice || categories.maxPrice;
 
         filters.priceRange = {
             min: categories.minPrice,
@@ -122,15 +120,19 @@ export function Catalogue() {
         setSearchParams(selectedFilters);
     }
 
+    function filtersResetHandler() {
+        navigate('/catalogue');
+    }
+
     const content = isLoading
         ? <p>Loading ...</p>
         : products.map(product => <ProductCard key={product._id} product={product} />);
 
     return (
-        <div className="catalogue container">
-            <h1>Wine Catalogue</h1>
+        <div className="page catalogue container">
+            <h1 className="page-title">Wine Catalogue</h1>
 
-            {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler}} />}
+            {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler, filtersResetHandler}} />}
 
             <section className="products-container">
                 {content}

@@ -1,5 +1,4 @@
 @import '/src/styles/variables.scss';
-$sale: rgb(199, 0, 0);
 
 .product-card {
     position: relative;
@@ -81,9 +80,9 @@ $sale: rgb(199, 0, 0);
             justify-content: center;
             align-items: center;
             border-radius: 50%;
-            height: 5em;
-            width: 5em;
-            background-color: $sale;
+            height: 4.5em;
+            width: 4.5em;
+            background-color: $primary;
             color: white;
             position: absolute;
             top: 15%;
@@ -101,7 +100,7 @@ $sale: rgb(199, 0, 0);
                 }
 
                 to {
-                    box-shadow: 0 0 10px 3px $sale;
+                    box-shadow: 0 0 15px 3px $sale;
                 }
             }
         }
@@ -113,7 +112,7 @@ $sale: rgb(199, 0, 0);
             transform: scale(1.1);
         }
 
-        box-shadow: 0 0 10px 0px rgba($color: $primary, $alpha: 0.4);
+        box-shadow: 0 0 10px 3px rgba($color: $secondary, $alpha: 0.65);
     }
 
 
