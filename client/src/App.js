@@ -1,6 +1,6 @@
 import './App.scss';
 import {Route, Routes} from 'react-router';
-import {Catalogue} from './components/Catalogue';
+import {Catalogue} from './components/pages/Catalogue/Catalogue';
 import {Header} from './components/Header/Header';
 import {Home} from './components/pages/Home/Home';
 import {Login} from './components/Login';

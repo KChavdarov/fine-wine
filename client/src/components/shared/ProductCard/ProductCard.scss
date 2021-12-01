@@ -1,0 +1,144 @@
+@import '/src/styles/variables.scss';
+
+.product-card {
+    position: relative;
+    box-shadow: 0 0 10px 0px #0000002e;
+    overflow: hidden;
+    border-radius: 0.5rem;
+
+    .card-main {
+        padding: 2rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .card-header {
+            text-align: center;
+            color: $primary;
+            height: 4rem;
+            text-transform: capitalize;
+        }
+
+        .image-container {
+            height: 12rem;
+            margin-bottom: 1rem;
+            padding: 0.2rem;
+
+            img {
+                height: 100%;
+                width: auto;
+                transition: transform 0.2s linear;
+            }
+        }
+
+        .product-details {
+            text-align: center;
+            font-size: 0.8rem;
+            text-transform: capitalize;
+
+            .name {
+                font: 1.5em $serif;
+                font-weight: bold;
+                height: 3rem;
+                margin: 0.5rem 0;
+            }
+
+            .grapes {
+                color: $primary;
+                height: 3em;
+            }
+
+            .geo {
+                color: $primary;
+                height: 3em;
+            }
+        }
+
+        .prices {
+            font-size: 1.5em;
+
+            span {
+                display: inline-block;
+                margin: 0.5rem;
+            }
+
+            .old-price {
+                font-size: 0.7em;
+                text-decoration: line-through;
+            }
+
+            .current-price {
+                color: $sale;
+            }
+        }
+
+        .sale-logo {
+            text-align: center;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            height: 4.5em;
+            width: 4.5em;
+            background-color: $primary;
+            color: white;
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            box-shadow: 0 0 10px 0px $sale;
+            animation: pulse;
+            animation-duration: 0.8s;
+            animation-direction: alternate;
+            animation-iteration-count: infinite;
+
+
+            @keyframes pulse {
+                from {
+                    box-shadow: 0 0 10px 0px $sale;
+                }
+
+                to {
+                    box-shadow: 0 0 15px 3px $sale;
+                }
+            }
+        }
+    }
+
+    &:hover,
+    &:active {
+        img {
+            transform: scale(1.1);
+        }
+
+        box-shadow: 0 0 10px 3px rgba($color: $secondary, $alpha: 0.65);
+    }
+
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .action-button {
+            font-size: 1em;
+            display: block;
+            margin: 1em;
+            padding: 0.5em;
+            width: 80%;
+            border: 1px solid black;
+            border-radius: 1rem;
+            border-color: $primary;
+            color: $primary;
+
+            &:hover,
+            &:active {
+                background: $primary;
+                color: white;
+                transition: background-color 0.2s linear;
+            }
+        }
+    }
+}
