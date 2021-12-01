@@ -11,6 +11,13 @@ export function Filters({filters, handlers}) {
         setIsOpen(isOpen => !isOpen);
     }
 
+    function closeOnInput(handler) {
+        return function (event) {
+            setIsOpen(false);
+            handler(event);
+        };
+    }
+
     const content = Object.entries(filters)
         .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
         .map(([category, fields]) => <CheckboxGroup key={category} category={category} fields={fields} checkboxHandler={handlers.checkboxHandler} />);
@@ -21,17 +28,17 @@ export function Filters({filters, handlers}) {
                 <h4 className="heading">Filters</h4>
                 {isOpen ? <FaChevronUp /> : <FaChevronDown />}
             </div>
-            <form className={isOpen ? 'filter-form active' : 'filter-form'} onSubmit={handlers.filtersSubmitHandler} >
+            <form className={isOpen ? 'filter-form active' : 'filter-form'} onSubmit={closeOnInput(handlers.filtersSubmitHandler)} >
                 <div className="filters-groups-container">
                     <RangeGroup rangeHandler={handlers.rangeHandler} filters={filters} />
                     {content}
                 </div>
                 <div className="buttons">
                     <input className="button submit" type="submit" value="Update Filters" />
-                    <button className="button reset" onClick={handlers.filtersResetHandler} type="button" >Reset Filters</button>
+                    <button className="button reset" onClick={closeOnInput(handlers.filtersResetHandler)} type="button" >Reset Filters</button>
                 </div>
             </form>
 
-        </section>
+        </section >
     );
 }

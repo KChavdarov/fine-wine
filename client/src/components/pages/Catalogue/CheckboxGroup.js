@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {FaChevronDown, FaChevronUp} from "react-icons/fa";
 
 export function CheckboxGroup({category, fields, checkboxHandler}) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(Object.values(fields).some(status => status));
 
     function toggleOpen() {
         setIsOpen(isOpen => !isOpen);
