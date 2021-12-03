@@ -1,3 +1,5 @@
+export const endpoint = 'http://localhost:5000/api';
+
 async function request(url, options) {
     try {
         const response = await fetch(url, options);

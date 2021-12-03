@@ -1,0 +1,101 @@
+@import '/src/styles/variables.scss';
+
+.register {
+    margin-top: 2rem;
+
+    .section-header {
+        font-size: 1.4rem;
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+
+        .auth-link-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .auth-link-list-item {
+                flex-basis: 15rem;
+                text-align: center;
+
+                .auth-link {
+                    color: $secondary;
+                    display: block;
+                    width: 100%;
+                    border-bottom: 2px solid $light;
+
+                    &.active {
+                        color: $dark;
+                        border-bottom: 2px solid $primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .register-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 25em;
+        margin: 0 auto;
+
+        label {
+            margin-top: 0.5em;
+            text-transform: capitalize;
+        }
+
+        input,
+        textarea {
+            border: 1px solid $primary;
+            border-radius: 1em;
+            padding: 0.5em;
+
+            &.error {
+                // border-width: 2px;
+                border-color: $sale;
+                color: $sale;
+            }
+        }
+
+        .errors {
+            font-size: 0.8em;
+            color: $sale;
+        }
+
+        .submit-button {
+            font-size: 1rem;
+            color: $primary;
+            margin-top: 3em;
+            background-color: transparent;
+            cursor: pointer;
+            transition: background-color 0.2s linear;
+
+            @media (hover: none) {
+                background: $primary;
+                color: white;
+            }
+
+            &:hover,
+            &:active {
+                background: $primary;
+                color: white;
+            }
+
+            &:disabled {
+                border-color: $light;
+                color: $secondary;
+
+                &:hover {
+                    background-color: transparent;
+                    cursor: default;
+                }
+
+                @media (hover: none) {
+                    background-color: $light;
+                    cursor: default;
+                }
+            }
+        }
+    }
+}
