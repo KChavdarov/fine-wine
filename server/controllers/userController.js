@@ -53,7 +53,7 @@ router.post('/register', isGuest(),
 );
 
 
-router.post('/login', async (req, res) => {
+router.post('/login', isGuest(), async (req, res) => {
     const userService = req.storage.user;
     try {
         const {email, password} = req.body;
