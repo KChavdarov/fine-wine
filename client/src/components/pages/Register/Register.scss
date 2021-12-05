@@ -65,36 +65,20 @@
 
         .submit-button {
             font-size: 1rem;
-            color: $primary;
             margin-top: 3em;
-            background-color: transparent;
             cursor: pointer;
-            transition: background-color 0.2s linear;
+            transition: transform 0.1s linear;
 
-            @media (hover: none) {
-                background: $primary;
-                color: white;
+            &:hover{
+                transform: scale(1.05);
             }
 
-            &:hover,
-            &:active {
-                background: $primary;
-                color: white;
-            }
+            background: $primary;
+            color: white;
 
             &:disabled {
-                border-color: $light;
-                color: $secondary;
-
-                &:hover {
-                    background-color: transparent;
-                    cursor: default;
-                }
-
-                @media (hover: none) {
-                    background-color: $light;
-                    cursor: default;
-                }
+                background-color: transparent;
+                cursor: default;
             }
         }
     }
