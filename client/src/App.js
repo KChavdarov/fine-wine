@@ -6,25 +6,31 @@ import {Home} from './components/pages/Home/Home';
 import {Login} from './components/Login';
 import {Register} from './components/pages/Register/Register';
 import {Footer} from './components/Footer/Footer';
+import {UserProvider} from './contexts/User';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
+    <UserProvider>
+      <div className="App">
+        <Header />
 
-      <main className="site-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/catalogue" element={<Catalogue />} />
-          <Route path="/user">
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-          </Route>
-        </Routes>
-      </main>
+        <main className="site-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/catalogue" element={<Catalogue />} />
+            <Route path="/user">
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
+          </Routes>
+          <ToastContainer />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </UserProvider>
   );
 }
 

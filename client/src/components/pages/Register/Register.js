@@ -1,21 +1,26 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 import {Link} from 'react-router-dom';
-import {register} from '../../../services/userService';
+import {useUserContext} from '../../../contexts/User';
+import {toast} from 'react-toastify';
 import './Register.scss';
 
+const initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    password: '',
+    repeatPassword: '',
+    // isInvalid: true,
+};
+
 export function Register() {
-    const [state, setState] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        address: '',
-        password: '',
-        repeatPassword: '',
-        isInvalid: false,
-    });
+    const [isLoading, setIsLoading] = useState(false);
+    const [state, setState] = useState(initialState);
     const navigate = useNavigate();
+    const {register} = useUserContext();
 
     function inputChangeHandler(event) {
         const name = event.target.name;
@@ -24,9 +29,17 @@ export function Register() {
     }
 
     async function formSubmitHandler(event) {
+        setIsLoading(() => true);
         event.preventDefault();
-        const user = await register(state);
-        navigate('/catalogue');
+        try {
+            await register(state);
+            setState(initialState);
+            setIsLoading(() => false);
+            navigate('/catalogue');
+        } catch (error) {
+            setIsLoading(() => false);
+            error.message.forEach(err => toast.error(err));
+        }
     }
 
 
@@ -69,7 +82,7 @@ export function Register() {
                 <input type="password" name="repeatPassword" placeholder="******" id="repeatPassword" onChange={inputChangeHandler} value={state.repeatPassword} />
                 <div className="errors"></div>
 
-                <input type="submit" className="button submit-button" value="Register" disabled={state.isInvalid} />
+                <input type="submit" className="button submit-button" value="Register" disabled={(isLoading || state.isInvalid)} />
 
             </form>
         </section>

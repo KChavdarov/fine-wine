@@ -69,7 +69,7 @@
             cursor: pointer;
             transition: transform 0.1s linear;
 
-            &:hover{
+            &:hover {
                 transform: scale(1.05);
             }
 
@@ -77,8 +77,14 @@
             color: white;
 
             &:disabled {
-                background-color: transparent;
+                border: none;
+                background-color: $light;
+                color: $secondary;
                 cursor: default;
+
+                &:hover {
+                    transform: scale(1);
+                }
             }
         }
     }
