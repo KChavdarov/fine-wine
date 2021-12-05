@@ -70,7 +70,7 @@ router.post('/login', isGuest(), async (req, res) => {
 
 router.get('/logout', (req, res) => {
     res.clearCookie(COOKIE_NAME);
-    res.status(204).send({message: 'Logged out'});
+    res.status(204).end();
 });
 
 module.exports = router;
