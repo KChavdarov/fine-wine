@@ -8,6 +8,21 @@ const {parseErrorMessage} = require('../util/parseError');
 
 const router = require('express').Router();
 
+router.get('/', async (req, res) => {
+    const userService = req.storage.user;
+    try {
+        if (req.user) {
+            const user = await userService.verifyUser(req.user._id);
+            res.status(200).json(sanitizeUserData(user));
+        } else {
+            res.status(204).end();
+        }
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json({message: errors});
+    }
+});
+
 
 router.post('/register', isGuest(),
     body('firstName', 'Please enter your first name!').trim().notEmpty(),
@@ -38,7 +53,24 @@ router.post('/register', isGuest(),
 );
 
 
-router.post('/login');
-router.get('/logout');
+router.post('/login', async (req, res) => {
+    const userService = req.storage.user;
+    try {
+        const {email, password} = req.body;
+        const user = await userService.login({email, password});
+        const token = createToken({_id: user._id, email: user.email, _isAdmin: user._isAdmin});
+        res.cookie(COOKIE_NAME, token, {httpOnly: true});
+        res.status(201).json(sanitizeUserData(user));
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(406).json({message: errors});
+    }
+});
+
+
+router.get('/logout', (req, res) => {
+    res.clearCookie(COOKIE_NAME);
+    res.status(204).send({message: 'Logged out'});
+});
 
 module.exports = router;
