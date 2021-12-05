@@ -44,7 +44,7 @@ export function Register() {
 
 
     return (
-        <section className='page register container' onSubmit={formSubmitHandler}>
+        <section className='page register container' >
             <header className="section-header">
                 <ul className="auth-link-list">
                     <li className="auth-link-list-item"><Link className="auth-link" to="/user/login">Login</Link></li>
@@ -52,7 +52,7 @@ export function Register() {
                 </ul>
             </header>
 
-            <form className='register-form'>
+            <form className='register-form' onSubmit={formSubmitHandler}>
 
                 <label htmlFor="firstName">First name</label>
                 <input type="text" name="firstName" placeholder="John" id="firstName" onChange={inputChangeHandler} value={state.firstName} />

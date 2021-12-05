@@ -39,8 +39,17 @@ export function UserProvider({children}) {
         }
     }
 
+    async function login(data) {
+        try {
+            const user = await userService.login(data);
+            setUser(user);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
     return (
-        <UserContext.Provider value={{user, register}}>
+        <UserContext.Provider value={{user, register, login}}>
             {children}
         </UserContext.Provider>
     );
