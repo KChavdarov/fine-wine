@@ -16,3 +16,8 @@ export async function login(data) {
     const user = await http.post(endpoint + '/login', data);
     return user;
 }
+
+export async function logout() {
+    const user = await http.get(endpoint + '/logout');
+    return user;
+}

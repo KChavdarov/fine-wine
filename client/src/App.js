@@ -1,14 +1,16 @@
 import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from 'react-toastify';
 import {Route, Routes} from 'react-router';
 import {Catalogue} from './components/pages/Catalogue/Catalogue';
 import {Header} from './components/Header/Header';
 import {Home} from './components/pages/Home/Home';
-import {Login} from './components/pages/Login/Login';
-import {Register} from './components/pages/Register/Register';
 import {Footer} from './components/Footer/Footer';
 import {UserProvider} from './contexts/User';
-import {ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {Auth} from './components/pages/Auth/Auth';
+import {Login} from './components/pages/Auth/Login/Login';
+import {Register} from './components/pages/Auth/Register/Register';
+import {Logout} from './components/pages/Auth/Logout';
 
 function App() {
   return (
@@ -20,9 +22,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/catalogue" element={<Catalogue />} />
-            <Route path="/user">
+            <Route path="/auth" element={<Auth />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
+              <Route path="logout" element={<Logout />} />
             </Route>
           </Routes>
           <ToastContainer />

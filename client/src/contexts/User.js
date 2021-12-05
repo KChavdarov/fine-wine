@@ -26,8 +26,12 @@ export function UserProvider({children}) {
     }, []);
 
     async function verifyUser() {
-        const user = await userService.getUser();
-        setUser(user || initialState);
+        try {
+            const user = await userService.getUser();
+            setUser(user || initialState);
+        } catch (error) {
+            throw (error);
+        }
     }
 
     async function register(data) {
@@ -48,8 +52,17 @@ export function UserProvider({children}) {
         }
     }
 
+    async function logout() {
+        try {
+            userService.logout();
+            setUser(initialState);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
     return (
-        <UserContext.Provider value={{user, register, login}}>
+        <UserContext.Provider value={{user, register, login, logout}}>
             {children}
         </UserContext.Provider>
     );
