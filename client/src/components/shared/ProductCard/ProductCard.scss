@@ -104,14 +104,16 @@
                 }
             }
         }
+
+        &:hover {
+            img {
+                transform: scale(1.1);
+            }
+        }
     }
 
     &:hover,
     &:active {
-        img {
-            transform: scale(1.1);
-        }
-
         box-shadow: 0 0 10px 3px rgba($color: $secondary, $alpha: 0.65);
     }
 
