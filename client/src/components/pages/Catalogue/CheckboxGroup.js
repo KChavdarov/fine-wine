@@ -3,7 +3,12 @@ import {useEffect, useState} from 'react';
 import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
 export function CheckboxGroup({category, fields, checkboxHandler}) {
-    const [isOpen, setIsOpen] = useState(Object.values(fields).some(status => status));
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const isSelected = Object.values(fields).some(status => status);
+        setIsOpen(isSelected);
+    }, [fields]);
 
     useEffect(() => {
         setIsOpen(() => Object.values(fields).some(status => status));
