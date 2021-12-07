@@ -56,8 +56,8 @@ export function Catalogue() {
                 return acc;
             }, {});
 
-        filters.minPrice = selected.minPrice || categories.minPrice;
-        filters.maxPrice = selected.maxPrice || categories.maxPrice;
+        filters.minPrice = (selected.minPrice && Number(selected.minPrice[0])) || categories.minPrice;
+        filters.maxPrice = (selected.maxPrice && Number(selected.maxPrice[0])) || categories.maxPrice;
 
         filters.priceRange = {
             min: categories.minPrice,
@@ -124,8 +124,8 @@ export function Catalogue() {
     }
 
     function filtersResetHandler() {
-        getFilters();
         setSearchParams();
+        // getFilters();
     }
 
     const content = isLoading
