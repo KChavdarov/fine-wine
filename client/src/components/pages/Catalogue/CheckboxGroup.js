@@ -1,6 +1,6 @@
 import './FormGroup.scss';
 import {useEffect, useState} from 'react';
-import {FaChevronDown, FaChevronUp} from "react-icons/fa";
+import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
 export function CheckboxGroup({category, fields, checkboxHandler}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +8,10 @@ export function CheckboxGroup({category, fields, checkboxHandler}) {
     useEffect(() => {
         const isSelected = Object.values(fields).some(status => status);
         setIsOpen(isSelected);
+    }, [fields]);
+
+    useEffect(() => {
+        setIsOpen(() => Object.values(fields).some(status => status));
     }, [fields]);
 
     function toggleOpen() {

@@ -1,0 +1,56 @@
+@import '/src/styles/variables.scss';
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 25em;
+    margin: 0 auto;
+
+    label {
+        margin-top: 0.5em;
+        text-transform: capitalize;
+    }
+
+    input,
+    textarea {
+        border: 1px solid $primary;
+        border-radius: 1em;
+        padding: 0.5em;
+
+        &.error {
+            // border-width: 2px;
+            border-color: $sale;
+            color: $sale;
+        }
+    }
+
+    .errors {
+        font-size: 0.8em;
+        color: $sale;
+    }
+
+    .submit-button {
+        font-size: 1rem;
+        margin-top: 3em;
+        cursor: pointer;
+        transition: transform 0.1s linear;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        background: $primary;
+        color: white;
+
+        &:disabled {
+            border: none;
+            background-color: $light;
+            color: $secondary;
+            cursor: default;
+
+            &:hover {
+                transform: scale(1);
+            }
+        }
+    }
+}

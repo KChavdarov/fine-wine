@@ -104,14 +104,16 @@
                 }
             }
         }
+
+        &:hover {
+            img {
+                transform: scale(1.1);
+            }
+        }
     }
 
     &:hover,
     &:active {
-        img {
-            transform: scale(1.1);
-        }
-
         box-shadow: 0 0 10px 3px rgba($color: $secondary, $alpha: 0.65);
     }
 
@@ -130,14 +132,12 @@
             width: 80%;
             border: 1px solid black;
             border-radius: 1rem;
-            border-color: $primary;
-            color: $primary;
+            background: $primary;
+            color: white;
+            transition: transform 0.1s linear;
 
-            &:hover,
-            &:active {
-                background: $primary;
-                color: white;
-                transition: background-color 0.2s linear;
+            &:hover {
+                transform: scale(1.05);
             }
         }
     }

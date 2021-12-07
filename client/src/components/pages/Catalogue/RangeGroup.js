@@ -1,6 +1,6 @@
 import './FormGroup.scss';
-import {useState, useEffect} from 'react';
-import {FaChevronDown, FaChevronUp} from "react-icons/fa";
+import {useEffect, useState} from 'react';
+import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
 export function RangeGroup({filters, rangeHandler}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +13,8 @@ export function RangeGroup({filters, rangeHandler}) {
     let right = ((maxRange - maxPrice) / range * 100) * 0.98 + '%';
 
     useEffect(() => {
-        const isSelected = (minPrice !== minRange) || (maxPrice !== maxRange);
-        setIsOpen(isSelected);
-    }, [minPrice, maxPrice, minRange, maxRange]);
+        setIsOpen(() => (minPrice !== minRange) || (maxPrice !== maxRange));
+    }, [minPrice, maxPrice, minRange, maxRange, filters]);
 
     function toggleOpen() {
         setIsOpen(isOpen => !isOpen);

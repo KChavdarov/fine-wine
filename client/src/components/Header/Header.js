@@ -4,9 +4,11 @@ import {menuItems} from './menuItems';
 import {BsCart2, BsList, BsX, BsPerson, BsStar} from 'react-icons/bs';
 import {ImGlass} from 'react-icons/im';
 import {useState} from 'react';
+import {useUserContext} from '../../contexts/User';
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
+    const {user} = useUserContext();
 
     function toggleMenu() {
         setIsOpen(state => !state);

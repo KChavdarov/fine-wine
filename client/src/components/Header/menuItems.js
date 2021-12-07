@@ -8,11 +8,15 @@ export const menuItems = [
         url: '/catalogue',
     },
     {
-        title: 'Register',
-        url: '/user/register',
+        title: 'Login',
+        url: '/auth/login',
     },
     {
-        title: 'Login',
-        url: '/user/login',
+        title: 'Register',
+        url: '/auth/register',
+    },
+    {
+        title: 'Logout',
+        url: '/auth/logout',
     },
 ];

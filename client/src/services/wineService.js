@@ -1,6 +1,6 @@
 import * as http from './http';
 
-const endpoint = 'http://localhost:5000/api/wine';
+const endpoint = http.endpoint +'/wine';
 
 export async function getCategories() {
     const categories = await http.get(endpoint + '/categories');

@@ -1,19 +1,21 @@
+export const endpoint = 'http://localhost:5000/api';
+
 async function request(url, options) {
     try {
         const response = await fetch(url, options);
 
         if (response.ok === false) {
             const error = await response.json();
-            throw new Error(error.message);
+            throw error;
         }
+
         try {
             return await response.json();
         } catch {
-            return response;
+            return null;
         }
 
     } catch (error) {
-        console.error(error.message);
         throw error;
     }
 }
@@ -21,6 +23,7 @@ async function request(url, options) {
 function createOptions(method = 'GET', data) {
     const options = {
         method,
+        credentials: 'include',
         headers: {}
     };
     if (data) {
