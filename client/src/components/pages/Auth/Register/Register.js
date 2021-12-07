@@ -1,7 +1,8 @@
 import {useState} from 'react';
-import {useNavigate} from 'react-router';
+import {useLocation, useNavigate} from 'react-router';
 import {useUserContext} from '../../../../contexts/User';
 import {toast} from 'react-toastify';
+import {useIsGuest} from '../../../../guards/guards';
 import './Register.scss';
 
 const initialState = {
@@ -19,7 +20,11 @@ export function Register() {
     const [isLoading, setIsLoading] = useState(false);
     const [state, setState] = useState(initialState);
     const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || '/';
     const {register} = useUserContext();
+    const isGuest = useIsGuest(from);
+
 
     function inputChangeHandler(event) {
         const name = event.target.name;
@@ -32,9 +37,7 @@ export function Register() {
         event.preventDefault();
         try {
             await register(state);
-            setState(initialState);
-            setIsLoading(() => false);
-            navigate('/catalogue');
+            navigate(from, {replace: true});
         } catch (error) {
             setIsLoading(() => false);
             error.message.forEach(err => toast.error(err));
@@ -42,7 +45,7 @@ export function Register() {
     }
 
 
-    return (
+    return isGuest(
         <form className='register-form' onSubmit={formSubmitHandler}>
 
             <label htmlFor="firstName">First name</label>

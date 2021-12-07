@@ -11,7 +11,6 @@ import {Auth} from './components/pages/Auth/Auth';
 import {Login} from './components/pages/Auth/Login/Login';
 import {Register} from './components/pages/Auth/Register/Register';
 import {Logout} from './components/pages/Auth/Logout';
-import {IsGuest} from './guards/guards';
 
 function App() {
   return (
@@ -24,7 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/catalogue" element={<Catalogue />} />
             <Route path="/auth" element={<Auth />}>
-              <Route path="login" element={<IsGuest><Login /></IsGuest>} />
+              <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
               <Route path="logout" element={<Logout />} />
             </Route>

@@ -11,8 +11,8 @@ export function Auth() {
         <section className='auth-page container' >
             <header className="section-header">
                 <ul className="auth-link-list">
-                    <li className="auth-link-list-item"><NavLink className={className} to="/auth/login">Login</NavLink></li>
-                    <li className="auth-link-list-item active"><NavLink className={className} to="/auth/register">Register</NavLink></li>
+                    <li className="auth-link-list-item"><NavLink className={className} replace={true} to="/auth/login">Login</NavLink></li>
+                    <li className="auth-link-list-item active"><NavLink className={className} replace={true} to="/auth/register">Register</NavLink></li>
                 </ul>
             </header>
 
