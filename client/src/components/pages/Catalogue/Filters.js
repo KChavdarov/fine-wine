@@ -2,7 +2,7 @@ import './Filters.scss';
 import {CheckboxGroup} from './CheckboxGroup';
 import {RangeGroup} from './RangeGroup';
 import {useState} from 'react/cjs/react.development';
-import {FaChevronDown, FaChevronUp} from "react-icons/fa";
+import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
 export function Filters({filters, handlers}) {
     const [isOpen, setIsOpen] = useState(false);

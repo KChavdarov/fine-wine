@@ -3,30 +3,32 @@ import {useEffect, useState} from 'react';
 import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
-import {useSearchParams, useNavigate} from 'react-router-dom';
+import {useSearchParams} from 'react-router-dom';
+
+let initialFilters = {
+    type: {},
+    brand: {},
+    grape: {},
+    country: {},
+    region: {},
+    year: {},
+    volume: {},
+    priceRange: {min: 0, max: 1000},
+    minPrice: 0,
+    maxPrice: 1000,
+    // isPromo: {},
+};
 
 export function Catalogue() {
-    const [filters, setFilters] = useState({
-        type: {},
-        brand: {},
-        grape: {},
-        country: {},
-        region: {},
-        year: {},
-        volume: {},
-        priceRange: {min: 0, max: 1000},
-        minPrice: 0,
-        maxPrice: 1000,
-        // isPromo: {},
-    });
+    const [filters, setFilters] = useState(initialFilters);
     const [products, setProducts] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(true);
-    const navigate = useNavigate();
-    
+
     useEffect(() => {
         getFilters();
         getProducts();
+        return () => setProducts(products => products);
     }, [searchParams]);
 
 
@@ -62,6 +64,7 @@ export function Catalogue() {
             max: categories.maxPrice
         };
 
+        initialFilters = filters;
         setFilters(() => filters);
     }
 
@@ -87,7 +90,7 @@ export function Catalogue() {
 
     function rangeHandler(event) {
         const name = event.target.name;
-        const updatedFilter = {[name]: Number(event.target.value) || 0};
+        // const updatedFilter = {[name]: Number(event.target.value) || 0};
 
         setFilters(prevState => {
             let minPrice = prevState.minPrice;
@@ -107,7 +110,7 @@ export function Catalogue() {
     function filtersSubmitHandler(event) {
         event.preventDefault();
         const selectedFilters = Object.entries(filters)
-            .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
+            .filter(([category]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
             .reduce((acc, [category, fields]) => {
                 const checked = Object.keys(fields).filter(field => fields[field]);
                 if (Object.keys(checked).length > 0) {acc[category] = checked;}
@@ -121,7 +124,8 @@ export function Catalogue() {
     }
 
     function filtersResetHandler() {
-        navigate('/catalogue');
+        getFilters();
+        setSearchParams();
     }
 
     const content = isLoading
