@@ -1,12 +1,26 @@
 import {useNavigate, Link} from 'react-router-dom';
+import {useUserContext} from '../../../contexts/User';
+import {FaStar, FaRegStar} from 'react-icons/fa';
 import './ProductCard.scss';
 
 export function ProductCard({product}) {
     const navigate = useNavigate();
+    const {user, addFavorite, removeFavorite} = useUserContext();
 
     function navigateToDetails() {
         navigate(`/details/${product._id}`);
     }
+
+    function favoriteClickHandler(event) {
+        event.stopPropagation();
+        user.favorites.includes(product?._id)
+            ? removeFavorite(product._id)
+            : addFavorite(product._id);
+    }
+
+    const favorite = user.favorites.includes(product?._id)
+        ? <FaStar onClick={favoriteClickHandler} />
+        : <FaRegStar onClick={favoriteClickHandler} />;
 
     return (
         <article className="product-card" >
@@ -14,7 +28,9 @@ export function ProductCard({product}) {
             <div className="card-main" onClick={navigateToDetails}>
 
                 <header className="card-header" >
+                    <div className="spacer"></div>
                     <p className="brand">{product.brand}</p>
+                    {user._id && <div className="favorite-icon-container">{favorite}</div>}
                 </header>
 
                 <div className="image-container">

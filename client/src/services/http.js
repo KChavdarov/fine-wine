@@ -33,6 +33,17 @@ function createOptions(method = 'GET', data) {
     return options;
 }
 
+function parseMessage(body) {
+    if (body && body.message) {
+
+    }
+    if (body && body.payload) {
+        return body.payload;
+    } else {
+        return body;
+    }
+}
+
 export async function get(url) {
     return await request(url, createOptions());
 }
@@ -43,6 +54,10 @@ export async function post(url, data) {
 
 export async function put(url, data) {
     return await request(url, createOptions('PUT', data));
+}
+
+export async function patch(url, data) {
+    return await request(url, createOptions('PATCH', data));
 }
 
 export async function del(url) {
