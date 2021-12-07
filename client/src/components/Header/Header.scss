@@ -41,13 +41,14 @@
     }
 
     .site-navigation {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
 
         .navigation-items {
             flex: 1 1 33%;
             display: grid;
             grid-gap: 1rem;
-            grid-template-columns: repeat(4, auto);
+            grid-template-columns: repeat(3, max-content);
             align-items: center;
 
             @include breakpoint {
@@ -103,6 +104,24 @@
         .user-links {
             @include breakpoint {
                 display: none;
+            }
+        }
+
+        .nav-icon-link {
+            position: relative;
+
+            .icon-badge {
+                text-align: center;
+                position: absolute;
+                font-size: 0.5em;
+                color: white;
+                background: $secondary;
+                display: inline-block;
+                width: 1.5em;
+                height: 1.5em;
+                border-radius: 50%;
+                top: -0.5em;
+                right: 0.3em;
             }
         }
     }
