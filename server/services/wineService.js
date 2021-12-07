@@ -42,6 +42,10 @@ async function getCategories() {
 async function getAll(data = {}) {
     const query = {...data};
     query.isDeleted = false;
+    if (query.grape) {
+        query.grape = {$in: query.grape};
+    }
+
     if (data.minPrice || data.maxPrice) {
         query.currentPrice = {};
 
@@ -53,6 +57,7 @@ async function getAll(data = {}) {
             query.currentPrice['$lte'] = data.maxPrice;
         }
     }
+    console.log(query);
     return Wine.find(query);
 }
 
