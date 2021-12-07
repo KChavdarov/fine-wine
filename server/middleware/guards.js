@@ -18,7 +18,7 @@ const isAdmin = () => (req, res, next) => {
     if (req.user && res.user.isAdmin) {
         next();
     } else {
-        res.status(401).json({message: ['You are not an administrator']});
+        res.status(403).json({message: ['You are not an administrator']});
     }
 };
 
