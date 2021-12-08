@@ -61,8 +61,20 @@ export function UserProvider({children}) {
         }
     }
 
+    async function addFavorite(productId) {
+        const favorites = [...(new Set([productId, ...user.favorites]))];
+        const updatedUser = await userService.updateUser({favorites});
+        setUser(updatedUser);
+    }
+
+    async function removeFavorite(productId) {
+        const favorites = [...(new Set(user.favorites.filter(f => f !== productId)))];
+        const updatedUser = await userService.updateUser({favorites});
+        setUser(updatedUser);
+    }
+
     return (
-        <UserContext.Provider value={{user, register, login, logout}}>
+        <UserContext.Provider value={{user, register, login, logout, addFavorite, removeFavorite}}>
             {children}
         </UserContext.Provider>
     );

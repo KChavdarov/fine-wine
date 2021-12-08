@@ -4,6 +4,7 @@ module.exports = {
     getUserByEmail,
     getUserById,
     createUser,
+    updateUser,
 };
 
 async function getUserById(id) {
@@ -18,3 +19,13 @@ async function createUser(data) {
     const user = new User(data);
     return user.save();
 };
+
+async function updateUser(id, data) {
+    const user = await User.findById(id);
+    if (user) {
+        Object.assign(user, data);
+        return user.save();
+    } else {
+        return user;
+    }
+}

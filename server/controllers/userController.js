@@ -1,6 +1,6 @@
 const {COOKIE_NAME} = require('../config/index');
 const {body, validationResult} = require('express-validator');
-const {isGuest} = require('../middleware/guards');
+const {isGuest, isAuth} = require('../middleware/guards');
 const {createToken} = require('../util/jwt');
 const {sanitizeUserData} = require('../util/sanitizeUserData');
 const {parseErrorMessage} = require('../util/parseError');
@@ -17,6 +17,26 @@ router.get('/', async (req, res) => {
         } else {
             res.status(204).end();
         }
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json({message: errors});
+    }
+});
+
+router.patch('/', isAuth(), async (req, res) => {
+    const userService = req.storage.user;
+    try {
+        const {firstName, lastName, phone, address, favorites} = req.body;
+        const data = Object.entries({firstName, lastName, phone, address, favorites}).reduce(
+            (a, [k, v]) => {
+                if (v) {
+                    a[k] = v;
+                }
+                return a;
+            }, {}
+        );
+        const user = await userService.updateUser(req.user._id, data);
+        res.status(200).json(user);
     } catch (error) {
         const errors = parseErrorMessage(error);
         res.status(400).json({message: errors});
@@ -45,9 +65,8 @@ router.post('/register', isGuest(),
                 res.status(201).json(sanitizeUserData(user));
             }
         } catch (error) {
-            console.log(error);
             const errors = parseErrorMessage(error);
-            res.status(406).json({message: errors});
+            res.status(400).json({message: errors});
         }
     }
 );
@@ -60,10 +79,10 @@ router.post('/login', isGuest(), async (req, res) => {
         const user = await userService.login({email, password});
         const token = createToken({_id: user._id, email: user.email, _isAdmin: user._isAdmin});
         res.cookie(COOKIE_NAME, token, {httpOnly: true});
-        res.status(201).json(sanitizeUserData(user));
+        res.status(200).json(sanitizeUserData(user));
     } catch (error) {
         const errors = parseErrorMessage(error);
-        res.status(406).json({message: errors});
+        res.status(400).json({message: errors});
     }
 });
 

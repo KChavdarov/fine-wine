@@ -21,3 +21,8 @@ export async function logout() {
     const user = await http.get(endpoint + '/logout');
     return user;
 }
+
+export async function updateUser(data) {
+    const user = await http.patch(endpoint, data);
+    return user;
+}
