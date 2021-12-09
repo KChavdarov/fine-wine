@@ -68,7 +68,7 @@ async function getLatest(data = {}) {
 }
 
 async function getOne(id) {
-    return Wine.findOne({id, isDeleted: false});
+    return Wine.findById(id).where({_isDeleted: false});
 }
 
 async function create(data) {
