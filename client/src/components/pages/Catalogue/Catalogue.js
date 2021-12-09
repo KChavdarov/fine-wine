@@ -133,18 +133,18 @@ export function Catalogue() {
         : products.map(product => <ProductCard key={product._id} product={product} />);
 
     return (
-        <div className="page catalogue container">
+        <section className="page catalogue container">
             <h1 className="page-title">Wine Catalogue</h1>
 
             {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler, filtersResetHandler}} />}
 
-            <section className="products-container">
+            <article className="products-container">
                 {content}
                 {content}
                 {content}
                 {content}
-            </section>
+            </article>
 
-        </div>
+        </section>
     );
 };

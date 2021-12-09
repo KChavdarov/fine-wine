@@ -25,8 +25,8 @@ const userSchema = new Schema({
         ref: 'Wine',
     }],
     cart: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Wine',
+        wine: {type: Schema.Types.ObjectId, ref: 'Wine', },
+        quantity: {type: Number, default: 1, min: 1},
     }],
     firstName: {
         type: String,

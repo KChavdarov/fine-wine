@@ -1,0 +1,10 @@
+@import '/src/styles/variables.scss';
+
+.cart-container {
+    width: 100%;
+    td,
+    th{
+        padding: 0.2em;
+        border: 1px solid black;
+    }
+}
