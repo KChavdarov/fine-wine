@@ -56,6 +56,22 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
         return rejectWithValue(error.message);
     }
 });
+export const addFavorite = createAsyncThunk('user/addFavorite', async (wineId, {rejectWithValue}) => {
+    try {
+        const user = await userService.addFavorite(wineId);
+        return user;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
+export const removeFavorite = createAsyncThunk('user/removeFavorite', async (wineId, {rejectWithValue}) => {
+    try {
+        const user = await userService.removeFavorite(wineId);
+        return user;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
 
 export const userSlice = createSlice({
     name: 'user',
@@ -77,6 +93,7 @@ export const userSlice = createSlice({
         userReset: (state) => initialState,
     },
     extraReducers(builder) {
+        //  VERIFY
         builder
             .addCase(verify.pending, (state) => {
                 state.status = 'loading';
@@ -93,7 +110,7 @@ export const userSlice = createSlice({
                 state.status = 'failed';
                 state.errors = action.payload;
             });
-
+        //  LOGIN
         builder
             .addCase(login.pending, (state) => {
                 state.status = 'loading';
@@ -110,7 +127,7 @@ export const userSlice = createSlice({
                 state.status = 'failed';
                 state.errors = action.payload;
             });
-
+        //  REGISTER
         builder
             .addCase(register.pending, (state) => {
                 state.status = 'loading';
@@ -127,7 +144,7 @@ export const userSlice = createSlice({
                 state.status = 'failed';
                 state.errors = action.payload;
             });
-
+        //  LOGOUT
         builder
             .addCase(logout.pending, (state) => {
                 state.status = 'loading';
@@ -139,6 +156,40 @@ export const userSlice = createSlice({
                 state.errors = [];
             })
             .addCase(logout.rejected, (state, action) => {
+                state.status = 'failed';
+                state.errors = action.payload;
+            });
+        //  ADD FAVORITE
+        builder
+            .addCase(addFavorite.pending, (state) => {
+                state.status = 'loading';
+                state.errors = [];
+            })
+            .addCase(addFavorite.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                if (action.payload) {
+                    state.user = action.payload;
+                    state.errors = [];
+                }
+            })
+            .addCase(addFavorite.rejected, (state, action) => {
+                state.status = 'failed';
+                state.errors = action.payload;
+            });
+        //  REMOVE FAVORITE
+        builder
+            .addCase(removeFavorite.pending, (state) => {
+                state.status = 'loading';
+                state.errors = [];
+            })
+            .addCase(removeFavorite.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                if (action.payload) {
+                    state.user = action.payload;
+                    state.errors = [];
+                }
+            })
+            .addCase(removeFavorite.rejected, (state, action) => {
                 state.status = 'failed';
                 state.errors = action.payload;
             });
