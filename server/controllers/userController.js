@@ -36,7 +36,33 @@ router.patch('/', isAuth(), async (req, res) => {
             }, {}
         );
         const user = await userService.updateUser(req.user._id, data);
-        res.status(200).json(user);
+        res.status(200).json(sanitizeUserData(user));
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json({message: errors});
+    }
+});
+
+router.post('/favorites', isAuth(), async (req, res) => {
+    const userId = req.user._id;
+    const userService = req.storage.user;
+    const {wineId} = req.body;
+    try {
+        const user = await userService.addFavorite(userId, wineId);
+        res.status(201).json(sanitizeUserData(user));
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json({message: errors});
+    }
+});
+
+router.delete('/favorites/:id', isAuth(), async (req, res) => {
+    const userId = req.user._id;
+    const userService = req.storage.user;
+    const wineId = req.params.id;
+    try {
+        const user = await userService.removeFavorite(userId, wineId);
+        res.status(200).json(sanitizeUserData(user));
     } catch (error) {
         const errors = parseErrorMessage(error);
         res.status(400).json({message: errors});
