@@ -48,7 +48,7 @@ export function Login() {
             <input type="password" name="password" placeholder="******" id="password" onChange={inputChangeHandler} value={state.password} />
             <div className="errors"></div>
 
-            <input type="submit" className="button submit-button" value="Login" disabled={(status === 'loading' || state.isInvalid)} />
+            <input type="submit" className="button submit-button" value="Login" disabled={((status === 'loading') || state.isInvalid)} />
 
         </form>
     );
