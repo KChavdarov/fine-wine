@@ -1,9 +1,11 @@
+import './Login.scss';
 import {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
-import {useUserContext} from '../../../../contexts/User';
-import {toast} from 'react-toastify';
 import {useIsGuest} from '../../../../guards/guards';
-import './Login.scss';
+import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {selectUser, login} from '../../../../store/slices/userSlice';
+import {toast} from 'react-toastify';
 
 const initialState = {
     email: '',
@@ -11,11 +13,11 @@ const initialState = {
 };
 
 export function Login() {
-    const [isLoading, setIsLoading] = useState(false);
     const [state, setState] = useState(initialState);
     const navigate = useNavigate();
     const location = useLocation();
-    const {login} = useUserContext();
+    const dispatch = useDispatch();
+    const {status, user, errors} = useSelector(selectUser);
     let from = location.state?.from?.pathname || '/';
     const isGuest = useIsGuest(from);
 
@@ -26,14 +28,12 @@ export function Login() {
     }
 
     async function formSubmitHandler(event) {
-        setIsLoading(() => true);
         event.preventDefault();
         try {
-            await login(state);
+            await dispatch(login(state)).unwrap();
             navigate(from, {replace: true});
         } catch (error) {
-            setIsLoading(() => false);
-            error.message.forEach(err => toast.error(err));
+            error.forEach(err => toast.error(err));
         }
     }
 
@@ -48,7 +48,7 @@ export function Login() {
             <input type="password" name="password" placeholder="******" id="password" onChange={inputChangeHandler} value={state.password} />
             <div className="errors"></div>
 
-            <input type="submit" className="button submit-button" value="Login" disabled={(isLoading || state.isInvalid)} />
+            <input type="submit" className="button submit-button" value="Login" disabled={(status === 'loading' || state.isInvalid)} />
 
         </form>
     );

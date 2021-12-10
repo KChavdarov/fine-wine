@@ -1,10 +1,10 @@
+import {useSelector} from 'react-redux';
 import {Navigate, useLocation} from 'react-router-dom';
-import {useUserContext} from '../contexts/User';
+import {selectUser} from '../store/slices/userSlice';
 
 export function useIsAuth() {
-    const {user} = useUserContext();
+    const {user} = useSelector(selectUser);
     const location = useLocation();
-
     return (element) => {
         return user._id
             ? element
@@ -13,7 +13,7 @@ export function useIsAuth() {
 }
 
 export function useIsGuest(pathname) {
-    const {user} = useUserContext();
+    const {user} = useSelector(selectUser);
     return (element) => {
         return user._id
             ? <Navigate to={pathname} />
@@ -22,8 +22,7 @@ export function useIsGuest(pathname) {
 }
 
 export function useIsAdmin(pathname) {
-    const {user} = useUserContext();
-
+    const {user} = useSelector(selectUser);
     return (element) => {
         return user._isAdmin
             ? element

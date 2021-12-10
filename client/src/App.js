@@ -12,13 +12,23 @@ import {Login} from './components/pages/Auth/Login/Login';
 import {Register} from './components/pages/Auth/Register/Register';
 import {Logout} from './components/pages/Auth/Logout';
 import {Cart} from './components/pages/Cart/Cart';
+import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+import {verify} from './store/slices/userSlice';
+import {User} from './components/pages/User/User';
+import {Profile} from './components/pages/User/Profile/Profile';
+
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(verify());
+  }, [dispatch]);
+
   return (
     <UserProvider>
       <div className="App">
         <Header />
-
         <main className="site-content">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -30,7 +40,8 @@ function App() {
               <Route path="register" element={<Register />} />
               <Route path="logout" element={<Logout />} />
             </Route>
-            <Route path="/user">
+            <Route path="/user" element={<User />}>
+              <Route path="profile" element={<Profile />} />
               <Route path="cart" element={<Cart />} />
             </Route>
           </Routes>

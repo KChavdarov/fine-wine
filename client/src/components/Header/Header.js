@@ -4,11 +4,13 @@ import {menuItems} from './menuItems';
 import {BsCart2, BsList, BsX, BsPerson, BsStar} from 'react-icons/bs';
 import {ImGlass} from 'react-icons/im';
 import {useState} from 'react';
-import {useUserContext} from '../../contexts/User';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../store/slices/userSlice';
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
-    const {user} = useUserContext();
+    const {user} = useSelector(selectUser);
+
     let navLinks = [];
 
     if (user._id && user._isAdmin) {
@@ -30,16 +32,17 @@ export function Header() {
 
     return (
         <header className="site-header">
-            <div className="container">
+            < div className="container">
                 <nav className="site-navigation" >
 
                     <div className="nav-button menu-icon" ><button onClick={toggleMenu}>{isOpen ? <BsX /> : <BsList />}</button></div>
-
                     <ul className="navigation-items" onClick={closeMenu}>
+
                         {navLinks.filter(l => !l.mobileOnly).map(i => <li className="nav-link" key={i.title}><NavLink className={({isActive}) => isActive ? 'nav-active' : ''} to={i.url}>{i.title}</NavLink></li>)}
                     </ul>
 
                     <div className="site-logo" onClick={closeMenu}><Link to="/">Fine <ImGlass /> wine</Link></div>
+
 
                     <div className="nav-button" onClick={closeMenu}>
                         <div className="user-links">
