@@ -1,14 +1,21 @@
-import {useUserContext} from '../../../contexts/User';
-import {Navigate} from 'react-router';
+import {useNavigate} from 'react-router';
 import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+import {logout} from '../../../store/slices/userSlice';
 
 
 export function Logout() {
-    const {logout} = useUserContext();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    async function logoutOnLoad() {
+        await dispatch(logout());
+        navigate('/auth/login', {replace: true});
+    }
 
     useEffect(() => {
-        logout();
+        logoutOnLoad();
     });
 
-    return <Navigate to="/auth/login" replace={true} />;
+    return null;
 }

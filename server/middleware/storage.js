@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const {SALT_ROUNDS} = require('../config/index');
 const wineService = require('../services/wineService');
-const {getUserByEmail, createUser, getUserById, updateUser} = require('../services/userService');
+const {getUserByEmail, createUser, getUserById, updateUser, addFavorite, removeFavorite} = require('../services/userService');
 
 module.exports = () => (req, res, next) => {
     req.storage = Object.assign({}, req.storage, {
@@ -10,7 +10,9 @@ module.exports = () => (req, res, next) => {
             verifyUser,
             register,
             login,
-            updateUser
+            updateUser,
+            addFavorite,
+            removeFavorite,
         },
     });
     next();

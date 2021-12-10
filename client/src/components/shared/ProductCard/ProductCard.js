@@ -1,11 +1,14 @@
-import {useNavigate, Link} from 'react-router-dom';
-import {useUserContext} from '../../../contexts/User';
-import {FaStar, FaRegStar} from 'react-icons/fa';
 import './ProductCard.scss';
+import {useNavigate} from 'react-router-dom';
+import {FaStar, FaRegStar} from 'react-icons/fa';
+import {useSelector} from 'react-redux';
+import {addFavorite, removeFavorite, selectUser} from '../../../store/slices/userSlice';
+import {useDispatch} from 'react-redux';
 
 export function ProductCard({product}) {
     const navigate = useNavigate();
-    const {user, addFavorite, removeFavorite} = useUserContext();
+    const dispatch = useDispatch();
+    const {user} = useSelector(selectUser);
 
     function navigateToDetails() {
         navigate(`/details/${product._id}`);
@@ -14,8 +17,8 @@ export function ProductCard({product}) {
     function favoriteClickHandler(event) {
         event.stopPropagation();
         user.favorites.includes(product?._id)
-            ? removeFavorite(product._id)
-            : addFavorite(product._id);
+            ? dispatch(removeFavorite(product._id))
+            : dispatch(addFavorite(product._id));
     }
 
     const favorite = user.favorites.includes(product?._id)
@@ -57,7 +60,6 @@ export function ProductCard({product}) {
             </div>
 
             <div className="buttons">
-                {/* <Link className="action-button" to={`/details/${product._id}`}>Wine details</Link> */}
                 <button className="action-button">Add to cart</button>
             </div>
 

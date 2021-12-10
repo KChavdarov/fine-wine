@@ -26,3 +26,13 @@ export async function updateUser(data) {
     const user = await http.patch(endpoint, data);
     return user;
 }
+
+export async function addFavorite(wineId) {
+    const user = await http.post(endpoint + '/favorites', {wineId});
+    return user;
+}
+
+export async function removeFavorite(wineId) {
+    const user = await http.del(endpoint + '/favorites/' + wineId);
+    return user;
+};
