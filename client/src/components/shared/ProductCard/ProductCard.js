@@ -17,9 +17,9 @@ export function ProductCard({product}) {
 
     function favoriteClickHandler(event) {
         event.stopPropagation();
-        user.favorites.includes(product?._id)
-            ? dispatch(removeFavorite(product._id))
-            : dispatch(addFavorite(product._id));
+        user?.favorites.includes(product?._id)
+            ? dispatch(removeFavorite({userId: user._id, wineId: product._id}))
+            : dispatch(addFavorite({userId: user._id, wineId: product._id}));
     }
 
     function addToCartClickHandler() {

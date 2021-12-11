@@ -56,17 +56,17 @@ export const logout = createAsyncThunk('user/logout', async (_, {rejectWithValue
         return rejectWithValue(error.message);
     }
 });
-export const addFavorite = createAsyncThunk('user/addFavorite', async (wineId, {rejectWithValue}) => {
+export const addFavorite = createAsyncThunk('user/addFavorite', async ({userId, wineId}, {rejectWithValue}) => {
     try {
-        const user = await userService.addFavorite(wineId);
+        const user = await userService.addFavorite(userId, wineId);
         return user;
     } catch (error) {
         return rejectWithValue(error.message);
     }
 });
-export const removeFavorite = createAsyncThunk('user/removeFavorite', async (wineId, {rejectWithValue}) => {
+export const removeFavorite = createAsyncThunk('user/removeFavorite', async ({userId, wineId}, {rejectWithValue}) => {
     try {
-        const user = await userService.removeFavorite(wineId);
+        const user = await userService.removeFavorite(userId, wineId);
         return user;
     } catch (error) {
         return rejectWithValue(error.message);

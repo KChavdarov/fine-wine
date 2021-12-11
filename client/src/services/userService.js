@@ -27,12 +27,12 @@ export async function updateUser(data) {
     return user;
 }
 
-export async function addFavorite(wineId) {
-    const user = await http.post(endpoint + '/favorites', {wineId});
+export async function addFavorite(userId, wineId) {
+    const user = await http.post(endpoint + `/${userId}/favorites/`, {wineId});
     return user;
 }
 
-export async function removeFavorite(wineId) {
-    const user = await http.del(endpoint + '/favorites/' + wineId);
+export async function removeFavorite(userId, wineId) {
+    const user = await http.del(endpoint + `/${userId}/favorites/${wineId}`);
     return user;
 };
