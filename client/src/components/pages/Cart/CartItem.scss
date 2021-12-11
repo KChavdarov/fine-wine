@@ -6,6 +6,8 @@
     border-bottom: 1px solid $primary;
     padding-bottom: 1em;
     margin-bottom: 1em;
+    padding-left:  4%;
+    padding-right: 4%;
 
     .info {
         display: flex;
@@ -53,7 +55,7 @@
     }
 
     .item-total {
-        // font-size: 1.2em;
+        font-size: 1.2em;
         color: $primary;
     }
 
@@ -93,7 +95,7 @@
 
     @include breakpoint {
         grid-template-columns:
-            minmax(5em, 1fr) 2fr 1fr 1fr max-content;
+            minmax(4em, auto) 2fr 1fr 1fr max-content;
 
         .image {
             grid-row: 1 /span 2;
@@ -105,7 +107,7 @@
         }
 
         .quantity {
-            grid-column: 2 / span 2;
+            grid-column: 2 / span 3;
             grid-row: 2;
         }
 
@@ -116,6 +118,7 @@
         .item-total {
             grid-column: 4 / span 2;
             grid-row: 2;
+            justify-self: end;
         }
 
         .remove-item-container {

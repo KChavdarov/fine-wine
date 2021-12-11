@@ -7,7 +7,7 @@ export function CartItem({wine, quantity}) {
     const dispatch = useDispatch();
 
     function quantityButtonClickHandler(event) {
-        switch (event.target.id) {
+        switch (event.currentTarget.id) {
             case 'increase':
                 return (dispatch(addItem(wine._id)));
             case 'decrease':
