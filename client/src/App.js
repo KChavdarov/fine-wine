@@ -2,6 +2,7 @@ import './App.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import {Route, Routes} from 'react-router';
+import {Navigate} from 'react-router-dom';
 import {Catalogue} from './components/pages/Catalogue/Catalogue';
 import {Header} from './components/Header/Header';
 import {Home} from './components/pages/Home/Home';
@@ -42,12 +43,13 @@ function App() {
           </Route>
           <Route path="/user" element={<User />}>
             <Route path="profile" element={<Profile />} />
-            <Route path="cart" element={<Cart />} />
+            <Route path="favorites" element={null} />
           </Route>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />
       </main>
-
       <Footer />
     </div>
   );
