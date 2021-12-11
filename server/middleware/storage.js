@@ -29,7 +29,6 @@ async function register(data) {
     } else {
         const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
         const userData = {...data, password: hashedPassword};
-        console.log(userData);
         const user = await createUser(userData);
         return user;
     }

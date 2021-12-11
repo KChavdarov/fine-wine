@@ -43,10 +43,13 @@ router.patch('/', isAuth(), async (req, res) => {
     }
 });
 
-router.post('/favorites', isAuth(), async (req, res) => {
-    const userId = req.user._id;
+router.post('/:userId/favorites', isAuth(), async (req, res) => {
     const userService = req.storage.user;
+    const userId = req.params.userId;
     const {wineId} = req.body;
+    if (userId != req.user._id) {
+        return res.status(403).json({message: ['You can only modify your own favorites']});
+    }
     try {
         const user = await userService.addFavorite(userId, wineId);
         res.status(201).json(sanitizeUserData(user));
@@ -56,10 +59,13 @@ router.post('/favorites', isAuth(), async (req, res) => {
     }
 });
 
-router.delete('/favorites/:id', isAuth(), async (req, res) => {
-    const userId = req.user._id;
+router.delete('/:userId/favorites/:wineId', isAuth(), async (req, res) => {
     const userService = req.storage.user;
-    const wineId = req.params.id;
+    const userId = req.params.userId;
+    const wineId = req.params.wineId;
+    if (userId != req.user._id) {
+        return res.status(403).json({message: ['You can only modify your own favorites']});
+    }
     try {
         const user = await userService.removeFavorite(userId, wineId);
         res.status(200).json(sanitizeUserData(user));
