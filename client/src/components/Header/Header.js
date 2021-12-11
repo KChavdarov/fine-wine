@@ -52,7 +52,7 @@ export function Header() {
                             <Link className="nav-icon-link" to="/user/favorites"><BsStar /><IconBadge>{user.favorites.length}</IconBadge></Link>
                             <Link className="nav-icon-link" to="/user/profile"><BsPerson /></Link>
                         </div>
-                        <Link className="nav-icon-link" to="/user/cart"><BsCart2 /><IconBadge>{itemCount}</IconBadge></Link>
+                        <Link className="nav-icon-link" to="/cart"><BsCart2 /><IconBadge>{itemCount}</IconBadge></Link>
                     </div>
 
                 </nav>
