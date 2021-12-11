@@ -3,6 +3,41 @@
 .page.cart {
     margin-top: 2rem;
 
+    .button {
+        width: 100%;
+        max-width: 25em;
+        font-size: 1rem;
+        border-radius: 1em;
+        padding: 0.5em;
+        transition: transform 0.1s linear;
+        text-align: center;
+        align-self: center;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        background: $primary;
+        color: white;
+    }
+
+    .empty-cart {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        .heading {
+            padding: 1rem 4%;
+            margin-bottom: 1em;
+            border-top: 2px solid $primary;
+            border-bottom: 2px solid $primary;
+        }
+
+        .main-text{
+            margin-bottom: 2em;
+        }
+    }
+
     .cart-container {
         width: 100%;
 
@@ -29,12 +64,7 @@
             flex-direction: column;
             padding: 1rem 4%;
             border-top: 2px solid $primary;
-            border-bottom: 2px solid $primary;
-
-            .checkout-button {
-                text-align: center;
-                width: 100%;
-            }
+            // border-bottom: 2px solid $primary;
 
             .subtotal {
                 display: flex;
