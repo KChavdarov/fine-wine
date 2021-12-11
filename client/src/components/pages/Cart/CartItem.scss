@@ -1,7 +1,126 @@
 @import '/src/styles/variables.scss';
 
-.cart-item{
-    img{
-        max-width: 3em;
+.cart-item {
+    position: relative;
+    @extend %cart-grid;
+    border-bottom: 1px solid $primary;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+
+    .info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image {
+        height: 12em;
+        padding: 0.2em;
+
+        img {
+            height: 100%;
+            width: auto;
+        }
+    }
+
+    .product {
+        flex-direction: column;
+        text-align: center;
+        text-transform: capitalize;
+
+        .name {
+            font-size: 1.4em;
+        }
+
+        .grapes {
+            color: $primary;
+        }
+
+        .geo {
+            color: $primary;
+        }
+    }
+
+    // .price{
+    //     font-size: 1.2em;
+    // }
+
+    .quantity{
+        .quantity-value{
+            margin: 0 1em;
+            // font-size: 1.2em;
+        }
+    }
+
+    .item-total {
+        // font-size: 1.2em;
+        color: $primary;
+    }
+
+    .remove-item-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cart-item-button {
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        font-size: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.1s linear;
+        color: white;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+
+        &.increase {
+            background-color: $secondary;
+        }
+
+        &.decrease {
+            background-color: $medium
+        }
+
+        &.remove-item {
+            background-color: $sale;
+        }
+    }
+
+    @include breakpoint {
+        grid-template-columns:
+            minmax(5em, 1fr) 2fr 1fr 1fr max-content;
+
+        .image {
+            grid-row: 1 /span 2;
+        }
+
+        .product {
+            grid-column: 2 /span 3;
+            grid-row: 1 /span 1;
+        }
+
+        .quantity {
+            grid-column: 2 / span 2;
+            grid-row: 2;
+        }
+
+        .price {
+            display: none;
+        }
+
+        .item-total {
+            grid-column: 4 / span 2;
+            grid-row: 2;
+        }
+
+        .remove-item-container {
+            grid-column: 5 / span 1;
+            grid-row: 1 / span 2;
+        }
     }
 }

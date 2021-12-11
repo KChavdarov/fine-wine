@@ -1,6 +1,7 @@
-import {useDispatch} from 'react-redux';
-import {addItem, removeItem, subtractItem} from '../../../store/slices/cartSlice';
 import './CartItem.scss';
+import {useDispatch} from 'react-redux';
+import {FaTrashAlt, FaPlus, FaMinus} from 'react-icons/fa';
+import {addItem, removeItem, subtractItem} from '../../../store/slices/cartSlice';
 
 export function CartItem({wine, quantity}) {
     const dispatch = useDispatch();
@@ -19,24 +20,31 @@ export function CartItem({wine, quantity}) {
 
     return (
         wine
-            ? <tr className="cart-item">
-                <td><img src={wine.image} alt={wine.name} />
-                    <span>{wine.brand}</span>
-                    <span>{wine.name}</span>
-                    <span>{wine.year}</span>
-                    <span>{wine.volume}</span>
-                </td>
-                <td>{wine.currentPrice}</td>
-                <td>
-                    <button onClick={quantityButtonClickHandler} id='decrease'>-</button>
-                    {quantity}
-                    <button onClick={quantityButtonClickHandler} id='increase'>+</button>
-                </td>
-                <td>
+            ? <article className="cart-item">
+                <div className='info image'><img src={wine.image} alt={wine.name} /></div>
+                <div className='info product'>
+                    <p className="brand">{wine.brand}</p>
+                    <p className="name">{wine.name}</p>
+                    <p className="grapes">{wine.grape.join(' ,')}</p>
+                    <div className="geo">
+                        <span className="year">{wine.year}</span> | <span className="country">{wine.country}</span>
+                    </div>
+                </div>
+                <div className='info price'>
+                    &euro;
+                    {wine.currentPrice}
+                </div>
+                <div className='info quantity'>
+                    <button className="cart-item-button decrease" onClick={quantityButtonClickHandler} id='decrease'><FaMinus /></button>
+                    <span className="quantity-value">{quantity}</span>
+                    <button className="cart-item-button increase" onClick={quantityButtonClickHandler} id='increase'><FaPlus /></button>
+                </div>
+                <div className='info item-total'>
+                    &euro;
                     {(wine.currentPrice * quantity || 0).toFixed(2)}
-                    <button onClick={quantityButtonClickHandler} id="remove">X</button>
-                </td>
-            </tr>
+                </div>
+                <div className='remove-item-container'><button className="cart-item-button remove-item" onClick={quantityButtonClickHandler} id="remove"><FaTrashAlt /></button></div>
+            </article>
             : null
     );
 }

@@ -1,10 +1,45 @@
 @import '/src/styles/variables.scss';
 
-.cart-container {
-    width: 100%;
-    td,
-    th{
-        padding: 0.2em;
-        border: 1px solid black;
+.page.cart {
+    margin-top: 2rem;
+
+    .cart-container {
+        width: 100%;
+
+        .table-header {
+            @extend %cart-grid;
+            text-align: center;
+            font-size: 1.4rem;
+            padding: 1rem 0;
+            margin-bottom: 1em;
+            border-top: 2px solid $primary;
+            border-bottom: 2px solid $primary;
+
+
+            .product {
+                grid-column: 1 / span 2;
+            }
+
+            .item-total {
+                grid-column: 5 / span 1;
+            }
+        }
+
+        *{
+            // border: 1px solid black;
+        }
+
+        @include breakpoint {
+
+            .table-header {
+                grid-template-columns: 1fr;
+
+                .price,
+                .quantity,
+                .item-total {
+                    display: none;
+                }
+            }
+        }
     }
 }

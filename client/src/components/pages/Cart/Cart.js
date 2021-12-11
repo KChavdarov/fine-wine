@@ -1,8 +1,8 @@
+import './Cart.scss';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getAll} from '../../../services/wineService';
 import {selectCart} from '../../../store/slices/cartSlice';
-import './Cart.scss';
 import {CartItem} from './CartItem';
 
 export function Cart() {
@@ -19,7 +19,7 @@ export function Cart() {
                 console.log(error.message);
             }
         };
-        
+
         const wineIds = Object.keys(cart);
         if (wineIds.length > 0) {
             const query = new URLSearchParams();
@@ -34,22 +34,21 @@ export function Cart() {
     return (
         <section className="page cart container">
             <h1 className="page-title">Shopping Cart</h1>
-            <table className="cart-container">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Item Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {cartDetails.map(({wine, quantity}) => <CartItem key={wine._id} wine={wine} quantity={quantity} />)}
-                </tbody>
-                <tfoot>
 
-                </tfoot>
-            </table>
+            <div className="cart-container">
+                <div className='table-header'>
+                    <p className='product'>Product</p>
+                    <p className='price'>Price</p>
+                    <p className='quantity'>Quantity</p>
+                    <p className='item-total'>Item Total</p>
+                </div>
+                <div className='table-body'>
+                    {cartDetails.map(({wine, quantity}) => <CartItem key={wine._id} wine={wine} quantity={quantity} />)}
+                </div>
+                <div>
+                    Subtotal: &euro;1337
+                </div>
+            </div>
 
         </section>
     );
