@@ -18,6 +18,8 @@ import {verify} from './store/slices/userSlice';
 import {User} from './components/pages/User/User';
 import {Profile} from './components/pages/User/Profile/Profile';
 import {loadCart} from './store/slices/cartSlice';
+import {Checkout} from './components/pages/Cart/Checkout/Checkout';
+import {Summary} from './components/pages/Cart/Summary/Summary';
 
 
 function App() {
@@ -45,7 +47,10 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="favorites" element={null} />
           </Route>
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart />}>
+            <Route path="" element={<Summary />} />
+            <Route path="checkout" element={<Checkout />} />
+          </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />

@@ -6,8 +6,12 @@
     border-bottom: 1px solid $primary;
     padding-bottom: 1em;
     margin-bottom: 1em;
-    padding-left:  4%;
+    padding-left: 4%;
     padding-right: 4%;
+
+    &:last-child {
+        border-bottom: none;
+    }
 
     .info {
         display: flex;
@@ -47,8 +51,8 @@
     //     font-size: 1.2em;
     // }
 
-    .quantity{
-        .quantity-value{
+    .quantity {
+        .quantity-value {
             margin: 0 1em;
             // font-size: 1.2em;
         }
@@ -59,7 +63,7 @@
         color: $primary;
     }
 
-    .remove-item-container{
+    .remove-item-container {
         display: flex;
         justify-content: center;
         align-items: center;

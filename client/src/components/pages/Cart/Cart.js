@@ -1,13 +1,17 @@
-import './Cart.scss';
-import {useEffect, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {getAll} from '../../../services/wineService';
 import {selectCart} from '../../../store/slices/cartSlice';
-import {CartItem} from './CartItem';
+import {Outlet} from 'react-router-dom';
+
+export const CartContext = createContext();
 
 export function Cart() {
     const cart = useSelector(selectCart);
     const [cartDetails, setCatDetails] = useState([]);
+    const cartTotal = Number(cartDetails.reduce((a, c) => {
+        return a + (c.wine.currentPrice * c.quantity);
+    }, 0).toFixed(2) || 0);
 
     useEffect(() => {
         async function loadCartDetails(query) {
@@ -30,26 +34,9 @@ export function Cart() {
         }
     }, [cart]);
 
-
     return (
-        <section className="page cart container">
-            <h1 className="page-title">Shopping Cart</h1>
-
-            <div className="cart-container">
-                <div className='table-header'>
-                    <p className='product'>Product</p>
-                    <p className='price'>Price</p>
-                    <p className='quantity'>Quantity</p>
-                    <p className='item-total'>Item Total</p>
-                </div>
-                <div className='table-body'>
-                    {cartDetails.map(({wine, quantity}) => <CartItem key={wine._id} wine={wine} quantity={quantity} />)}
-                </div>
-                <div>
-                    Subtotal: &euro;1337
-                </div>
-            </div>
-
-        </section>
+        <CartContext.Provider value={{cartDetails, cartTotal}}>
+            <Outlet />
+        </CartContext.Provider>
     );
 }

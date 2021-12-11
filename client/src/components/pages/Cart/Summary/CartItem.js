@@ -1,7 +1,7 @@
 import './CartItem.scss';
 import {useDispatch} from 'react-redux';
 import {FaTrashAlt, FaPlus, FaMinus} from 'react-icons/fa';
-import {addItem, removeItem, subtractItem} from '../../../store/slices/cartSlice';
+import {addItem, removeItem, subtractItem} from '../../../../store/slices/cartSlice';
 
 export function CartItem({wine, quantity}) {
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export function CartItem({wine, quantity}) {
                 </div>
                 <div className='info price'>
                     &euro;
-                    {wine.currentPrice}
+                    {Number(wine.currentPrice.toFixed(2)).toLocaleString()}
                 </div>
                 <div className='info quantity'>
                     <button className="cart-item-button decrease" onClick={quantityButtonClickHandler} id='decrease'><FaMinus /></button>
@@ -41,7 +41,7 @@ export function CartItem({wine, quantity}) {
                 </div>
                 <div className='info item-total'>
                     &euro;
-                    {(wine.currentPrice * quantity || 0).toFixed(2)}
+                    {Number((wine.currentPrice * quantity || 0).toFixed(2)).toLocaleString()}
                 </div>
                 <div className='remove-item-container'><button className="cart-item-button remove-item" onClick={quantityButtonClickHandler} id="remove"><FaTrashAlt /></button></div>
             </article>

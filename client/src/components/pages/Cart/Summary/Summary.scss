@@ -15,13 +15,40 @@
             border-top: 2px solid $primary;
             border-bottom: 2px solid $primary;
 
-
             .product {
                 grid-column: 1 / span 2;
             }
 
             .item-total {
                 grid-column: 5 / span 1;
+            }
+        }
+
+        .table-footer {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 4%;
+            border-top: 2px solid $primary;
+            border-bottom: 2px solid $primary;
+
+            .checkout-button {
+                text-align: center;
+                width: 100%;
+            }
+
+            .subtotal {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 1em;
+
+                .subtotal-label {
+                    font-size: 1.4em;
+                    margin-right: 1em;
+                }
+
+                .subtotal-value {
+                    font-size: 1.4em;
+                }
             }
         }
 
