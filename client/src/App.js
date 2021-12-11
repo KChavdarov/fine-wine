@@ -16,12 +16,14 @@ import {useDispatch} from 'react-redux';
 import {verify} from './store/slices/userSlice';
 import {User} from './components/pages/User/User';
 import {Profile} from './components/pages/User/Profile/Profile';
+import {loadCart} from './store/slices/cartSlice';
 
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(verify());
+    dispatch(loadCart());
   }, [dispatch]);
 
   return (

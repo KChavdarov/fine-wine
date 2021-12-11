@@ -1,16 +1,34 @@
 import {useEffect, useState} from 'react';
-import {createSearchParams} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {getAll} from '../../../services/wineService';
+import {selectCart} from '../../../store/slices/cartSlice';
 import './Cart.scss';
 import {CartItem} from './CartItem';
 
-const cart = [
-    {wineId: '61a40dd00c6d037fe4be51ce', quantity: 2},
-    {wineId: '61a40dd00c6d037fe4be51cd', quantity: 3}
-];
-
 export function Cart() {
-    const [wines, setWines] = useState(cart);
+    const cart = useSelector(selectCart);
+    const [cartDetails, setCatDetails] = useState([]);
+
+    useEffect(() => {
+        async function loadCartDetails(query) {
+            try {
+                const data = await getAll(query);
+                const details = data.map(wine => ({wine, quantity: cart[wine._id]}));
+                setCatDetails(details);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        
+        const wineIds = Object.keys(cart);
+        if (wineIds.length > 0) {
+            const query = new URLSearchParams();
+            Object.keys(cart).forEach(wineId => {query.append('_id', wineId);});
+            loadCartDetails(query.toString());
+        } else {
+            setCatDetails([]);
+        }
+    }, [cart]);
 
 
     return (
@@ -26,7 +44,7 @@ export function Cart() {
                     </tr>
                 </thead>
                 <tbody>
-                    {wines.map(({wineId, quantity}) => <CartItem key={wineId} wineId={wineId} quantity={quantity} />)}
+                    {cartDetails.map(({wine, quantity}) => <CartItem key={wine._id} wine={wine} quantity={quantity} />)}
                 </tbody>
                 <tfoot>
 

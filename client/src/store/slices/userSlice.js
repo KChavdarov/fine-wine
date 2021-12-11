@@ -76,22 +76,7 @@ export const removeFavorite = createAsyncThunk('user/removeFavorite', async (win
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {
-        loadUserRequest: (state) => {
-            state.isLoading = true;
-        },
-        loadUserSuccess: (state, action) => {
-            state.isLoading = false;
-            if (action.payload) {
-                state.user = action.payload;
-            }
-        },
-        loadUserFail: (state, action) => {
-            state.isLoading = false;
-            state.errors = action.payload;
-        },
-        userReset: (state) => initialState,
-    },
+    reducers: {},
     extraReducers(builder) {
         //  VERIFY
         builder
