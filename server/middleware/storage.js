@@ -1,11 +1,13 @@
 const bcrypt = require('bcrypt');
 const {SALT_ROUNDS} = require('../config/index');
 const wineService = require('../services/wineService');
+const orderService = require('../services/orderService');
 const {getUserByEmail, createUser, getUserById, updateUser, addFavorite, removeFavorite} = require('../services/userService');
 
 module.exports = () => (req, res, next) => {
     req.storage = Object.assign({}, req.storage, {
         wine: wineService,
+        order: orderService,
         user: {
             verifyUser,
             register,

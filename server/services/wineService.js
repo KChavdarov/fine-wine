@@ -57,7 +57,6 @@ async function getAll(data = {}) {
             query.currentPrice['$lte'] = data.maxPrice;
         }
     }
-    console.log(query);
     return Wine.find(query);
 }
 

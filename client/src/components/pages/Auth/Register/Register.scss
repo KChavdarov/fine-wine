@@ -13,7 +13,7 @@
         justify-content: space-between;
         align-items: center;
 
-        .required-label{
+        .required-label {
             font-size: 0.5em;
             opacity: 0.5;
         }
@@ -37,6 +37,7 @@
     }
 
     .submit-button {
+        border: none;
         font-size: 1rem;
         margin-top: 3em;
         cursor: pointer;
@@ -50,7 +51,6 @@
         color: white;
 
         &:disabled {
-            border: none;
             background-color: $light;
             color: $secondary;
             cursor: default;

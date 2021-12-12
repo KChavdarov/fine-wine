@@ -7,7 +7,6 @@
         width: 100%;
         max-width: 25em;
         font-size: 1rem;
-        border: 1px solid $primary;
         border-radius: 1em;
         padding: 0.5em;
         transition: transform 0.1s linear;
@@ -37,6 +36,10 @@
         .main-text{
             margin-bottom: 2em;
         }
+    }
+
+    .guest-user{
+        margin-bottom: 2em;
     }
 
     .cart-container {

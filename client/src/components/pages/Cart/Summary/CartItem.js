@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {FaTrashAlt, FaPlus, FaMinus} from 'react-icons/fa';
 import {addItem, removeItem, subtractItem} from '../../../../store/slices/cartSlice';
 
-export function CartItem({wine, quantity}) {
+export function CartItem({wine, quantity, itemTotal}) {
     const dispatch = useDispatch();
 
     function quantityButtonClickHandler(event) {
@@ -30,19 +30,13 @@ export function CartItem({wine, quantity}) {
                         <span className="year">{wine.year}</span> | <span className="country">{wine.country}</span>
                     </div>
                 </div>
-                <div className='info price'>
-                    &euro;
-                    {Number(wine.currentPrice.toFixed(2)).toLocaleString()}
-                </div>
+                <div className='info price'>{Number(wine.currentPrice.toFixed(2)).toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</div>
                 <div className='info quantity'>
                     <button className="cart-item-button decrease" onClick={quantityButtonClickHandler} id='decrease'><FaMinus /></button>
                     <span className="quantity-value">{quantity}</span>
                     <button className="cart-item-button increase" onClick={quantityButtonClickHandler} id='increase'><FaPlus /></button>
                 </div>
-                <div className='info item-total'>
-                    &euro;
-                    {Number((wine.currentPrice * quantity || 0).toFixed(2)).toLocaleString()}
-                </div>
+                <div className='info item-total'>{itemTotal.toLocaleString('en-GB',{style:'currency', currency: 'EUR' })}</div>
                 <div className='remove-item-container'><button className="cart-item-button remove-item" onClick={quantityButtonClickHandler} id="remove"><FaTrashAlt /></button></div>
             </article>
             : null

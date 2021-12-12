@@ -55,8 +55,11 @@ export function ProductCard({product}) {
 
                 <div className="prices">
                     {product.isPromo
-                        ? <p className="price"><span className="old-price">&euro;{product.basePrice.toFixed(2)}</span><span className="current-price">&euro;{product.currentPrice.toFixed(2)}</span></p>
-                        : <p><span className="base-price">&euro;{product.currentPrice.toFixed(2)}</span></p>
+                        ? <p className="price">
+                            <span className="old-price">{product.basePrice.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                            <span className="current-price">{product.currentPrice.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                        </p>
+                        : <p><span className="base-price">{product.currentPrice.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span></p>
                     }
                 </div>
 

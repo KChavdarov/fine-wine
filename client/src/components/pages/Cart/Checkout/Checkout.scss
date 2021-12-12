@@ -90,6 +90,7 @@
         }
 
         .submit-button {
+            border: none;
             grid-column: 1 /span 2;
             max-width: 25em;
             width: 100%;
@@ -106,7 +107,6 @@
             color: white;
 
             &:disabled {
-                border: none;
                 background-color: $light;
                 color: $secondary;
                 cursor: default;

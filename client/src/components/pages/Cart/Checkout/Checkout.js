@@ -8,6 +8,8 @@ import {Navigate, useNavigate} from 'react-router-dom';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {isTouchedError, Required} from '../../../../util/formik';
+import {createOrder} from '../../../../services/orderService';
+import {resetCart} from '../../../../store/slices/cartSlice';
 
 export function Checkout() {
     const {cartDetails, cartTotal} = useContext(CartContext);
@@ -22,10 +24,17 @@ export function Checkout() {
             phone: user.phone,
             address: user.address,
         },
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             try {
-                // navigate('/order', {replace: true});
-                console.log(values);
+                const orderData = {
+                    recipient: values,
+                    items: cartDetails.map(i => ({wine: i.wine._id, quantity: i.quantity, price: i.wine.currentPrice})),
+                };
+                console.log(orderData);
+                const order = await createOrder(orderData);
+                dispatch(resetCart());
+                toast.success('Thank you for your order!');
+                navigate('/', {replace: true});
             } catch (error) {
                 error.forEach(err => toast.error(err));
             }
@@ -42,12 +51,12 @@ export function Checkout() {
     let disabled = ((status === 'loading') || !formik.isValid || formik.isSubmitting || (user._id ? false : !formik.dirty));
     const isError = isTouchedError.bind(null, formik);
 
-    const itemSummary = cartDetails.map(({wine, quantity}) => {
+    const itemSummary = cartDetails.map(({wine, quantity, itemTotal}) => {
         return (
             <li key={wine._id} className="item-info">
                 <span className='item-label'>{wine.brand} | {wine.name}</span>
                 <span className='item-quantity'>x{quantity}</span>
-                <span className='item-total'>&euro;{Number((wine.currentPrice * quantity || 0).toFixed(2)).toLocaleString()}</span>
+                <span className='item-total'>{itemTotal.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
             </li>
         );
     });
@@ -73,7 +82,7 @@ export function Checkout() {
                         </ul>
                         <div className="list-total">
                             <h4 className="order-total-label">Order Total</h4>
-                            <h4 className="order-total-value">&euro;{cartTotal.toLocaleString()}</h4>
+                            <h4 className="order-total-value">{cartTotal.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</h4>
                         </div>
                     </div>
 
