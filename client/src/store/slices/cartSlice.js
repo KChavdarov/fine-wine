@@ -80,3 +80,14 @@ export const removeItem = (wineId) => {
         }
     };
 };
+
+export const resetCart = () => {
+    return (dispatch, getState) => {
+        try {
+            dispatch(reset());
+            localStorage.setItem('cart', JSON.stringify(initialState));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
