@@ -4,6 +4,7 @@ import {FaStar, FaRegStar} from 'react-icons/fa';
 import {useSelector} from 'react-redux';
 import {addFavorite, removeFavorite, selectUser} from '../../../store/slices/userSlice';
 import {useDispatch} from 'react-redux';
+import {addItem} from '../../../store/slices/cartSlice';
 
 export function ProductCard({product}) {
     const navigate = useNavigate();
@@ -16,9 +17,13 @@ export function ProductCard({product}) {
 
     function favoriteClickHandler(event) {
         event.stopPropagation();
-        user.favorites.includes(product?._id)
-            ? dispatch(removeFavorite(product._id))
-            : dispatch(addFavorite(product._id));
+        user?.favorites.includes(product?._id)
+            ? dispatch(removeFavorite({userId: user._id, wineId: product._id}))
+            : dispatch(addFavorite({userId: user._id, wineId: product._id}));
+    }
+
+    function addToCartClickHandler() {
+        dispatch(addItem(product._id));
     }
 
     const favorite = user.favorites.includes(product?._id)
@@ -60,7 +65,7 @@ export function ProductCard({product}) {
             </div>
 
             <div className="buttons">
-                <button className="action-button">Add to cart</button>
+                <button className="action-button" onClick={addToCartClickHandler}>Add to cart</button>
             </div>
 
         </article>

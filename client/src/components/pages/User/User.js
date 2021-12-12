@@ -1,7 +1,9 @@
 import {Outlet} from 'react-router-dom';
+import {useIsAuth} from '../../../guards/guards';
 
 export function User() {
-    return (
+    const isAuth = useIsAuth();
+    return isAuth(
         <div className="container">
             <Outlet />
         </div>

@@ -1,38 +1,42 @@
-import {useEffect, useState} from 'react';
-import {createSearchParams} from 'react-router-dom';
+import {createContext, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import {getAll} from '../../../services/wineService';
-import './Cart.scss';
-import {CartItem} from './CartItem';
+import {selectCart} from '../../../store/slices/cartSlice';
+import {Outlet} from 'react-router-dom';
 
-const cart = [
-    {wineId: '61a40dd00c6d037fe4be51ce', quantity: 2},
-    {wineId: '61a40dd00c6d037fe4be51cd', quantity: 3}
-];
+export const CartContext = createContext();
 
 export function Cart() {
-    const [wines, setWines] = useState(cart);
+    const cart = useSelector(selectCart);
+    const [cartDetails, setCatDetails] = useState([]);
+    const cartTotal = Number(cartDetails.reduce((a, c) => {
+        return a + (c.wine.currentPrice * c.quantity);
+    }, 0).toFixed(2) || 0);
 
+    useEffect(() => {
+        async function loadCartDetails(query) {
+            try {
+                const data = await getAll(query);
+                const details = data.map(wine => ({wine, quantity: cart[wine._id]}));
+                setCatDetails(details);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+
+        const wineIds = Object.keys(cart);
+        if (wineIds.length > 0) {
+            const query = new URLSearchParams();
+            Object.keys(cart).forEach(wineId => {query.append('_id', wineId);});
+            loadCartDetails(query.toString());
+        } else {
+            setCatDetails([]);
+        }
+    }, [cart]);
 
     return (
-        <section className="page cart container">
-            <h1 className="page-title">Shopping Cart</h1>
-            <table className="cart-container">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Item Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {wines.map(({wineId, quantity}) => <CartItem key={wineId} wineId={wineId} quantity={quantity} />)}
-                </tbody>
-                <tfoot>
-
-                </tfoot>
-            </table>
-
-        </section>
+        <CartContext.Provider value={{cartDetails, cartTotal}}>
+            <Outlet />
+        </CartContext.Provider>
     );
 }

@@ -6,10 +6,13 @@ import {ImGlass} from 'react-icons/im';
 import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../store/slices/userSlice';
+import {selectCart} from '../../store/slices/cartSlice';
 
 export function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const {user} = useSelector(selectUser);
+    const cart = useSelector(selectCart);
+    const itemCount = Object.values(cart).reduce((a, c) => a + c, 0);
 
     let navLinks = [];
 
@@ -49,7 +52,7 @@ export function Header() {
                             <Link className="nav-icon-link" to="/user/favorites"><BsStar /><IconBadge>{user.favorites.length}</IconBadge></Link>
                             <Link className="nav-icon-link" to="/user/profile"><BsPerson /></Link>
                         </div>
-                        <Link className="nav-icon-link" to="/user/cart"><BsCart2 /><IconBadge>{user.cart.length}</IconBadge></Link>
+                        <Link className="nav-icon-link" to="/cart"><BsCart2 /><IconBadge>{itemCount}</IconBadge></Link>
                     </div>
 
                 </nav>

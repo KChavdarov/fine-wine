@@ -19,6 +19,7 @@ $mobileFontSize: 13px;
 //Colors
 $dark: rgb(44, 44, 44);
 $light: rgb(240, 240, 240);
+$medium: rgb(206, 206, 206);
 $primary: rgb(133, 0, 82);
 $secondary: #dcbacf;
 $accent: rgb(243, 253, 199);
@@ -34,6 +35,24 @@ $gap: 1rem;
 %pseudo {
     display: block;
     content: '';
+}
+
+%cart-grid {
+    display: grid;
+    grid-template-columns:
+        // minmax(5rem, auto)
+        // minmax(7em, 2fr) 
+        // minmax(7em, 1fr) 
+        // minmax(7em, 1fr) 
+        // minmax(7em, 1fr)
+        // 2rem
+        // ;
+        minmax(5rem, auto)
+        2fr
+        1fr
+        1fr
+        1fr
+        2rem
 }
 
 @mixin breakpoint {
