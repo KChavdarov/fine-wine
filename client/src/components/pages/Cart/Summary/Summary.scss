@@ -7,6 +7,7 @@
         width: 100%;
         max-width: 25em;
         font-size: 1rem;
+        border: 1px solid $primary;
         border-radius: 1em;
         padding: 0.5em;
         transition: transform 0.1s linear;
@@ -69,7 +70,7 @@
             .subtotal {
                 display: flex;
                 justify-content: flex-end;
-                margin-bottom: 1em;
+                margin-bottom: 3em;
 
                 .subtotal-label {
                     font-size: 1.4em;

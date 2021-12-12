@@ -40,13 +40,19 @@ $gap: 1rem;
 %cart-grid {
     display: grid;
     grid-template-columns:
+        // minmax(5rem, auto)
+        // minmax(7em, 2fr) 
+        // minmax(7em, 1fr) 
+        // minmax(7em, 1fr) 
+        // minmax(7em, 1fr)
+        // 2rem
+        // ;
         minmax(5rem, auto)
-        minmax(7em, 2fr) 
-        minmax(7em, 1fr) 
-        minmax(7em, 1fr) 
-        minmax(7em, 1fr)
+        2fr
+        1fr
+        1fr
+        1fr
         2rem
-        ;
 }
 
 @mixin breakpoint {
