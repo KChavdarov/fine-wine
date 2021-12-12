@@ -1,27 +1,46 @@
 import './Checkout.scss';
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import {CartContext} from '../Cart';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUser} from '../../../../store/slices/userSlice';
 import {toast} from 'react-toastify';
 import {Navigate, useNavigate} from 'react-router-dom';
-
-const initialState = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: '',
-    // isInvalid: true,
-};
-
+import {useFormik} from 'formik';
+import * as yup from 'yup';
+import {isTouchedError, Required} from '../../../../util/formik';
 
 export function Checkout() {
     const {cartDetails, cartTotal} = useContext(CartContext);
-    const [state, setState] = useState(initialState);
     const {status, user, errors} = useSelector(selectUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const formik = useFormik({
+        initialValues: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            address: user.address,
+        },
+        onSubmit: (values) => {
+            try {
+                // navigate('/order', {replace: true});
+                console.log(values);
+            } catch (error) {
+                error.forEach(err => toast.error(err));
+            }
+        },
+        validationSchema: yup.object({
+            firstName: yup.string().required('Please enter your first name'),
+            lastName: yup.string().required('Please enter your last name'),
+            email: yup.string().email('Please enter a valid email').required('Please enter your email'),
+            phone: yup.string().required('Please enter your phone number'),
+            address: yup.string().required('Please enter your address'),
+        })
+    });
+
+    let disabled = ((status === 'loading') || !formik.isValid || formik.isSubmitting || (user._id ? false : !formik.dirty));
+    const isError = isTouchedError.bind(null, formik);
 
     const itemSummary = cartDetails.map(({wine, quantity}) => {
         return (
@@ -32,21 +51,6 @@ export function Checkout() {
             </li>
         );
     });
-
-    function inputChangeHandler(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        setState(state => ({...state, [name]: value}));
-    }
-
-    async function formSubmitHandler(event) {
-        event.preventDefault();
-        try {
-            // navigate('/order', {replace: true});
-        } catch (error) {
-            error.forEach(err => toast.error(err));
-        }
-    }
 
     return (
         cartDetails.length === 0
@@ -60,7 +64,7 @@ export function Checkout() {
                 </header>
 
 
-                <form className='checkout-form' onSubmit={formSubmitHandler}>
+                <form className='checkout-form' onSubmit={formik.handleSubmit}>
 
                     <div className="item-summary">
                         <h4 className='group-title'>Item summary</h4>
@@ -75,28 +79,28 @@ export function Checkout() {
 
                     <div className="form-content">
                         <h4 className='group-title'>Contact Information</h4>
-                        <label htmlFor="firstName">First name</label>
-                        <input type="text" name="firstName" placeholder="John" id="firstName" onChange={inputChangeHandler} value={state.firstName} />
-                        <div className="errors"></div>
+                        <label htmlFor="firstName">First name<Required /></label>
+                        <input type="text" placeholder="John" id="firstName" className={isError('firstName') ? 'error' : ''} {...formik.getFieldProps('firstName')} />
+                        {isError('firstName') ? <div className="errors">{formik.errors.firstName}</div> : null}
 
-                        <label htmlFor="lastName">Last name</label>
-                        <input type="text" name="lastName" placeholder="Doe" id="lastName" onChange={inputChangeHandler} value={state.lastName} />
-                        <div className="errors"></div>
+                        <label htmlFor="lastName">Last name<Required /></label>
+                        <input type="text" placeholder="Doe" id="lastName" className={isError('lastName') ? 'error' : ''} {...formik.getFieldProps('lastName')} />
+                        {isError('lastName') ? <div className="errors">{formik.errors.lastName}</div> : null}
 
-                        <label htmlFor="email">E-mail</label>
-                        <input type="text" name="email" placeholder="example@email.com" id="email" onChange={inputChangeHandler} value={state.email} />
-                        <div className="errors"></div>
+                        <label htmlFor="email">E-mail<Required /></label>
+                        <input type="text" placeholder="example@email.com" id="email" className={isError('email') ? 'error' : ''} {...formik.getFieldProps('email')} />
+                        {isError('email') ? <div className="errors">{formik.errors.email}</div> : null}
 
-                        <label htmlFor="phone">Phone number</label>
-                        <input type="text" name="phone" placeholder="+359888123123" id="phone" onChange={inputChangeHandler} value={state.phone} />
-                        <div className="errors"></div>
+                        <label htmlFor="phone">Phone number<Required /></label>
+                        <input type="text" placeholder="+359888123456" id="phone" className={isError('phone') ? 'error' : ''} {...formik.getFieldProps('phone')} />
+                        {isError('phone') ? <div className="errors">{formik.errors.phone}</div> : null}
 
-                        <label htmlFor="address">Address</label>
-                        <input type="text" name="address" id="address" placeholder="City, 1 Example street, ap.1" onChange={inputChangeHandler} value={state.address} />
-                        <div className="errors"></div>
+                        <label htmlFor="address">Address<Required /></label>
+                        <input type="text" id="address" placeholder="City, 1 Example street, ap.1" className={isError('address') ? 'error' : ''} {...formik.getFieldProps('address')} />
+                        {isError('address') ? <div className="errors">{formik.errors.address}</div> : null}
                     </div>
 
-                    <input type="submit" className="button submit-button" value="Place Order" disabled={((status === 'loading') || state.isInvalid)} />
+                    <input type="submit" className="button submit-button" value="Place Order" disabled={disabled} />
                 </form>
             </section>
     );
