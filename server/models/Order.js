@@ -8,10 +8,6 @@ const orderSchema = new Schema({
     _updatedAt: {
         type: Date,
     },
-    // _isComplete: {
-    //     type: Boolean,
-    //     default: false,
-    // },
     status: {
         type: String,
         default: 'new',
@@ -28,10 +24,16 @@ const orderSchema = new Schema({
         address: {type: String, required: true},
     },
     items: [{
-        wine: {type: Schema.Types.ObjectId, ref: 'Wine'},
-        quantity: {type: Number, default: 1, min: 1},
-        price: {type: Number, default: 1, min: 1}
+        _id:false,
+        wine: {type: Schema.Types.ObjectId, ref: 'Wine', required: true},
+        quantity: {type: Number, required: true},
+        price: {type: Number, required: true},
+        itemTotal: {type: Number, default: function () {return Number((this.price * this.quantity).toFixed(2));}},
     }],
+    value: {
+        type: Number,
+        default: function () {return this.items.reduce((a, c) => a + c.itemTotal, 0);}
+    },
 }, {toJSON: {virtuals: true}});
 orderSchema.virtual('_isComplete').get(function () {return this.status != 'Complete';});
 

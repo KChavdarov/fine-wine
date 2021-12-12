@@ -9,7 +9,7 @@ module.exports = {
 
 async function createOrder(data) {
     const order = new Order(data);
-    return Order.save();
+    return order.save();
 }
 
 async function getOrdersByUser(user) {
