@@ -125,7 +125,7 @@ export function Catalogue() {
 
     function filtersResetHandler() {
         setSearchParams();
-        // getFilters();
+        getFilters();
     }
 
     const content = isLoading

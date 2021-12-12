@@ -79,10 +79,10 @@ router.delete('/:userId/favorites/:wineId', isAuth(), async (req, res) => {
 router.post('/register', isGuest(),
     body('firstName', 'Please enter your first name!').trim().notEmpty(),
     body('lastName', 'Please enter your last name!').trim().notEmpty(),
-    body('address', 'Please enter your address!').trim().notEmpty(),
     body('email', 'Please enter a valid email!').trim().isEmail().notEmpty().normalizeEmail(),
-    body('phone', 'Please enter a valid Bulgarian phone number!').matches(/^\+359\d{9}$/),
-    body('password', 'Password must be at least 3 characters long!').trim().isLength({min: 3}),
+    // body('address', 'Please enter your address!').trim().notEmpty(),
+    // body('phone', 'Please enter a valid Bulgarian phone number!').matches(/^\+359\d{9}$/),
+    body('password', 'Password must be at least 3 characters long!').trim().isLength({min: 6}),
     async (req, res) => {
         const userService = req.storage.user;
         try {

@@ -1,54 +1,58 @@
 import './Login.scss';
-import {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router';
 import {useIsGuest} from '../../../../guards/guards';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import {selectUser, login} from '../../../../store/slices/userSlice';
 import {toast} from 'react-toastify';
+import {useFormik} from 'formik';
+import * as yup from 'yup';
+import {isTouchedError, Required} from '../../../../util/formik';
 
-const initialState = {
+const initialValues = {
     email: '',
     password: '',
 };
 
 export function Login() {
-    const [state, setState] = useState(initialState);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const dispatch = useDispatch();
     const {status, user, errors} = useSelector(selectUser);
     let from = location.state?.from?.pathname || '/';
     const isGuest = useIsGuest(from);
 
-    function inputChangeHandler(event) {
-        const name = event.target.name;
-        const value = event.target.value;
-        setState(state => ({...state, [name]: value}));
-    }
+    const formik = useFormik({
+        initialValues,
+        onSubmit: async (values) => {
+            try {
+                await dispatch(login(values)).unwrap();
+                navigate(from, {replace: true});
+            } catch (error) {
+                error.forEach(err => toast.error(err));
+            }
+        },
+        validationSchema: yup.object({
+            email: yup.string().required('Please enter your email'),
+            password: yup.string().required('Please enter your password'),
+        })
+    });
 
-    async function formSubmitHandler(event) {
-        event.preventDefault();
-        try {
-            await dispatch(login(state)).unwrap();
-            navigate(from, {replace: true});
-        } catch (error) {
-            error.forEach(err => toast.error(err));
-        }
-    }
+    let disabled = ((status === 'loading')|| !formik.isValid || formik.isSubmitting || !formik.dirty);
+    const isError = isTouchedError.bind(null, formik);
 
     return isGuest(
-        <form className='login-form' onSubmit={formSubmitHandler}>
+        <form className='login-form' onSubmit={formik.handleSubmit}>
 
-            <label htmlFor="email">E-mail</label>
-            <input type="text" name="email" placeholder="example@email.com" id="email" onChange={inputChangeHandler} value={state.email} />
-            <div className="errors"></div>
+            <label htmlFor="email">E-mail<Required /></label>
+            <input type="text" className={isError('email') ? 'error' : ''} placeholder="example@email.com" id="email" {...formik.getFieldProps('email')} />
+            {isError('email') ? <div className="errors">{formik.errors.email}</div> : null}
 
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" placeholder="******" id="password" onChange={inputChangeHandler} value={state.password} />
-            <div className="errors"></div>
+            <label htmlFor="password">Password<Required /></label>
+            <input type="password" className={isError('password') ? 'error' : ''} placeholder="******" id="password" {...formik.getFieldProps('password')} />
+            {isError('password') ? <div className="errors">{formik.errors.password}</div> : null}
 
-            <input type="submit" className="button submit-button" value="Login" disabled={((status === 'loading') || state.isInvalid)} />
+            <input type="submit" className="button submit-button" value="Login" disabled={disabled} />
 
         </form>
     );

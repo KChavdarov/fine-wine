@@ -61,6 +61,14 @@
 
         label {
             text-transform: capitalize;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+    
+            .required-label{
+                font-size: 0.5em;
+                opacity: 0.5;
+            }
         }
 
         input,
