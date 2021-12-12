@@ -62,8 +62,8 @@ export function Register() {
             <input type="text" name="phone" placeholder="+359888123123" id="phone" onChange={inputChangeHandler} value={state.phone} />
             <div className="errors"></div>
 
-            <label htmlFor="phone">Address</label>
-            <input type="text" name="address" id="phone" placeholder="City, 1 Example street, ap.1" onChange={inputChangeHandler} value={state.address} />
+            <label htmlFor="address">Address</label>
+            <input type="text" name="address" id="address" placeholder="City, 1 Example street, ap.1" onChange={inputChangeHandler} value={state.address} />
             <div className="errors"></div>
 
             <label htmlFor="password">Password</label>
