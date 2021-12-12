@@ -10,14 +10,14 @@ export function Cart() {
     const cart = useSelector(selectCart);
     const [cartDetails, setCatDetails] = useState([]);
     const cartTotal = Number(cartDetails.reduce((a, c) => {
-        return a + (c.wine.currentPrice * c.quantity);
+        return a + c.itemTotal;
     }, 0).toFixed(2) || 0);
 
     useEffect(() => {
         async function loadCartDetails(query) {
             try {
                 const data = await getAll(query);
-                const details = data.map(wine => ({wine, quantity: cart[wine._id]}));
+                const details = data.map(wine => ({wine, quantity: cart[wine._id], itemTotal: Number((wine.currentPrice * cart[wine._id] || 0).toFixed(2))}));
                 setCatDetails(details);
             } catch (error) {
                 console.log(error.message);

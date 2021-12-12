@@ -42,12 +42,12 @@ export function Checkout() {
     let disabled = ((status === 'loading') || !formik.isValid || formik.isSubmitting || (user._id ? false : !formik.dirty));
     const isError = isTouchedError.bind(null, formik);
 
-    const itemSummary = cartDetails.map(({wine, quantity}) => {
+    const itemSummary = cartDetails.map(({wine, quantity, itemTotal}) => {
         return (
             <li key={wine._id} className="item-info">
                 <span className='item-label'>{wine.brand} | {wine.name}</span>
                 <span className='item-quantity'>x{quantity}</span>
-                <span className='item-total'>&euro;{Number((wine.currentPrice * quantity || 0).toFixed(2)).toLocaleString()}</span>
+                <span className='item-total'>{itemTotal.toLocaleString('en-GB',{style:'currency', currency: 'EUR' })}</span>
             </li>
         );
     });
@@ -73,7 +73,7 @@ export function Checkout() {
                         </ul>
                         <div className="list-total">
                             <h4 className="order-total-label">Order Total</h4>
-                            <h4 className="order-total-value">&euro;{cartTotal.toLocaleString()}</h4>
+                            <h4 className="order-total-value">{cartTotal.toLocaleString('en-GB',{style:'currency', currency: 'EUR' })}</h4>
                         </div>
                     </div>
 

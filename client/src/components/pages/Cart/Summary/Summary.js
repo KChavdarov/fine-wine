@@ -21,12 +21,12 @@ export function Summary() {
                 <p className='item-total'>Item Total</p>
             </div>
             <div className='table-body'>
-                {cartDetails.map(({wine, quantity}) => <CartItem key={wine._id} wine={wine} quantity={quantity} />)}
+                {cartDetails.map(({wine, quantity, itemTotal}) => <CartItem key={wine._id} wine={wine} quantity={quantity} itemTotal={itemTotal} />)}
             </div>
             <div className='table-footer'>
                 <div className="subtotal">
                     <div className="subtotal-label">Subtotal:</div>
-                    <div className="subtotal-value">&euro;{cartTotal.toLocaleString()}</div>
+                    <div className="subtotal-value">{cartTotal.toLocaleString('en-GB',{style:'currency', currency: 'EUR' })}</div>
                 </div>
                 <Link className='button checkout-button' to="/cart/checkout">Proceed to checkout</Link>
             </div>
