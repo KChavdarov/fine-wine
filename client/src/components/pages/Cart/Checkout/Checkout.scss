@@ -60,7 +60,6 @@
         }
 
         label {
-            margin-top: 0.5em;
             text-transform: capitalize;
         }
 
@@ -69,6 +68,7 @@
             border: 1px solid $primary;
             border-radius: 1em;
             padding: 0.5em;
+            margin-bottom: 0.5em;
 
             &.error {
                 border-color: $sale;
