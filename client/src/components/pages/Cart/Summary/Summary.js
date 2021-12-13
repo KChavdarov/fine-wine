@@ -1,12 +1,13 @@
 import './Summary.scss';
 import {CartItem} from './CartItem';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {useContext} from 'react';
 import {CartContext} from '../Cart';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../../../store/slices/userSlice';
 
 export function Summary() {
+    const location = useLocation();
     const {cartDetails, cartTotal} = useContext(CartContext);
     const {user} = useSelector(selectUser);
 
@@ -41,7 +42,7 @@ export function Summary() {
             {!user._id ?
                 <article className="guest-user">
                     <h3 className="heading">You are still a guest user</h3>
-                    <Link className='main-text' to="/auth/login">Register or sign in to your account for additional functionality and a better experience</Link>
+                    <Link className='main-text' to="/auth/login" state={{from: location}}>Register or sign in to your account for additional functionality and a better experience</Link>
                 </article>
                 : null}
             {content}
