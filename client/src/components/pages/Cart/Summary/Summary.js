@@ -13,16 +13,16 @@ export function Summary() {
 
     const content = cartDetails.length === 0
         ? <article className="empty-cart">
-            <h3 className="heading">Your cart is currently empty</h3>
+            <h4 className="heading">Your cart is currently empty</h4>
             <Link className='main-text' to="/catalogue">Please have a look at our catalogue and select the best wine for your occasion</Link>
             <Link className='button catalogue-button' to="/catalogue">Catalogue</Link>
         </article>
         : <div className="cart-container">
             <div className='table-header'>
-                <p className='product'>Product</p>
-                <p className='price'>Price</p>
-                <p className='quantity'>Quantity</p>
-                <p className='item-total'>Item Total</p>
+                <h4 className='product'>Product</h4>
+                <h4 className='price'>Price</h4>
+                <h4 className='quantity'>Quantity</h4>
+                <h4 className='item-total'>Item Total</h4>
             </div>
             <div className='table-body'>
                 {cartDetails.map(({wine, quantity, itemTotal}) => <CartItem key={wine._id} wine={wine} quantity={quantity} itemTotal={itemTotal} />)}
@@ -41,7 +41,7 @@ export function Summary() {
             <h1 className="page-title">Shopping Cart</h1>
             {!user._id ?
                 <article className="guest-user">
-                    <h3 className="heading">You are still a guest user</h3>
+                    <h4 className="heading">You are still a guest user</h4>
                     <Link className='main-text' to="/auth/login" state={{from: location}}>Register or sign in to your account for additional functionality and a better experience</Link>
                 </article>
                 : null}

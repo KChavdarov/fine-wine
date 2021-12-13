@@ -36,3 +36,8 @@ export async function removeFavorite(userId, wineId) {
     const user = await http.del(endpoint + `/${userId}/favorites/${wineId}`);
     return user;
 };
+
+export async function getFavorites(userId) {
+    const favorites = await http.get(endpoint + `/${userId}/favorites/`);
+    return favorites;
+}
