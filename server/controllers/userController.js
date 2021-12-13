@@ -75,6 +75,21 @@ router.delete('/:userId/favorites/:wineId', isAuth(), async (req, res) => {
     }
 });
 
+router.get('/:userId/favorites/', isAuth(), async (req, res) => {
+    const userService = req.storage.user;
+    const userId = req.params.userId;
+    if (userId != req.user._id) {
+        return res.status(403).json({message: ['You can only view your own favorites']});
+    }
+    try {
+        const {favorites} = await userService.getFavorites(userId);
+        res.status(200).json(favorites);
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json({message: errors});
+    }
+});
+
 
 router.post('/register', isGuest(),
     body('firstName', 'Please enter your first name!').trim().notEmpty(),

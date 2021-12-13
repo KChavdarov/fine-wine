@@ -7,6 +7,7 @@ module.exports = {
     updateUser,
     addFavorite,
     removeFavorite,
+    getFavorites,
 };
 
 async function getUserById(id) {
@@ -52,4 +53,9 @@ async function removeFavorite(userId, wineId) {
     } else {
         return user;
     }
+}
+
+async function getFavorites(userId) {
+    const favorites = await User.findById(userId).select(['favorites','-_id']).populate('favorites');
+    return favorites;
 }
