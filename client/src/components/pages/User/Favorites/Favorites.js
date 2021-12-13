@@ -4,11 +4,12 @@ import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {getFavorites} from '../../../../services/userService';
 import {selectUser} from '../../../../store/slices/userSlice';
+import {Loader} from '../../../shared/Loader/Loader';
 import {ProductCard} from '../../../shared/ProductCard/ProductCard';
 import './Favorites.scss';
 
 export function Favorites() {
-    const {user} = useSelector(selectUser);
+    const {user, status} = useSelector(selectUser);
     const [favorites, setFavorites] = useState([]);
 
     const getUserFavorites = useCallback(async (user) => {
@@ -41,11 +42,14 @@ export function Favorites() {
         </div>;
 
     return (
-        <section className='page favorites'>
-            <h1 className="page-title">
-                User Favorites
-            </h1>
-            {content}
-        </section>
+        status === 'loading'
+            ? <Loader />
+            : <section className='page favorites'>
+                <h1 className="page-title">
+                    User Favorites
+                </h1>
+                {content}
+            </section>
+
     );
 }
