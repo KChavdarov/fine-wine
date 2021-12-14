@@ -20,6 +20,7 @@ import {Profile} from './components/pages/User/Profile/Profile';
 import {loadCart} from './store/slices/cartSlice';
 import {Checkout} from './components/pages/Cart/Checkout/Checkout';
 import {Summary} from './components/pages/Cart/Summary/Summary';
+import {Favorites} from './components/pages/User/Favorites/Favorites';
 
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
           </Route>
           <Route path="/user" element={<User />}>
             <Route path="profile" element={<Profile />} />
-            <Route path="favorites" element={null} />
+            <Route path="favorites" element={<Favorites />} />
           </Route>
           <Route path="/cart" element={<Cart />}>
             <Route path="" element={<Summary />} />

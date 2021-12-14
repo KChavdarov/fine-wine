@@ -69,7 +69,7 @@ export function Checkout() {
                     Order Checkout
                 </h1>
                 <header className="section-header">
-                    <h5>Order Summary</h5>
+                    <h4>Order Summary</h4>
                 </header>
 
 

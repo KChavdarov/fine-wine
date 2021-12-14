@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import {getAll} from '../../../services/wineService';
 import {selectCart} from '../../../store/slices/cartSlice';
 import {Outlet} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 export const CartContext = createContext();
 
@@ -19,8 +20,8 @@ export function Cart() {
                 const data = await getAll(query);
                 const details = data.map(wine => ({wine, quantity: cart[wine._id], itemTotal: Number((wine.currentPrice * cart[wine._id] || 0).toFixed(2))}));
                 setCatDetails(details);
-            } catch (error) {
-                console.log(error.message);
+            } catch ({message}) {
+                message.forEach(err => toast.error(err));
             }
         };
 
