@@ -4,6 +4,7 @@ import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
 import {useSearchParams} from 'react-router-dom';
+import {useCallback} from 'react/cjs/react.development';
 
 let initialFilters = {
     type: {},
@@ -27,21 +28,20 @@ export function Catalogue() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        getFilters();
-        getProducts();
-        return () => setProducts(products => products);
-    }, [searchParams]);
-
-
-    function parseQueryString(queryString) {
-        const keys = [...searchParams.keys()];
+    const parseQueryString = useCallback((queryString) => {
+        const keys = [...queryString.keys()];
         const result = keys.reduce((a, c) => {
             a[c] = queryString.getAll(c);
             return a;
         }, {});
         return result;
-    }
+    }, []);
+
+    useEffect(() => {
+        getFilters();
+        getProducts();
+        return () => setProducts(products => products);
+    }, [searchParams]);
 
     async function getFilters() {
         const categories = await wineService.getCategories();
