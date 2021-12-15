@@ -22,7 +22,7 @@ async function getCategories() {
     ];
 
     function getDistinct(field) {
-        return Wine.find({isDeleted: false}).distinct(field);
+        return Wine.find({_isDeleted: false}).distinct(field);
     }
 
     const distinctFields = fields.map((field) => getDistinct(field).then((result) => ({[field]: result})));
@@ -38,7 +38,7 @@ async function getCategories() {
 
 async function getAll(data = {}) {
     const {_id, type, brand, grape, country, region, year, volume, minPrice, maxPrice, page = 1, perPage = 12, sort = '-isPromo'} = data;
-    const query = {isDeleted: false};
+    const query = {_isDeleted: false};
     if (_id) {query._id = _id;}
     if (type) {query.type = type;}
     if (brand) {query.brand = brand;}
@@ -58,11 +58,14 @@ async function getAll(data = {}) {
             query.currentPrice['$lte'] = data.maxPrice;
         }
     }
+    console.log(query);
     const wines = await Wine.find(query)
         .skip(Number(perPage) * (Math.max(Number(page) - 1),1))
         .limit(Number(perPage))
         .sort(sort);
     const count = await Wine.countDocuments(query);
+
+    console.log(wines);
 
     return {
         wines,
@@ -76,7 +79,7 @@ async function getAll(data = {}) {
 
 async function getLatest(data = {}) {
     const query = {...data};
-    query.isDeleted = false;
+    query._isDeleted = false;
     return Wine.find(query).limit(data.limit || 5).sort('-_createdAt');
 }
 
@@ -92,7 +95,7 @@ async function create(data) {
 async function deleteOne(id) {
     try {
         const wine = await getOne(id);
-        wine.isDeleted = true;
+        wine._isDeleted = true;
         return wine.save();
     } catch (error) {
         return error.message;
