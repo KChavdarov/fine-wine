@@ -16,12 +16,14 @@ let initialFilters = {
     priceRange: {min: 0, max: 1000},
     minPrice: 0,
     maxPrice: 1000,
-    // isPromo: {},
+    page: 1,
+    perPage: 12,
+    sort: '-isPromo'
 };
 
 export function Catalogue() {
     const [filters, setFilters] = useState(initialFilters);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState({wines: [], page: 1, perPage: 12, count: 0});
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -45,7 +47,7 @@ export function Catalogue() {
         const categories = await wineService.getCategories();
         const selected = parseQueryString(searchParams);
 
-        const filters = Object.entries(categories)
+        const loadedFilters = Object.entries(categories)
             .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'isPromo'))
             .reduce((acc, [category, fields]) => {
                 acc[category] = fields.reduce((a, c) => {
@@ -56,21 +58,23 @@ export function Catalogue() {
                 return acc;
             }, {});
 
-        filters.minPrice = (selected.minPrice && Number(selected.minPrice[0])) || categories.minPrice;
-        filters.maxPrice = (selected.maxPrice && Number(selected.maxPrice[0])) || categories.maxPrice;
-
-        filters.priceRange = {
+        loadedFilters.minPrice = (selected.minPrice && Number(selected.minPrice[0])) || categories.minPrice;
+        loadedFilters.maxPrice = (selected.maxPrice && Number(selected.maxPrice[0])) || categories.maxPrice;
+        loadedFilters.page = (selected.page && Number(selected.page[0])) || filters.page;
+        loadedFilters.perPage = (selected.perPage && Number(selected.perPage[0])) || filters.perPage;
+        loadedFilters.sort = (selected.sort && selected.sort[0]) || filters.sort;
+        loadedFilters.priceRange = {
             min: categories.minPrice,
             max: categories.maxPrice
         };
 
-        initialFilters = filters;
-        setFilters(() => filters);
+        initialFilters = loadedFilters;
+        setFilters(currentFilters => ({...currentFilters, ...loadedFilters}));
     }
 
     async function getProducts() {
-        const products = await wineService.getAll(searchParams);
-        setProducts(() => products);
+        const result = await wineService.getAll(searchParams);
+        setProducts(() => result);
         setIsLoading(false);
     }
 
@@ -90,7 +94,6 @@ export function Catalogue() {
 
     function rangeHandler(event) {
         const name = event.target.name;
-        // const updatedFilter = {[name]: Number(event.target.value) || 0};
 
         setFilters(prevState => {
             let minPrice = prevState.minPrice;
@@ -107,10 +110,33 @@ export function Catalogue() {
         });
     }
 
+    function pageHandler(event) {
+        let page = filters.page;
+        if (event.target.id === 'previousPage') {
+            page = Math.max(filters.page - 1, 1);
+        } else if (event.target.id === 'nextPage') {
+            page = Math.min(filters.page + 1, Math.ceil(products.count / filters.perPage));
+        };
+        if (page !== filters.page) {
+            searchParams.set('page', page);
+            setSearchParams(parseQueryString(searchParams));
+        }
+    }
+
+    function filtersResetHandler() {
+        setSearchParams();
+        getFilters();
+    }
+
     function filtersSubmitHandler(event) {
         event.preventDefault();
+        mapFiltersToQuerystring();
+    }
+
+    function mapFiltersToQuerystring() {
+        const omitFilters = ['minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];
         const selectedFilters = Object.entries(filters)
-            .filter(([category]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
+            .filter(([category]) => !(omitFilters.includes(category)))
             .reduce((acc, [category, fields]) => {
                 const checked = Object.keys(fields).filter(field => fields[field]);
                 if (Object.keys(checked).length > 0) {acc[category] = checked;}
@@ -119,18 +145,16 @@ export function Catalogue() {
 
         selectedFilters.minPrice = filters.minPrice;
         selectedFilters.maxPrice = filters.maxPrice;
+        selectedFilters.perPage = Number(filters.perPage);
+        selectedFilters.sort = filters.sort;
+        selectedFilters.page = Number(filters.page);
 
         setSearchParams(selectedFilters);
     }
 
-    function filtersResetHandler() {
-        setSearchParams();
-        getFilters();
-    }
-
     const content = isLoading
         ? <p>Loading ...</p>
-        : products.map(product => <ProductCard key={product._id} product={product} />);
+        : products.wines.map(product => <ProductCard key={product._id} product={product} />);
 
     return (
         <section className="page catalogue container">
@@ -138,12 +162,19 @@ export function Catalogue() {
 
             {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler, filtersResetHandler}} />}
 
-            <article className="products-container">
+            <div className="paginator">
+                <div className="buttons">
+                    <button id='previousPage' onClick={pageHandler}>PREV</button>
+                    <button id='nextPage' onClick={pageHandler}>NEXT</button>
+                </div>
+            </div>
+
+            <div className="products-container">
                 {content}
                 {content}
                 {content}
                 {content}
-            </article>
+            </div>
 
         </section>
     );
