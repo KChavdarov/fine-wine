@@ -58,14 +58,11 @@ async function getAll(data = {}) {
             query.currentPrice['$lte'] = data.maxPrice;
         }
     }
-    console.log(query);
     const wines = await Wine.find(query)
-        .skip(Number(perPage) * (Math.max(Number(page) - 1),1))
+        .skip(Number(perPage) * (Math.max(Number(page) - 1, 0)))
         .limit(Number(perPage))
         .sort(sort);
     const count = await Wine.countDocuments(query);
-
-    console.log(wines);
 
     return {
         wines,
