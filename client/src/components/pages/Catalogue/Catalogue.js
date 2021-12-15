@@ -74,14 +74,7 @@ export function Catalogue() {
         setIsLoading(false);
     }, []);
 
-    useEffect(() => {
-        getFilters(searchParams);
-        getProducts(searchParams);
-        return () => setProducts(products => products);
-    }, [getFilters, getProducts, searchParams]);
-
-
-    function checkboxHandler(event, category) {
+    const checkboxHandler = useCallback((event, category) => {
         const name = event.target.name;
         const checked = event.target.checked;
         const updatedFilter = {[name]: checked};
@@ -93,9 +86,9 @@ export function Catalogue() {
             newState[category] = updatedFilters;
             return newState;
         });
-    }
+    }, []);
 
-    function rangeHandler(event) {
+    const rangeHandler = useCallback((event) => {
         const name = event.target.name;
 
         setFilters(prevState => {
@@ -111,32 +104,14 @@ export function Catalogue() {
 
             return {...prevState, minPrice, maxPrice};
         });
-    }
+    }, []);
 
-    function pageHandler(event) {
-        let page = filters.page;
-        if (event.target.id === 'previousPage') {
-            page = Math.max(filters.page - 1, 1);
-        } else if (event.target.id === 'nextPage') {
-            page = Math.min(filters.page + 1, Math.ceil(products.count / filters.perPage));
-        };
-        if (page !== filters.page) {
-            searchParams.set('page', page);
-            setSearchParams(parseQueryString(searchParams));
-        }
-    }
-
-    function filtersResetHandler() {
+    const filtersResetHandler = useCallback(() => {
         setSearchParams();
         getFilters(searchParams);
-    }
+    }, [getFilters, searchParams, setSearchParams]);
 
-    function filtersSubmitHandler(event) {
-        event.preventDefault();
-        mapFiltersToQuerystring();
-    }
-
-    function mapFiltersToQuerystring() {
+    const mapFiltersToQuerystring = useCallback(() => {
         const omitFilters = ['minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];
         const selectedFilters = Object.entries(filters)
             .filter(([category]) => !(omitFilters.includes(category)))
@@ -153,7 +128,31 @@ export function Catalogue() {
         selectedFilters.page = Number(filters.page);
 
         setSearchParams(selectedFilters);
-    }
+    }, [filters, setSearchParams]);
+
+    const filtersSubmitHandler = useCallback((event) => {
+        event.preventDefault();
+        mapFiltersToQuerystring();
+    }, [mapFiltersToQuerystring]);
+
+    const paginationHandler = useCallback((event) => {
+        let page = filters.page;
+        if (event.target.id === 'previousPage') {
+            page = Math.max(filters.page - 1, 1);
+        } else if (event.target.id === 'nextPage') {
+            page = Math.min(filters.page + 1, Math.ceil(products.count / filters.perPage));
+        };
+        if (page !== filters.page) {
+            searchParams.set('page', page);
+            setSearchParams(parseQueryString(searchParams));
+        }
+    }, [filters.page, filters.perPage, parseQueryString, products.count, searchParams, setSearchParams]);
+
+    useEffect(() => {
+        getFilters(searchParams);
+        getProducts(searchParams);
+        return () => setProducts(products => products);
+    }, [getFilters, getProducts, searchParams]);
 
     const content = isLoading
         ? <p>Loading ...</p>
@@ -167,8 +166,8 @@ export function Catalogue() {
 
             <div className="paginator">
                 <div className="buttons">
-                    <button id='previousPage' onClick={pageHandler}>PREV</button>
-                    <button id='nextPage' onClick={pageHandler}>NEXT</button>
+                    <button id='previousPage' onClick={paginationHandler}>PREV</button>
+                    <button id='nextPage' onClick={paginationHandler}>NEXT</button>
                 </div>
             </div>
 
