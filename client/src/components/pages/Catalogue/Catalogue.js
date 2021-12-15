@@ -37,13 +37,7 @@ export function Catalogue() {
         return result;
     }, []);
 
-    useEffect(() => {
-        getFilters();
-        getProducts();
-        return () => setProducts(products => products);
-    }, [searchParams]);
-
-    async function getFilters() {
+    const getFilters = useCallback(async (searchParams) => {
         const categories = await wineService.getCategories();
         const selected = parseQueryString(searchParams);
 
@@ -60,9 +54,10 @@ export function Catalogue() {
 
         loadedFilters.minPrice = (selected.minPrice && Number(selected.minPrice[0])) || categories.minPrice;
         loadedFilters.maxPrice = (selected.maxPrice && Number(selected.maxPrice[0])) || categories.maxPrice;
-        loadedFilters.page = (selected.page && Number(selected.page[0])) || filters.page;
-        loadedFilters.perPage = (selected.perPage && Number(selected.perPage[0])) || filters.perPage;
-        loadedFilters.sort = (selected.sort && selected.sort[0]) || filters.sort;
+        if (selected.page) {loadedFilters.page = Number(selected.page[0]);}
+        if (selected.perPage) {loadedFilters.perPage = Number(selected.perPage[0]);}
+        if (selected.sort) {loadedFilters.sort = selected.sort[0];}
+
         loadedFilters.priceRange = {
             min: categories.minPrice,
             max: categories.maxPrice
@@ -70,13 +65,21 @@ export function Catalogue() {
 
         initialFilters = loadedFilters;
         setFilters(currentFilters => ({...currentFilters, ...loadedFilters}));
-    }
 
-    async function getProducts() {
+    }, [parseQueryString]);
+
+    const getProducts = useCallback(async (searchParams) => {
         const result = await wineService.getAll(searchParams);
         setProducts(() => result);
         setIsLoading(false);
-    }
+    }, []);
+
+    useEffect(() => {
+        getFilters(searchParams);
+        getProducts(searchParams);
+        return () => setProducts(products => products);
+    }, [getFilters, getProducts, searchParams]);
+
 
     function checkboxHandler(event, category) {
         const name = event.target.name;
@@ -125,7 +128,7 @@ export function Catalogue() {
 
     function filtersResetHandler() {
         setSearchParams();
-        getFilters();
+        getFilters(searchParams);
     }
 
     function filtersSubmitHandler(event) {
