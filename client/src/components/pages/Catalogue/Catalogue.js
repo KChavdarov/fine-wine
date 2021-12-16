@@ -5,6 +5,7 @@ import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
 import {useSearchParams} from 'react-router-dom';
 import {useCallback} from 'react/cjs/react.development';
+import {Paginator} from '../../shared/Paginator/Paginator';
 
 let initialFilters = {
     type: {},
@@ -136,17 +137,34 @@ export function Catalogue() {
     }, [mapFiltersToQuerystring]);
 
     const paginationHandler = useCallback((event) => {
-        let page = filters.page;
+        let page = products.page;
+        let perPage = products.perPage;
+        let sort = products.sort;
+
         if (event.target.id === 'previousPage') {
-            page = Math.max(filters.page - 1, 1);
+            page = Math.max(products.page - 1, 1);
         } else if (event.target.id === 'nextPage') {
-            page = Math.min(filters.page + 1, Math.ceil(products.count / filters.perPage));
-        };
-        if (page !== filters.page) {
+            page = Math.min(products.page + 1, Math.ceil(products.count / products.perPage));
+        } else if (event.target.id === 'perPage') {
+            perPage = Number(event.target.value);
+        } else if (event.target.id === 'sort') {
+            sort = (event.target.value);
+        }
+
+        if (page !== products.page) {
             searchParams.set('page', page);
             setSearchParams(parseQueryString(searchParams));
         }
-    }, [filters.page, filters.perPage, parseQueryString, products.count, searchParams, setSearchParams]);
+        if (perPage !== products.perPage) {
+            searchParams.set('perPage', perPage);
+            setSearchParams(parseQueryString(searchParams));
+        }
+        if (sort !== products.sort) {
+            searchParams.set('sort', sort);
+            setSearchParams(parseQueryString(searchParams));
+        }
+
+    }, [parseQueryString, products.count, products.page, products.perPage, products.sort, searchParams, setSearchParams]);
 
     useEffect(() => {
         getFilters(searchParams);
@@ -164,12 +182,7 @@ export function Catalogue() {
 
             {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler, filtersResetHandler}} />}
 
-            <div className="paginator">
-                <div className="buttons">
-                    <button id='previousPage' onClick={paginationHandler}>PREV</button>
-                    <button id='nextPage' onClick={paginationHandler}>NEXT</button>
-                </div>
-            </div>
+            {isLoading ? null : <Paginator handler={paginationHandler} products={products} />}
 
             <div className="products-container">
                 {content}
