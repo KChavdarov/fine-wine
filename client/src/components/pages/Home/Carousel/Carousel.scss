@@ -1,5 +1,4 @@
 .carousel {
-    background-color: black;
     position: relative;
     display: flex;
     justify-content: center;
@@ -16,12 +15,12 @@
 
         &.right-arrow {
             top: 50%;
-            right: 5%;
+            right: 2%;
         }
 
         &.left-arrow {
             top: 50%;
-            left: 5%;
+            left: 2%;
         }
 
         transition: transform 0.1s linear;
@@ -32,13 +31,13 @@
     }
 
     .slide {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 1s ease-in-out, transform 0.5s ease-in-out;
+        opacity: 0.3;
+        transform: scale(1);
+        transition: opacity 0.6s ease-in, transform 0.5s linear;
 
         &.active {
             width: 100%;
-            transform: scale(1);
+            transform: scale(1.08);
             opacity: 1;
         }
     }

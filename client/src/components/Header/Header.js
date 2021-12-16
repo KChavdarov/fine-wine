@@ -7,12 +7,30 @@ import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../store/slices/userSlice';
 import {selectCart} from '../../store/slices/cartSlice';
+import {useEffect} from 'react/cjs/react.development';
 
-export function Header() {
+export function Header({mainRef}) {
     const [isOpen, setIsOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const {user} = useSelector(selectUser);
     const cart = useSelector(selectCart);
     const itemCount = Object.values(cart).reduce((a, c) => a + c, 0);
+
+    useEffect(() => {
+        const main = mainRef.current;
+        const mainObserver = new IntersectionObserver(([main]) => {
+            setIsScrolled(!main.isIntersecting);           
+        }, {
+            root: null,
+            threshold: 0,
+            rootMargin: '0px 0px -97% 0px'
+        });
+
+        mainObserver.observe(main);
+
+        return () => {mainObserver.unobserve(main);};
+
+    }, [mainRef]);
 
     let navLinks = [];
 
@@ -34,7 +52,7 @@ export function Header() {
     }
 
     return (
-        <header className="site-header">
+        <header className={isScrolled ? 'site-header' : 'site-header scrolled'}>
             < div className="container">
                 <nav className="site-navigation" >
 

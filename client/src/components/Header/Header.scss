@@ -66,6 +66,7 @@
             grid-gap: 1rem;
             grid-template-columns: repeat(3, max-content);
             align-items: center;
+            text-transform: uppercase;
 
             @include breakpoint {
                 display: none;
