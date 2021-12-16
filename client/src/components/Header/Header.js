@@ -23,7 +23,7 @@ export function Header({mainRef}) {
         }, {
             root: null,
             threshold: 0,
-            rootMargin: '0px 0px -97% 0px'
+            rootMargin: '0px 0px -98% 0px'
         });
 
         mainObserver.observe(main);
