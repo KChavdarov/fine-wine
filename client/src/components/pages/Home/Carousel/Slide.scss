@@ -2,12 +2,13 @@
 
 .slide-container {
     font-size: 1.2em;
-    min-height: 45vh;
+    // min-height: 80vh;
+    min-height: 40rem;
     position: relative;
     background-size: cover;
     resize: both;
     background-position: center;
-    padding: 3%;
+    padding: 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,8 +18,9 @@
         text-align: center;
         font-weight: bold;
         color: white;
-        text-shadow: 0 0 1.5rem #000;
+        text-shadow: 0 0 0.5rem #000;
         margin: 1rem;
+        line-height: 1;
     }
 
     .slide-button {
@@ -31,6 +33,7 @@
         border-radius: 1rem;
         margin: 1rem;
         transition: transform 0.1s linear;
+        text-shadow: 0 0 0.7em #000;
 
         &:hover {
             transform: scale(1.1);

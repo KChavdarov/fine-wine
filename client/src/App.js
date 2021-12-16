@@ -12,7 +12,7 @@ import {Login} from './components/pages/Auth/Login/Login';
 import {Register} from './components/pages/Auth/Register/Register';
 import {Logout} from './components/pages/Auth/Logout';
 import {Cart} from './components/pages/Cart/Cart';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {verify} from './store/slices/userSlice';
 import {User} from './components/pages/User/User';
@@ -25,6 +25,7 @@ import {Favorites} from './components/pages/User/Favorites/Favorites';
 
 function App() {
   const dispatch = useDispatch();
+  const mainRef = useRef();
   useEffect(() => {
     dispatch(verify());
     dispatch(loadCart());
@@ -32,8 +33,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-      <main className="site-content">
+      <Header mainRef={mainRef} />
+      <main className="site-content" ref={mainRef}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contacts" element={<Home />} />
