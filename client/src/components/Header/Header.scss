@@ -12,12 +12,17 @@
     background: $background;
     z-index: 1000;
     box-shadow: 0px -20px 20px 8px black;
+    transition: height 0.1s linear;
+
+    &.scrolled {
+        height: calc(#{$headerSize} * 0.6);
+    }
 
     div.mobile-menu {
         display: none;
         position: absolute;
         background: $background;
-        top: $headerSize;
+        // top: $headerSize;
         height: 100vh;
         padding-bottom: $headerSize;
         right: 0;
