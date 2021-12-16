@@ -7,20 +7,19 @@ import './ProductsShowcase.scss';
 export function ProductsShowcase({query = {}, title = ''}) {
     const [products, setProduct] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    async function getProducts() {
-        var queryString = Object.keys(query).map((key) => {
-            return encodeURIComponent(key) + '=' + encodeURIComponent(query[key]);
-        }).join('&');
-
-        const products = await wineService.getLatest(queryString);
-        setProduct(() => products);
-        setIsLoading(() => false);
-    }
+    const queryString = Object.keys(query).map((key) => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(query[key]);
+    }).join('&');
 
     useEffect(() => {
         getProducts();
-    }, []);
+
+        async function getProducts() {
+            const products = await wineService.getLatest(queryString);
+            setProduct(() => products);
+            setIsLoading(() => false);
+        }
+    }, [queryString]);
 
     const content = (
         isLoading
@@ -30,7 +29,9 @@ export function ProductsShowcase({query = {}, title = ''}) {
 
     return (
         <section className="products-showcase container">
-            <h2 className="section-title">{title}</h2>
+            <header className="section-header">
+                <h4>{title}</h4>
+            </header>
             <div className="products-container">
                 {content}
             </div>
