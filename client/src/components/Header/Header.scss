@@ -63,7 +63,7 @@
 
         .navigation-items {
             display: grid;
-            grid-gap: 1rem;
+            gap: 1rem;
             grid-template-columns: repeat(3, max-content);
             align-items: center;
             text-transform: uppercase;
