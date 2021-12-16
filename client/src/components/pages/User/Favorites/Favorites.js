@@ -32,9 +32,9 @@ export function Favorites() {
             <Link className='button catalogue-button' to="/catalogue">Catalogue</Link>
         </article>
         : <div className="favorites-container">
-            {/* <header className="section-header">
-                <h4>Pagination</h4>
-            </header> */}
+            <header className="section-header">
+                <h4></h4>
+            </header>
 
             <div className="products-container">
                 {favorites.map(f => <ProductCard key={f._id} product={f} />)}
