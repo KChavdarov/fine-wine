@@ -4,6 +4,8 @@ import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
 import {useSearchParams} from 'react-router-dom';
+import {useCallback} from 'react/cjs/react.development';
+import {Paginator} from '../../shared/Paginator/Paginator';
 
 let initialFilters = {
     type: {},
@@ -16,36 +18,31 @@ let initialFilters = {
     priceRange: {min: 0, max: 1000},
     minPrice: 0,
     maxPrice: 1000,
-    // isPromo: {},
+    page: 1,
+    perPage: 12,
+    sort: '-isPromo'
 };
 
 export function Catalogue() {
     const [filters, setFilters] = useState(initialFilters);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState({wines: [], page: 1, perPage: 12, count: 0});
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        getFilters();
-        getProducts();
-        return () => setProducts(products => products);
-    }, [searchParams]);
-
-
-    function parseQueryString(queryString) {
-        const keys = [...searchParams.keys()];
+    const parseQueryString = useCallback((queryString) => {
+        const keys = [...queryString.keys()];
         const result = keys.reduce((a, c) => {
             a[c] = queryString.getAll(c);
             return a;
         }, {});
         return result;
-    }
+    }, []);
 
-    async function getFilters() {
+    const getFilters = useCallback(async (searchParams) => {
         const categories = await wineService.getCategories();
         const selected = parseQueryString(searchParams);
 
-        const filters = Object.entries(categories)
+        const loadedFilters = Object.entries(categories)
             .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'isPromo'))
             .reduce((acc, [category, fields]) => {
                 acc[category] = fields.reduce((a, c) => {
@@ -56,25 +53,29 @@ export function Catalogue() {
                 return acc;
             }, {});
 
-        filters.minPrice = (selected.minPrice && Number(selected.minPrice[0])) || categories.minPrice;
-        filters.maxPrice = (selected.maxPrice && Number(selected.maxPrice[0])) || categories.maxPrice;
+        loadedFilters.minPrice = (selected.minPrice && Number(selected.minPrice[0])) || categories.minPrice;
+        loadedFilters.maxPrice = (selected.maxPrice && Number(selected.maxPrice[0])) || categories.maxPrice;
+        if (selected.page) {loadedFilters.page = Number(selected.page[0]);}
+        if (selected.perPage) {loadedFilters.perPage = Number(selected.perPage[0]);}
+        if (selected.sort) {loadedFilters.sort = selected.sort[0];}
 
-        filters.priceRange = {
+        loadedFilters.priceRange = {
             min: categories.minPrice,
             max: categories.maxPrice
         };
 
-        initialFilters = filters;
-        setFilters(() => filters);
-    }
+        initialFilters = loadedFilters;
+        setFilters(currentFilters => ({...currentFilters, ...loadedFilters}));
 
-    async function getProducts() {
-        const products = await wineService.getAll(searchParams);
-        setProducts(() => products);
+    }, [parseQueryString]);
+
+    const getProducts = useCallback(async (searchParams) => {
+        const result = await wineService.getAll(searchParams);
+        setProducts(() => result);
         setIsLoading(false);
-    }
+    }, []);
 
-    function checkboxHandler(event, category) {
+    const checkboxHandler = useCallback((event, category) => {
         const name = event.target.name;
         const checked = event.target.checked;
         const updatedFilter = {[name]: checked};
@@ -86,11 +87,10 @@ export function Catalogue() {
             newState[category] = updatedFilters;
             return newState;
         });
-    }
+    }, []);
 
-    function rangeHandler(event) {
+    const rangeHandler = useCallback((event) => {
         const name = event.target.name;
-        // const updatedFilter = {[name]: Number(event.target.value) || 0};
 
         setFilters(prevState => {
             let minPrice = prevState.minPrice;
@@ -105,12 +105,17 @@ export function Catalogue() {
 
             return {...prevState, minPrice, maxPrice};
         });
-    }
+    }, []);
 
-    function filtersSubmitHandler(event) {
-        event.preventDefault();
+    const filtersResetHandler = useCallback(() => {
+        setSearchParams();
+        getFilters(searchParams);
+    }, [getFilters, searchParams, setSearchParams]);
+
+    const mapFiltersToQuerystring = useCallback(() => {
+        const omitFilters = ['minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];
         const selectedFilters = Object.entries(filters)
-            .filter(([category]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
+            .filter(([category]) => !(omitFilters.includes(category)))
             .reduce((acc, [category, fields]) => {
                 const checked = Object.keys(fields).filter(field => fields[field]);
                 if (Object.keys(checked).length > 0) {acc[category] = checked;}
@@ -119,18 +124,57 @@ export function Catalogue() {
 
         selectedFilters.minPrice = filters.minPrice;
         selectedFilters.maxPrice = filters.maxPrice;
+        selectedFilters.perPage = Number(filters.perPage);
+        selectedFilters.sort = filters.sort;
+        selectedFilters.page = Number(filters.page);
 
         setSearchParams(selectedFilters);
-    }
+    }, [filters, setSearchParams]);
 
-    function filtersResetHandler() {
-        setSearchParams();
-        getFilters();
-    }
+    const filtersSubmitHandler = useCallback((event) => {
+        event.preventDefault();
+        mapFiltersToQuerystring();
+    }, [mapFiltersToQuerystring]);
+
+    const paginationHandler = useCallback((event) => {
+        let page = products.page;
+        let perPage = products.perPage;
+        let sort = products.sort;
+
+        if (event.target.id === 'previousPage') {
+            page = Math.max(products.page - 1, 1);
+        } else if (event.target.id === 'nextPage') {
+            page = Math.min(products.page + 1, Math.ceil(products.count / products.perPage));
+        } else if (event.target.id === 'perPage') {
+            perPage = Number(event.target.value);
+        } else if (event.target.id === 'sort') {
+            sort = (event.target.value);
+        }
+
+        if (page !== products.page) {
+            searchParams.set('page', page);
+            setSearchParams(parseQueryString(searchParams));
+        }
+        if (perPage !== products.perPage) {
+            searchParams.set('perPage', perPage);
+            setSearchParams(parseQueryString(searchParams));
+        }
+        if (sort !== products.sort) {
+            searchParams.set('sort', sort);
+            setSearchParams(parseQueryString(searchParams));
+        }
+
+    }, [parseQueryString, products.count, products.page, products.perPage, products.sort, searchParams, setSearchParams]);
+
+    useEffect(() => {
+        getFilters(searchParams);
+        getProducts(searchParams);
+        return () => setProducts(products => products);
+    }, [getFilters, getProducts, searchParams]);
 
     const content = isLoading
         ? <p>Loading ...</p>
-        : products.map(product => <ProductCard key={product._id} product={product} />);
+        : products.wines.map(product => <ProductCard key={product._id} product={product} />);
 
     return (
         <section className="page catalogue container">
@@ -138,12 +182,14 @@ export function Catalogue() {
 
             {isLoading ? null : <Filters filters={filters} handlers={{checkboxHandler, rangeHandler, filtersSubmitHandler, filtersResetHandler}} />}
 
-            <article className="products-container">
+            {isLoading ? null : <Paginator handler={paginationHandler} products={products} />}
+
+            <div className="products-container">
                 {content}
                 {content}
                 {content}
                 {content}
-            </article>
+            </div>
 
         </section>
     );

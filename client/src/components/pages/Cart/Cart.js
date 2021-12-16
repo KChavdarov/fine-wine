@@ -17,8 +17,8 @@ export function Cart() {
     useEffect(() => {
         async function loadCartDetails(query) {
             try {
-                const data = await getAll(query);
-                const details = data.map(wine => ({wine, quantity: cart[wine._id], itemTotal: Number((wine.currentPrice * cart[wine._id] || 0).toFixed(2))}));
+                const {wines} = await getAll(query);
+                const details = wines.map(wine => ({wine, quantity: cart[wine._id], itemTotal: Number((wine.currentPrice * cart[wine._id] || 0).toFixed(2))}));
                 setCatDetails(details);
             } catch ({message}) {
                 message.forEach(err => toast.error(err));

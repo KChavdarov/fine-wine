@@ -19,14 +19,11 @@ async function getCategories() {
         'year',
         'volume',
         'currentPrice',
-        'isPromo'
     ];
 
     function getDistinct(field) {
-        return Wine.find({isDeleted: false}).distinct(field);
+        return Wine.find({_isDeleted: false}).distinct(field);
     }
-
-    // const fields = Object.keys(Wine.schema.obj);
 
     const distinctFields = fields.map((field) => getDistinct(field).then((result) => ({[field]: result})));
     const categories = Object.assign(... await Promise.all(distinctFields));
@@ -40,29 +37,46 @@ async function getCategories() {
 }
 
 async function getAll(data = {}) {
-    const query = {...data};
-    query.isDeleted = false;
-    if (query.grape) {
-        query.grape = {$in: query.grape};
-    }
-
-    if (data.minPrice || data.maxPrice) {
+    const {_id, type, brand, grape, country, region, year, volume, minPrice, maxPrice, page = 1, perPage = 12, sort = '-isPromo'} = data;
+    const query = {_isDeleted: false};
+    if (_id) {query._id = _id;}
+    if (type) {query.type = type;}
+    if (brand) {query.brand = brand;}
+    if (country) {query.country = country;}
+    if (region) {query.region = region;}
+    if (year) {query.year = year;}
+    if (volume) {query.volume = volume;}
+    if (grape) {query.grape = {$in: grape};}
+    if (minPrice || maxPrice) {
         query.currentPrice = {};
 
-        if (data.minPrice) {
+        if (minPrice) {
             query.currentPrice['$gte'] = data.minPrice;
         };
 
-        if (data.maxPrice) {
+        if (maxPrice) {
             query.currentPrice['$lte'] = data.maxPrice;
         }
     }
-    return Wine.find(query);
+    const wines = await Wine.find(query)
+        .skip(Number(perPage) * (Math.max(Number(page) - 1, 0)))
+        .limit(Number(perPage))
+        .sort(sort);
+    const count = await Wine.countDocuments(query);
+
+    return {
+        wines,
+        count,
+        page: Number(page),
+        perPage: Number(perPage),
+        sort,
+    };
+
 }
 
 async function getLatest(data = {}) {
     const query = {...data};
-    query.isDeleted = false;
+    query._isDeleted = false;
     return Wine.find(query).limit(data.limit || 5).sort('-_createdAt');
 }
 
@@ -78,7 +92,7 @@ async function create(data) {
 async function deleteOne(id) {
     try {
         const wine = await getOne(id);
-        wine.isDeleted = true;
+        wine._isDeleted = true;
         return wine.save();
     } catch (error) {
         return error.message;

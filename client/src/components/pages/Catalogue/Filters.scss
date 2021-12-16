@@ -54,23 +54,23 @@ $gap: 1rem;
                 border: 1px solid black;
                 border-radius: 1rem;
                 border-color: $primary;
-                color: $primary;
-                background: none;
-                transition: background-color 0.2s linear;
+                color: white;
+                background: $primary;
+                transition: transform 0.1s linear, background-color 0.1s ease-in;
 
-                &.submit {
+                // &.submit {
 
-                    &:hover,
-                    &:active {
-                        background: $primary;
-                        color: white;
-                    }
+                &:hover,
+                &:active {
+                    transform: scale(1.05);
                 }
 
+                // }
+
                 &.reset {
-                    background: $light;
-                    color: $primary;
-                    border-color: $primary;
+                    background: $medium;
+                    color: white;
+                    border-color: $medium;
 
                     &:hover,
                     &:active {

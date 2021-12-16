@@ -4,6 +4,8 @@ import {RangeGroup} from './RangeGroup';
 import {useState} from 'react/cjs/react.development';
 import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
+const omitFilters = ['minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];
+
 export function Filters({filters, handlers}) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -19,7 +21,7 @@ export function Filters({filters, handlers}) {
     }
 
     const content = Object.entries(filters)
-        .filter(([category, fields]) => (category !== 'minPrice' && category !== 'maxPrice' && category !== 'priceRange'))
+        .filter(([category, fields]) => !(omitFilters.includes(category)))
         .map(([category, fields]) => <CheckboxGroup key={category} category={category} fields={fields} checkboxHandler={handlers.checkboxHandler} />);
 
     return (
@@ -34,8 +36,8 @@ export function Filters({filters, handlers}) {
                     {content}
                 </div>
                 <div className="buttons">
-                    <input className="button submit" type="submit" value="Update Filters" />
                     <button className="button reset" onClick={closeOnInput(handlers.filtersResetHandler)} type="button" >Reset Filters</button>
+                    <input className="button submit" type="submit" value="Update Filters" />
                 </div>
             </form>
 

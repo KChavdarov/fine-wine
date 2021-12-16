@@ -33,7 +33,7 @@ export function Favorites() {
         </article>
         : <div className="favorites-container">
             <header className="section-header">
-                <h4>Pagination</h4>
+                <h4></h4>
             </header>
 
             <div className="products-container">
