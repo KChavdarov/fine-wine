@@ -22,7 +22,7 @@ const isAdmin = () => (req, res, next) => {
     }
 };
 
-const isOwner = () => (req, res, next) => {
+const isOwnerAfterPreload = () => (req, res, next) => {
     const item = req.data;
     if (!req.data) {
         res.status(404).json({message: ['Item not found']});
@@ -33,9 +33,19 @@ const isOwner = () => (req, res, next) => {
     }
 };
 
+const isOwnerByUserId = () => (req, res, next) => {
+    const userId = req.params.userId || req.query._creator;
+    if ((userId === req.user._id) || req.user._isAdmin) {
+        next();
+    } else {
+        return res.status(403).json({message: ['You are not the owner of this item']});
+    }
+};
+
 module.exports = {
     isAuth,
     isGuest,
     isAdmin,
-    isOwner,
+    isOwnerAfterPreload,
+    isOwnerByUserId,
 };
