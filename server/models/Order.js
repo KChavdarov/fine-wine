@@ -12,7 +12,7 @@ const orderSchema = new Schema({
         type: String,
         default: 'new',
     },
-    user: {
+    _creator: {
         type: Schema.Types.ObjectId,
         ref: 'User',
     },

@@ -1,25 +1,25 @@
 const Order = require('../models/Order');
 
 module.exports = {
+    getOrder,
     createOrder,
-    getOrdersByUser,
     getAllOrders,
     updateOrder,
 };
 
-async function createOrder(data) {
-    const order = new Order(data);
-    return order.save();
-}
-
-async function getOrdersByUser(user) {
-    const orders = Order.find({user});
-    return orders;
+async function getOrder(orderId) {
+    const order = Order.findById(orderId);
+    return order;
 }
 
 async function getAllOrders(query = {}) {
     const orders = Order.find(query);
     return orders;
+}
+
+async function createOrder(data) {
+    const order = new Order(data);
+    return order.save();
 }
 
 async function updateOrder(id, data) {
