@@ -36,8 +36,8 @@ export function Filters({filters, handlers}) {
                     {content}
                 </div>
                 <div className="buttons">
-                    <button className="button reset" onClick={closeOnInput(handlers.filtersResetHandler)} type="button" >Reset Filters</button>
-                    <input className="button submit" type="submit" value="Update Filters" />
+                    <button className="button reset" onClick={closeOnInput(handlers.filtersResetHandler)} type="button" >Reset</button>
+                    <input className="button submit" type="submit" value="Apply" />
                 </div>
             </form>
 

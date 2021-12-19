@@ -26,15 +26,12 @@ router.get('/', async (req, res) => {
 router.patch('/', isAuth(), async (req, res) => {
     const userService = req.storage.user;
     try {
-        const {firstName, lastName, phone, address, favorites} = req.body;
-        const data = Object.entries({firstName, lastName, phone, address, favorites}).reduce(
-            (a, [k, v]) => {
-                if (v) {
-                    a[k] = v;
-                }
-                return a;
-            }, {}
-        );
+        const {firstName, lastName, phone, address} = req.body;
+        const data = {};
+        if (firstName) {data.firstName = firstName;}
+        if (lastName) {data.lastName = lastName;}
+        if (phone) {data.phone = phone;}
+        if (address) {data.address = address;}
         const user = await userService.updateUser(req.user._id, data);
         res.status(200).json(sanitizeUserData(user));
     } catch (error) {

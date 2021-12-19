@@ -3,6 +3,54 @@
 .page.checkout {
     margin-top: 2rem;
 
+    .button {
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: block;
+        border-radius: 1em;
+        padding: 0.5em;
+        margin-bottom: 0.5em;
+        align-self: center;
+        border: none;
+        grid-column: 1 /span 2;
+        max-width: 25em;
+        width: 100%;
+        font-size: 1rem;
+        text-align: center;
+        margin-top: 3em;
+        cursor: pointer;
+        transition: transform 0.1s linear;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        background: $primary;
+        color: white;
+
+        &:disabled {
+            background-color: $light;
+            color: $secondary;
+            cursor: default;
+
+            &:hover {
+                transform: scale(1);
+            }
+        }
+
+    }
+
+    .logout-container {
+        margin-top: 4em;
+        border-top: 2px solid $primary;
+
+
+        .logout-button {
+            background-color: $sale;
+            margin-inline: auto;
+        }
+    }
+
     .section-header {
         padding: 1rem;
         margin-bottom: 2em;
@@ -22,22 +70,25 @@
             border-bottom: 2px solid $secondary;
         }
 
-        .item-summary {
+        .order-history {
             width: 100%;
             max-width: 30em;
 
-            .item-list {
-                .item-info {
+            .order-list {
+                .order-info {
                     display: grid;
-                    grid-template-columns: 1fr 2em minmax(4em, max-content);
+                    grid-template-columns: minmax(5.5em, 1fr) minmax(6em, 1fr) minmax(2em, auto) minmax(5.5em, 1fr);
                     align-items: center;
-                    gap: 2%;
+                    gap: 1%;
                     margin-bottom: 0.8em;
 
-
-                    .item-quantity,
-                    .item-total {
+                    .order-items,
+                    .order-total {
                         justify-self: end;
+                    }
+
+                    .order-status {
+                        text-transform: capitalize;
                     }
                 }
             }
@@ -82,39 +133,15 @@
                 border-color: $sale;
                 color: $sale;
             }
+
+            &:disabled {
+                border-color: $secondary;
+            }
         }
 
         .errors {
             font-size: 0.8em;
             color: $sale;
-        }
-
-        .submit-button {
-            border: none;
-            grid-column: 1 /span 2;
-            max-width: 25em;
-            width: 100%;
-            font-size: 1rem;
-            margin-top: 3em;
-            cursor: pointer;
-            transition: transform 0.1s linear;
-
-            &:hover {
-                transform: scale(1.05);
-            }
-
-            background: $primary;
-            color: white;
-
-            &:disabled {
-                background-color: $light;
-                color: $secondary;
-                cursor: default;
-
-                &:hover {
-                    transform: scale(1);
-                }
-            }
         }
 
         @media screen and (max-width: 800px) {
