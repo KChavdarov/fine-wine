@@ -17,6 +17,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        color: $primary;
     }
 
     .image {
@@ -35,6 +36,7 @@
         text-transform: capitalize;
 
         .name {
+            color: $dark;
             font-size: 1.4em;
         }
 
