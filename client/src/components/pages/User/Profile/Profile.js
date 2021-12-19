@@ -78,7 +78,7 @@ export function Profile() {
 
 
     return isAuth(
-        <section className="page checkout container">
+        <section className="page checkout">
             <h1 className="page-title">
                 User Profile
             </h1>

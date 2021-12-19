@@ -21,6 +21,7 @@ import {loadCart} from './store/slices/cartSlice';
 import {Checkout} from './components/pages/Cart/Checkout/Checkout';
 import {Summary} from './components/pages/Cart/Summary/Summary';
 import {Favorites} from './components/pages/User/Favorites/Favorites';
+import {Details} from './components/pages/Details/Details';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
       <main className="site-content" ref={mainRef}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/details/:wineId" element={<Details />} />
           <Route path="/contacts" element={<Home />} />
           <Route path="/about" element={<Home />} />
           <Route path="/catalogue" element={<Catalogue />} />
