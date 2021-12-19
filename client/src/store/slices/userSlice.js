@@ -72,6 +72,14 @@ export const removeFavorite = createAsyncThunk('user/removeFavorite', async ({us
         return rejectWithValue(error.message);
     }
 });
+export const update = createAsyncThunk('user/update', async (data, {rejectWithValue}) => {
+    try {
+        const user = await userService.updateUser(data);
+        return user;
+    } catch (error) {
+        return rejectWithValue(error.message);
+    }
+});
 
 export const userSlice = createSlice({
     name: 'user',
@@ -178,11 +186,26 @@ export const userSlice = createSlice({
                 state.status = 'failed';
                 state.errors = action.payload;
             });
+        //  UPDATE
+        builder
+            .addCase(update.pending, (state) => {
+                state.status = 'loading';
+                state.errors = [];
+            })
+            .addCase(update.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                if (action.payload) {
+                    state.user = action.payload;
+                    state.errors = [];
+                }
+            })
+            .addCase(update.rejected, (state, action) => {
+                state.status = 'failed';
+                state.errors = action.payload;
+            });
     }
 });
 
 export const userReducer = userSlice.reducer;
-
-export const {loadUserRequest, loadUserSuccess, loadUserFail, userReset} = userSlice.actions;
 
 export const selectUser = (state) => state.user;

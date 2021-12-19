@@ -21,10 +21,13 @@
         text-shadow: 0 0 0.5rem #000;
         margin: 1rem;
         line-height: 1;
+        min-height: 2em;
     }
 
     .slide-button {
-        font-size: 1.2em;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        font-size: 1.1em;
         color: white;
         font-weight: bold;
         padding: 0.3rem 1rem;

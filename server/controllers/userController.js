@@ -1,6 +1,6 @@
 const {COOKIE_NAME} = require('../config/index');
 const {body, validationResult} = require('express-validator');
-const {isGuest, isAuth} = require('../middleware/guards');
+const {isGuest, isAuth, isOwnerByUserId} = require('../middleware/guards');
 const {createToken} = require('../util/jwt');
 const {sanitizeUserData} = require('../util/sanitizeUserData');
 const {parseErrorMessage} = require('../util/parseError');
@@ -26,15 +26,12 @@ router.get('/', async (req, res) => {
 router.patch('/', isAuth(), async (req, res) => {
     const userService = req.storage.user;
     try {
-        const {firstName, lastName, phone, address, favorites} = req.body;
-        const data = Object.entries({firstName, lastName, phone, address, favorites}).reduce(
-            (a, [k, v]) => {
-                if (v) {
-                    a[k] = v;
-                }
-                return a;
-            }, {}
-        );
+        const {firstName, lastName, phone, address} = req.body;
+        const data = {};
+        if (firstName) {data.firstName = firstName;}
+        if (lastName) {data.lastName = lastName;}
+        if (phone) {data.phone = phone;}
+        if (address) {data.address = address;}
         const user = await userService.updateUser(req.user._id, data);
         res.status(200).json(sanitizeUserData(user));
     } catch (error) {
@@ -75,15 +72,27 @@ router.delete('/:userId/favorites/:wineId', isAuth(), async (req, res) => {
     }
 });
 
-router.get('/:userId/favorites/', isAuth(), async (req, res) => {
+router.get('/:userId/favorites/', isAuth(), isOwnerByUserId(), async (req, res) => {
     const userService = req.storage.user;
     const userId = req.params.userId;
-    if (userId != req.user._id) {
-        return res.status(403).json({message: ['You can only view your own favorites']});
-    }
     try {
         const {favorites} = await userService.getFavorites(userId);
         res.status(200).json(favorites);
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json({message: errors});
+    }
+});
+
+router.get('/:userId/orders/', isAuth(), async (req, res) => {
+    const userService = req.storage.user;
+    const userId = req.params.userId;
+    if (userId != req.user._id) {
+        return res.status(403).json({message: ['You can only view your own orders']});
+    }
+    try {
+        const {orders} = await userService.getOrders(userId);
+        res.status(200).json(orders);
     } catch (error) {
         const errors = parseErrorMessage(error);
         res.status(400).json({message: errors});
