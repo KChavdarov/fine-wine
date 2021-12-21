@@ -6,6 +6,7 @@ import {FaTrashAlt} from 'react-icons/fa';
 
 import {Required} from '../../../../util/formik';
 import {FileDropzone} from './FileDropzone';
+import {createOne} from '../../../../services/wineService';
 
 const initialValues = {
     brand: '',
@@ -24,24 +25,24 @@ const initialValues = {
 
 const validationSchema =
     yup.object({
-        // brand: yup.string().required('Please enter wine brand'),
-        // name: yup.string().required('Please enter wine name'),
-        // description: yup.string().required('Please enter wine description'),
-        // type: yup.string().required('Please enter wine type'),
-        // grape: yup.array(yup.string().required('Please enter grape')).min(1, 'Please enter at least 1 grape'),
-        // country: yup.string().required('Please enter wine country'),
-        // region: yup.string().required('Please enter wine region'),
-        // year: yup.number().required('Please enter wine year').min(1900, 'Wine year must be after 1900'),
-        // volume: yup.number().required('Please enter wine volume').moreThan(0, 'Wine volume must be positive'),
-        // basePrice: yup.number().required('Please enter wine price').moreThan(0, 'Wine price must be greater than 0'),
-        // discountPercentage: yup.number().min(0, 'Discount percentage must be between 0-100').max(100,'Discount percentage must be between 0-100'),
+        brand: yup.string().required('Please enter wine brand'),
+        name: yup.string().required('Please enter wine name'),
+        description: yup.string().required('Please enter wine description'),
+        type: yup.mixed().required('Please enter wine type').oneOf(['red', 'white', 'rose', 'sparkling', 'dessert'], 'Type must be one of red, white, rose, sparkling or dessert'),
+        grape: yup.array(yup.string().required('Please enter grape')).min(1, 'Please enter at least 1 grape'),
+        country: yup.string().required('Please enter wine country'),
+        region: yup.string().required('Please enter wine region'),
+        year: yup.number().required('Please enter wine year').min(1900, 'Wine year must be after 1900'),
+        volume: yup.number().required('Please enter wine volume').moreThan(0, 'Wine volume must be positive'),
+        basePrice: yup.number().required('Please enter wine price').moreThan(0, 'Wine price must be greater than 0'),
+        discountPercentage: yup.number().min(0, 'Discount percentage must be between 0-100').max(100, 'Discount percentage must be between 0-100'),
         files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).min(1, 'Please upload wine image'),
     });
 
 
 
 export function Create() {
-    const onSubmit = useCallback((values) => {
+    const onSubmit = useCallback(async (values) => {
         console.log(values);
 
         const formData = new FormData();
@@ -61,7 +62,8 @@ export function Create() {
                 }
             }
         });
-        console.log([...formData.entries()]);
+
+        createOne(formData);
 
     }, []);
 
@@ -89,6 +91,10 @@ export function Create() {
                         <Field name="name">{({meta, field}) => <input type="text" id="name" className={isError(meta)} {...field} />}</Field>
                         <ErrorMessage component="div" className="errors" name="name" />
 
+                        <label htmlFor="type">type<Required /></label>
+                        <Field name="type">{({meta, field}) => <input type="text" id="type" className={isError(meta)} {...field} />}</Field>
+                        <ErrorMessage component="div" className="errors" name="type" />
+
                         <FieldArray name='grape' {...formik.getFieldProps('grape')} >
                             {({remove, push, form}) => (
                                 <>
@@ -114,10 +120,6 @@ export function Create() {
                         <label htmlFor="description">description<Required /></label>
                         <Field name="description">{({meta, field}) => <textarea rows="8" type="text" id="description" className={isError(meta)} {...field}></textarea>}</Field>
                         <ErrorMessage component="div" className="errors" name="description" />
-
-                        <label htmlFor="type">type<Required /></label>
-                        <Field name="type">{({meta, field}) => <input type="text" id="type" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="type" />
 
                         <label htmlFor="country">country<Required /></label>
                         <Field name="country">{({meta, field}) => <input type="text" id="country" className={isError(meta)} {...field} />}</Field>
