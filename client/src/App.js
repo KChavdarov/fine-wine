@@ -22,6 +22,8 @@ import {Checkout} from './components/pages/Cart/Checkout/Checkout';
 import {Summary} from './components/pages/Cart/Summary/Summary';
 import {Favorites} from './components/pages/User/Favorites/Favorites';
 import {Details} from './components/pages/Details/Details';
+import {Admin} from './components/pages/Admin/Admin';
+import {Create} from './components/pages/Admin/Create/Create';
 
 
 function App() {
@@ -54,6 +56,9 @@ function App() {
           <Route path="/cart" element={<Cart />}>
             <Route path="" element={<Summary />} />
             <Route path="checkout" element={<Checkout />} />
+          </Route>
+          <Route path="/admin" element={<Admin />}>
+            <Route path="create" element={<Create />} />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

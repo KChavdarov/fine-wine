@@ -1,0 +1,117 @@
+@import '/src/styles/variables.scss';
+
+
+.page.create {
+    margin-top: 2rem;
+
+    .create-form {
+        display: flex;
+        flex-direction: column;
+        max-width: 30em;
+        margin: 0 auto;
+
+        label {
+            margin-top: 0.5em;
+            text-transform: capitalize;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .required-label {
+                font-size: 0.5em;
+                opacity: 0.5;
+            }
+        }
+
+        input,
+        textarea,
+        .dropzone {
+            border: 1px solid $primary;
+            border-radius: 1em;
+            padding: 0.5em;
+            flex-grow: 1;
+
+            &.error {
+                border-color: $sale;
+                color: $sale;
+            }
+        }
+
+        .dropzone {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 10em;
+
+            &.active {
+                border-width: 3px;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            margin-bottom: 0.5em;
+
+            .remove-input {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 2em;
+                width: 2em;
+                color: white;
+                background: $sale;
+                border-radius: 50%;
+            }
+        }
+
+        .button.secondary {
+            width: 50%;
+            margin-inline: auto;
+            background: $secondary;
+            color: white;
+            border-radius: 0.9em;
+            padding: 0.3em;
+            border: none;
+            font-size: 1em;
+            margin-top: 0.5em;
+            cursor: pointer;
+            transition: transform 0.1s linear;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+
+        .errors {
+            font-size: 0.8em;
+            color: $sale;
+        }
+
+        .submit-button {
+            border: none;
+            font-size: 1rem;
+            margin-top: 3em;
+            cursor: pointer;
+            transition: transform 0.1s linear;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+
+            background: $primary;
+            color: white;
+
+            &:disabled {
+                background-color: $light;
+                color: $secondary;
+                cursor: default;
+
+                &:hover {
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+}
