@@ -4,6 +4,14 @@
 .page.create {
     margin-top: 2rem;
 
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+        height: 4.45em;
+    }
+
     .create-form {
         display: flex;
         flex-direction: column;

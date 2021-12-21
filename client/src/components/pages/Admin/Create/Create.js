@@ -7,6 +7,8 @@ import {FaTrashAlt} from 'react-icons/fa';
 import {Required} from '../../../../util/formik';
 import {FileDropzone} from './FileDropzone';
 import {createOne} from '../../../../services/wineService';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const initialValues = {
     brand: '',
@@ -39,43 +41,43 @@ const validationSchema =
         files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).min(1, 'Please upload wine image'),
     });
 
-
-
 export function Create() {
+    const navigate = useNavigate();
+
     const onSubmit = useCallback(async (values) => {
-        console.log(values);
+        try {
+            const formData = new FormData();
 
-        const formData = new FormData();
-
-        Object.entries(values).forEach(([k, v]) => {
-            if (typeof v === 'string' || typeof v === 'number') {
-                formData.append(k, v);
-            } else if (Array.isArray(v)) {
-                if (k !== 'files') {
-                    v.forEach(i => {
-                        formData.append(k, i);
-                    });
-                } else {
-                    v.forEach(({file}) => {
-                        formData.append(k, file);
-                    });
+            Object.entries(values).forEach(([k, v]) => {
+                if (typeof v === 'string' || typeof v === 'number') {
+                    formData.append(k, v);
+                } else if (Array.isArray(v)) {
+                    if (k !== 'files') {
+                        v.forEach(i => {
+                            formData.append(k, i);
+                        });
+                    } else {
+                        v.forEach(({file}) => {
+                            formData.append(k, file);
+                        });
+                    }
                 }
-            }
-        });
-
-        createOne(formData);
-
-    }, []);
+            });
+            const wine = await createOne(formData);
+            navigate(`/details/${wine._id}`);
+        } catch (error) {
+            error.forEach(err => toast.error(err));
+        }
+    }, [navigate]);
 
     const isError = useCallback(({touched, error}) => {
         return (touched && error) ? 'error' : '';
     }, []);
 
-
     return (
         <section className="create page container">
             <h1 className="page-title">Create Wine Listing</h1>
-
+            <header className="section-header"></header>
             <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}

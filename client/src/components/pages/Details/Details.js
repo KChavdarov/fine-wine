@@ -1,5 +1,5 @@
 import './Details.scss';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaStar, FaRegStar} from 'react-icons/fa';
@@ -15,6 +15,7 @@ export function Details() {
     const [isLoading, setIsLoading] = useState(true);
     const {user} = useSelector(selectUser);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getDetails(wineId);
@@ -24,10 +25,10 @@ export function Details() {
                 setWine(() => wine);
                 setIsLoading(() => false);
             } catch {
-
+                navigate('/error');
             }
         }
-    }, [wineId]);
+    }, [navigate, wineId]);
 
     function favoriteClickHandler(event) {
         event.stopPropagation();

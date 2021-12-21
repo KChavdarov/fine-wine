@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
-import {useSearchParams} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import {useCallback} from 'react/cjs/react.development';
 import {Paginator} from '../../shared/Paginator/Paginator';
 
@@ -28,6 +28,7 @@ export function Catalogue() {
     const [products, setProducts] = useState({wines: [], page: 1, perPage: 12, count: 0});
     const [searchParams, setSearchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     const parseQueryString = useCallback((queryString) => {
         const keys = [...queryString.keys()];
@@ -167,10 +168,14 @@ export function Catalogue() {
     }, [parseQueryString, products.count, products.page, products.perPage, products.sort, searchParams, setSearchParams]);
 
     useEffect(() => {
-        getFilters(searchParams);
-        getProducts(searchParams);
-        return () => setProducts(products => products);
-    }, [getFilters, getProducts, searchParams]);
+        try {
+            getFilters(searchParams);
+            getProducts(searchParams);
+            return () => setProducts(products => products);
+        } catch (error) {
+            navigate('/error');
+        }
+    }, [getFilters, getProducts, navigate, searchParams]);
 
     const content = isLoading
         ? <p>Loading ...</p>
