@@ -1,7 +1,9 @@
 const express = require('express');
-const {PORT} = require('./config/index');
+const {PORT, CLOUDINARY} = require('./config/index');
 const expressConfig = require('./config/express');
 const databaseConfig = require('./config/database');
+const cloudinary = require('cloudinary').v2;
+
 const mockData = require('./util/mockData');
 const wineService = require('./services/wineService');
 const userService = require('./services/userService');
@@ -13,6 +15,8 @@ async function start() {
 
     await databaseConfig();
     expressConfig(app);
+    cloudinary.config(CLOUDINARY);
+
 
     // const user = await userService.createUser({
     //     firstName: 'Admin',
