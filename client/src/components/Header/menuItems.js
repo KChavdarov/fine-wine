@@ -55,7 +55,7 @@ export const menuItems = [
     },
     {
         title: 'Create',
-        url: '/wine/create',
+        url: '/admin/create',
         type: 'admin',
         mobileOnly: false,
     },

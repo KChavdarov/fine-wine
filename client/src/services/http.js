@@ -27,21 +27,15 @@ function createOptions(method = 'GET', data) {
         headers: {}
     };
     if (data) {
-        options.headers['Content-Type'] = 'application/json';
-        options.body = JSON.stringify(data);
+        if (data instanceof FormData) {
+            options.body = data;
+        } else {
+            options.headers['Content-Type'] = 'application/json';
+            options.body = JSON.stringify(data);
+        }
+
     }
     return options;
-}
-
-function parseMessage(body) {
-    if (body && body.message) {
-
-    }
-    if (body && body.payload) {
-        return body.payload;
-    } else {
-        return body;
-    }
 }
 
 export async function get(url) {

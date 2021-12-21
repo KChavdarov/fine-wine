@@ -1,6 +1,6 @@
 import * as http from './http';
 
-const endpoint = http.endpoint +'/wine';
+const endpoint = http.endpoint + '/wine';
 
 export async function getCategories() {
     const categories = await http.get(endpoint + '/categories');
@@ -19,5 +19,10 @@ export async function getAll(query) {
 
 export async function getLatest(query) {
     const wines = await http.get(endpoint + '/latest?' + query);
+    return wines;
+}
+
+export async function createOne(data) {
+    const wines = await http.post(endpoint, data);
     return wines;
 }

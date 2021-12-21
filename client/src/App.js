@@ -22,6 +22,9 @@ import {Checkout} from './components/pages/Cart/Checkout/Checkout';
 import {Summary} from './components/pages/Cart/Summary/Summary';
 import {Favorites} from './components/pages/User/Favorites/Favorites';
 import {Details} from './components/pages/Details/Details';
+import {Admin} from './components/pages/Admin/Admin';
+import {Create} from './components/pages/Admin/Create/Create';
+import {Error} from './components/pages/Error/Error';
 
 
 function App() {
@@ -55,6 +58,10 @@ function App() {
             <Route path="" element={<Summary />} />
             <Route path="checkout" element={<Checkout />} />
           </Route>
+          <Route path="/admin" element={<Admin />}>
+            <Route path="create" element={<Create />} />
+          </Route>
+          <Route path="/error" element={<Error />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />

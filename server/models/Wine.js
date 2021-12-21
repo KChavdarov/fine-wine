@@ -65,6 +65,7 @@ const wineSchema = new Schema({
     basePrice: {
         type: Number,
         required: true,
+        min: 0,
     },
     image: {
         type: String,
@@ -74,6 +75,7 @@ const wineSchema = new Schema({
         type: Number,
         default: 0,
         min: 0,
+        max: 100,
     },
     isPromo: {
         type: Boolean,
