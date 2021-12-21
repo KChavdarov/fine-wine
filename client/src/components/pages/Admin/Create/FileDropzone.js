@@ -2,7 +2,7 @@ import {useField} from 'formik';
 import {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import {Required} from '../../../../util/formik';
-import {FaTrashAlt} from 'react-icons/fa';
+import {FaTrash} from 'react-icons/fa';
 
 
 export function FileDropzone({name}) {
@@ -11,8 +11,8 @@ export function FileDropzone({name}) {
     const onDrop = useCallback((accFiles, rejFiles) => {
         const normalizedAcc = accFiles.map(file => ({file, errors: []}));
         setFiles(() => [...normalizedAcc, ...rejFiles]);
-        helpers.setTouched(true, true);
         helpers.setValue(files);
+        helpers.setTouched(true, true);
     }, []);
 
     const determineClasses = useCallback((meta, isDragActive) => {
@@ -58,7 +58,7 @@ export function FileDropzone({name}) {
                     <li className="selected-file" key={fw.file.path}>
                         <div className="file-data">
                             <span className="filename">{fw.file.path}</span>
-                            <button type='button' onClick={() => removeFile(fw)}><FaTrashAlt /></button>
+                            <button type='button' onClick={() => removeFile(fw)}><FaTrash /></button>
                         </div>
                         <div className="errors">
                             {fw.errors.map(err => <p key={err.message}>{err.message}</p>)}

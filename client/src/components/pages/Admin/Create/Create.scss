@@ -7,7 +7,7 @@
     .create-form {
         display: flex;
         flex-direction: column;
-        max-width: 30em;
+        max-width: 40em;
         margin: 0 auto;
 
         label {
@@ -41,10 +41,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 10em;
+            min-height: 9em;
 
             &.active {
                 border-width: 3px;
+                background-color: $secondary;
+                color: white;
             }
         }
 
@@ -63,18 +65,25 @@
                 color: white;
                 background: $sale;
                 border-radius: 50%;
+
+                transition: transform 0.1s linear;
+
+                &:hover {
+                    transform: scale(1.05);
+                }
             }
         }
 
         .button.secondary {
-            width: 50%;
+            width: 100%;
+            max-width: 20em;
             margin-inline: auto;
             background: $secondary;
             color: white;
             border-radius: 0.9em;
             padding: 0.3em;
             border: none;
-            font-size: 1em;
+            font-size: 0.9em;
             margin-top: 0.5em;
             cursor: pointer;
             transition: transform 0.1s linear;
@@ -84,12 +93,28 @@
             }
         }
 
+        .file-data {
+            display: flex;
+            justify-content: start;
+            gap: 0.5em;
+
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $sale;
+            }
+        }
+
         .errors {
             font-size: 0.8em;
             color: $sale;
         }
 
         .submit-button {
+            width: 100%;
+            max-width: 25em;
+            margin-inline: auto;
             border: none;
             font-size: 1rem;
             margin-top: 3em;

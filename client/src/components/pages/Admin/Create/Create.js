@@ -112,7 +112,7 @@ export function Create() {
                         </FieldArray>
 
                         <label htmlFor="description">description<Required /></label>
-                        <Field name="description">{({meta, field}) => <textarea rows="6" type="text" id="description" className={isError(meta)} {...field}></textarea>}</Field>
+                        <Field name="description">{({meta, field}) => <textarea rows="8" type="text" id="description" className={isError(meta)} {...field}></textarea>}</Field>
                         <ErrorMessage component="div" className="errors" name="description" />
 
                         <label htmlFor="type">type<Required /></label>
