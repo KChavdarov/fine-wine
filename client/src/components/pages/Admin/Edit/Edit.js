@@ -23,7 +23,9 @@ const initialValues = {
     volume: 0.75,
     basePrice: 0,
     discountPercentage: 0,
+    image: '',
     files: [],
+    isNewImage: false,
 };
 
 const validationSchema =
@@ -39,7 +41,9 @@ const validationSchema =
         volume: yup.number().required('Please enter wine volume').moreThan(0, 'Wine volume must be positive'),
         basePrice: yup.number().required('Please enter wine price').moreThan(0, 'Wine price must be greater than 0'),
         discountPercentage: yup.number().min(0, 'Discount percentage must be between 0-100').max(100, 'Discount percentage must be between 0-100'),
-        files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).min(1, 'Please upload wine image'),
+        isNewImage: yup.boolean(),
+        image: yup.string().when('isNewImage', {is: false, then: yup.string().required('Please upload at least one image')}),
+        files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).when('isNewImage', {is: true, then: yup.array().min(1, 'Please upload wine image')}),
     });
 
 
@@ -99,82 +103,91 @@ export function Edit() {
             <header className="section-header"><h4>Edit Wine Listing</h4></header>
             <Formik
                 enableReinitialize={true}
-                initialValues={{...wine, files: []}}
+                initialValues={{...initialValues, ...wine, }}
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
             >
                 {(formik) => (
                     <Form className='edit-form'>
-                        <label htmlFor="brand">brand<Required /></label>
-                        <Field name="brand">{({meta, field}) => <input type="text" id="brand" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="brand" />
 
-                        <label htmlFor="name">name<Required /></label>
-                        <Field name="name">{({meta, field}) => <input type="text" id="name" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="name" />
-
-                        <label htmlFor="type">type<Required /></label>
-                        <Field name="type">{({meta, field}) => <input type="text" id="type" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="type" />
-
-                        <FieldArray name='grape' {...formik.getFieldProps('grape')} >
-                            {({remove, push, form}) => (
-                                <>
-                                    <label>grape<Required /></label>
-                                    {formik.values.grape.map((v, i) => (
-                                        <Fragment key={i}>
-                                            <Field name={`grape[${i}]`}>{({meta, field}) => (
-                                                <div className="form-group">
-                                                    <input type="text" id={`grape[${i}]`} className={isError(meta)} {...field} />
-                                                    {formik.values.grape.length > 1 ? <button className='remove-input' onClick={() => remove(i)}><FaTrashAlt /></button> : null}
-                                                </div>
-                                            )}
-                                            </Field>
-                                            <ErrorMessage component="div" className="errors" name={`grape[${i}]`} />
-                                        </Fragment>
-                                    ))}
-
-                                    <button type='button' onClick={() => push('')} className='button secondary'>Add more grapes</button>
-                                </>
-                            )}
-                        </FieldArray>
-
-                        <label htmlFor="description">description<Required /></label>
-                        <Field name="description">{({meta, field}) => <textarea rows="8" type="text" id="description" className={isError(meta)} {...field}></textarea>}</Field>
-                        <ErrorMessage component="div" className="errors" name="description" />
-
-                        <label htmlFor="country">country<Required /></label>
-                        <Field name="country">{({meta, field}) => <input type="text" id="country" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="country" />
-
-                        <label htmlFor="region">region<Required /></label>
-                        <Field name="region">{({meta, field}) => <input type="text" id="region" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="region" />
-
-                        <label htmlFor="year">year<Required /></label>
-                        <Field name="year">{({meta, field}) => <input type="number" id="year" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="year" />
-
-                        <label htmlFor="volume">volume<Required /></label>
-                        <Field name="volume">{({meta, field}) => <input type="number" id="volume" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="volume" />
-
-                        <label htmlFor="basePrice">base price<Required /></label>
-                        <Field name="basePrice">{({meta, field}) => <input type="number" id="basePrice" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="basePrice" />
-
-                        <label htmlFor="discountPercentage">discount percentage<Required /></label>
-                        <Field name="discountPercentage">{({meta, field}) => <input type="number" id="discountPercentage" className={isError(meta)} {...field} />}</Field>
-                        <ErrorMessage component="div" className="errors" name="discountPercentage" />
-
-                        <FileDropzone name="files" />
-                        {
-                            formik.touched.files && formik.errors.files && typeof formik.errors.files === 'string'
-                                ? <div className="errors">{formik.errors.files}</div>
-                                : null
+                        {formik.values.isNewImage
+                            ? <div className="dropzone-wrapper"><FileDropzone name="files" /><button type='button' onClick={() => formik.setFieldValue('isNewImage', !formik.values.isNewImage)} >Cancel upload</button></div>
+                            : <div className={'selected-file'} >
+                                <header className="item-header">
+                                    <button type='button' className='remove remove-input' onClick={() => formik.setFieldValue('isNewImage', !formik.values.isNewImage)}><FaTrashAlt /></button>
+                                </header>
+                                <img src={formik.values.image} alt='' />
+                            </div>
                         }
 
-                        <input type="submit" className="button submit-button" value="Edit Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
+                        <div className="fields">
+                            <label htmlFor="brand">brand<Required /></label>
+                            <Field name="brand">{({meta, field}) => <input type="text" id="brand" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="brand" />
+
+                            <label htmlFor="name">name<Required /></label>
+                            <Field name="name">{({meta, field}) => <input type="text" id="name" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="name" />
+
+                            <label htmlFor="type">type<Required /></label>
+                            <Field name="type">{({meta, field}) => <input type="text" id="type" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="type" />
+
+                            <FieldArray name='grape' {...formik.getFieldProps('grape')} >
+                                {({remove, push, form}) => (
+                                    <>
+                                        <label>grape<Required /></label>
+                                        {formik.values.grape.map((v, i) => (
+                                            <Fragment key={i}>
+                                                <Field name={`grape[${i}]`}>{({meta, field}) => (
+                                                    <div className="form-group">
+                                                        <div className="group-main">
+                                                            <input type="text" id={`grape[${i}]`} className={isError(meta)} {...field} />
+                                                            {formik.values.grape.length > 1 ? <button className='remove-input' onClick={() => remove(i)}><FaTrashAlt /></button> : null}
+                                                        </div>
+                                                        <ErrorMessage component="div" className="errors" name={`grape[${i}]`} />
+                                                    </div>
+                                                )}
+                                                </Field>
+                                            </Fragment>
+                                        ))}
+
+                                        <button type='button' onClick={() => push('')} className='button secondary'>Add more grapes</button>
+                                    </>
+                                )}
+                            </FieldArray>
+
+                            <label htmlFor="description">description<Required /></label>
+                            <Field name="description">{({meta, field}) => <textarea rows="8" type="text" id="description" className={isError(meta)} {...field}></textarea>}</Field>
+                            <ErrorMessage component="div" className="errors" name="description" />
+
+                            <label htmlFor="country">country<Required /></label>
+                            <Field name="country">{({meta, field}) => <input type="text" id="country" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="country" />
+
+                            <label htmlFor="region">region<Required /></label>
+                            <Field name="region">{({meta, field}) => <input type="text" id="region" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="region" />
+
+                            <label htmlFor="year">year<Required /></label>
+                            <Field name="year">{({meta, field}) => <input type="number" id="year" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="year" />
+
+                            <label htmlFor="volume">volume<Required /></label>
+                            <Field name="volume">{({meta, field}) => <input type="number" id="volume" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="volume" />
+
+                            <label htmlFor="basePrice">base price<Required /></label>
+                            <Field name="basePrice">{({meta, field}) => <input type="number" id="basePrice" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="basePrice" />
+
+                            <label htmlFor="discountPercentage">discount percentage<Required /></label>
+                            <Field name="discountPercentage">{({meta, field}) => <input type="number" id="discountPercentage" className={isError(meta)} {...field} />}</Field>
+                            <ErrorMessage component="div" className="errors" name="discountPercentage" />
+
+                            <input type="submit" className="button submit-button" value="Create Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
+
+                        </div>
                     </Form>
                 )}
             </Formik>

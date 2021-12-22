@@ -9,6 +9,7 @@ export function FileDropzone({name}) {
     const [files, setFiles] = useState([]);
     const [_, meta, helpers] = useField(name);
     const onDrop = useCallback((accFiles, rejFiles) => {
+        console.log('test');
         const normalizedAcc = accFiles.map(file => ({file, errors: []}));
         const files = [...normalizedAcc, ...rejFiles].map(file => Object.assign(file, {preview: URL.createObjectURL(file.file)}));
         setFiles(() => files);
@@ -65,19 +66,19 @@ export function FileDropzone({name}) {
             <ul className='file-list'>
                 {files.map((fw) => (
                     <li className={fw.errors.length === 0 ? 'selected-file' : 'selected-file error'} key={fw.file.path}>
-                <header className="item-header">
-                    <div className="file-data">
-                        <span className="filename">{fw.file.path}</span>
-                    </div>
-                    <div className="errors">
-                        {fw.errors.map(err => <p key={err.message}>{err.message}</p>)}
-                    </div>
-                    <button type='button' className='remove remove-input' onClick={() => removeFile(fw)}><FaTrashAlt /></button>
-                </header>
-                <img src={fw.preview} alt='' />
-            </li>
+                        <header className="item-header">
+                            <div className="file-data">
+                                <span className="filename">{fw.file.path}</span>
+                            </div>
+                            <div className="errors">
+                                {fw.errors.map(err => <p key={err.message}>{err.message}</p>)}
+                            </div>
+                            <button type='button' className='remove remove-input' onClick={() => removeFile(fw)}><FaTrashAlt /></button>
+                        </header>
+                        <img src={fw.preview} alt='' />
+                    </li>
                 ))}
-        </ul>
+            </ul>
         </div >
     );
 };
