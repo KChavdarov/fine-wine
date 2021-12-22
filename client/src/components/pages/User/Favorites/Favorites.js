@@ -32,6 +32,7 @@ export function Favorites() {
         </article>
         : <div className="favorites-container">
             <header className="section-header">
+                <h4>{user.firstName}'s selection</h4>
             </header>
 
             <div className="products-container">
@@ -42,7 +43,7 @@ export function Favorites() {
     return (
         <section className='page favorites'>
             <h1 className="page-title">
-                User Favorites
+                Favorites
             </h1>
             {content}
         </section>

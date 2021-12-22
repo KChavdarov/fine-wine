@@ -76,8 +76,8 @@ export function Create() {
 
     return (
         <section className="create page container">
-            <h1 className="page-title">Create Wine Listing</h1>
-            <header className="section-header"></header>
+            <h1 className="page-title">Create Form</h1>
+            <header className="section-header"><h4>New Wine Listing</h4></header>
             <Formik
                 initialValues={initialValues}
                 onSubmit={onSubmit}
