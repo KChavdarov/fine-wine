@@ -15,7 +15,7 @@ const isGuest = () => (req, res, next) => {
 };
 
 const isAdmin = () => (req, res, next) => {
-    if (req.user && res.user.isAdmin) {
+    if (req.user && req.user._isAdmin) {
         next();
     } else {
         res.status(403).json({message: ['You are not an administrator']});
