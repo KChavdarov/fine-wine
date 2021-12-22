@@ -24,10 +24,10 @@ export function Footer() {
                 <div className="footer-group">
                     <h5>Social Media</h5>
                     <ul className="social-media">
-                        <li><a href="www.youtube.com"><FaYoutube /></a></li>
-                        <li><a href="www.instagram.com"><FaInstagram /></a></li>
-                        <li><a href="www.twitter.com"><FaTwitter /></a></li>
-                        <li><a href="www.facebook.com"><FaFacebookF /></a></li>
+                        <li><a href="http://www.youtube.com"><FaYoutube /></a></li>
+                        <li><a href="http://www.instagram.com"><FaInstagram /></a></li>
+                        <li><a href="http://www.twitter.com"><FaTwitter /></a></li>
+                        <li><a href="http://www.facebook.com"><FaFacebookF /></a></li>
                     </ul>
                 </div>
                 <p className="copyright">&copy;Demo app made for educational purposes. No rights reserved.</p>
