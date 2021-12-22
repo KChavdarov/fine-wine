@@ -13,10 +13,80 @@
     }
 
     .create-form {
-        display: flex;
-        flex-direction: column;
-        max-width: 40em;
-        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        gap: 2em;
+
+        .files {
+            width: 100%;
+            max-width: 40em;
+            min-width: 20em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1em;
+
+            .file-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+                width: 100%;
+
+                .selected-file {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    border: 1px solid $primary;
+                    border-radius: 1em;
+                    padding: 0.5em;
+                    flex-grow: 1;
+                    overflow: hidden;
+
+                    &.error {
+                        border-color: $sale;
+                        color: $sale;
+                    }
+
+                    .item-header {
+                        display: grid;
+                        grid-template-columns: 1fr auto;
+                        grid-template-rows: auto auto;
+                        align-items: center;
+                        margin-bottom: 0.5em;
+
+                        .file-data {
+                            grid-column: 1 /span 1;
+                        }
+
+                        .errors {
+                            grid-column: 1 /span 1;
+                            grid-row: 2;
+                        }
+
+                        .remove {
+                            grid-row: 1 /span 2;
+                        }
+                    }
+
+                }
+            }
+
+            img {
+                max-height: 30em;
+                max-width: 100%;
+                margin-inline: auto;
+            }
+        }
+
+        .fields {
+            display: flex;
+            flex-direction: column;
+            max-width: 40em;
+            width: 100%;
+            margin: 0 auto;
+        }
+
 
         label {
             margin-top: 0.5em;
@@ -31,7 +101,7 @@
             }
         }
 
-        input{
+        input {
             text-transform: capitalize;
         }
 
@@ -50,40 +120,47 @@
             }
         }
 
-        .dropzone {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 9em;
+        .dropzone-container {
+            width: 100%;
 
-            &.active {
-                border-width: 3px;
-                background-color: $secondary;
-                color: white;
+            .dropzone {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 14.7em;
+
+                &.active {
+                    border-width: 3px;
+                    background-color: $secondary;
+                    color: white;
+                }
             }
         }
 
         .form-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5em;
-            margin-bottom: 0.5em;
-
-            .remove-input {
+            .group-main {
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                height: 2em;
-                width: 2em;
-                color: white;
-                background: $sale;
-                border-radius: 50%;
+                gap: 0.5em;
+            }
 
-                transition: transform 0.1s linear;
+            margin-bottom: 0.5em;
+        }
 
-                &:hover {
-                    transform: scale(1.05);
-                }
+        .remove-input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 2em;
+            width: 2em;
+            color: white;
+            background: $sale;
+            border-radius: 50%;
+
+            transition: transform 0.1s linear;
+
+            &:hover {
+                transform: scale(1.05);
             }
         }
 
@@ -151,6 +228,13 @@
                 &:hover {
                     transform: scale(1);
                 }
+            }
+        }
+
+        @media screen and (max-width: 800px) {
+            & {
+                grid-template-columns: 1fr;
+
             }
         }
     }

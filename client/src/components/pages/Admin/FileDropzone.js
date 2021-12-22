@@ -2,7 +2,7 @@ import {useField} from 'formik';
 import {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import {Required} from '../../../util/formik';
-import {FaTrash} from 'react-icons/fa';
+import {FaTrashAlt} from 'react-icons/fa';
 
 
 export function FileDropzone({name}) {
@@ -47,26 +47,37 @@ export function FileDropzone({name}) {
     };
 
     return (
-        <>
-            <label htmlFor="dropzone">image<Required /></label>
-            <div {...getRootProps({className: determineClasses(meta, isDragActive)})}>
-                <input id="dropzone" {...getInputProps()} />
-                <p>Drag&amp;drop files here, or click to select</p>
+        <div className="files">
+
+            <div className="dropzone-container">
+                <label htmlFor="dropzone">image<Required /></label>
+                <div {...getRootProps({className: determineClasses(meta, isDragActive)})}>
+                    <input id="dropzone" {...getInputProps()} />
+                    <p>Drag&amp;drop files here, or click to select</p>
+                </div>
+                {
+                    meta.touched && meta.error && typeof meta.error === 'string'
+                        ? <div className="errors">{meta.error}</div>
+                        : null
+                }
             </div>
 
-            <ul>
+            <ul className='file-list'>
                 {files.map((fw) => (
-                    <li className="selected-file" key={fw.file.path}>
-                        <div className="file-data">
-                            <span className="filename">{fw.file.path}</span>
-                            <button type='button' onClick={() => removeFile(fw)}><FaTrash /></button>
-                        </div>
-                        <div className="errors">
-                            {fw.errors.map(err => <p key={err.message}>{err.message}</p>)}
-                        </div>
-                    </li>
+                    <li className={fw.errors.length === 0 ? 'selected-file' : 'selected-file error'} key={fw.file.path}>
+                <header className="item-header">
+                    <div className="file-data">
+                        <span className="filename">{fw.file.path}</span>
+                    </div>
+                    <div className="errors">
+                        {fw.errors.map(err => <p key={err.message}>{err.message}</p>)}
+                    </div>
+                    <button type='button' className='remove remove-input' onClick={() => removeFile(fw)}><FaTrashAlt /></button>
+                </header>
+                <img src={fw.preview} alt='' />
+            </li>
                 ))}
-            </ul>
-        </>
+        </ul>
+        </div >
     );
 };
