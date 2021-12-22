@@ -9,7 +9,6 @@ export function FileDropzone({name}) {
     const [files, setFiles] = useState([]);
     const [_, meta, helpers] = useField(name);
     const onDrop = useCallback((accFiles, rejFiles) => {
-        console.log('test');
         const normalizedAcc = accFiles.map(file => ({file, errors: []}));
         const files = [...normalizedAcc, ...rejFiles].map(file => Object.assign(file, {preview: URL.createObjectURL(file.file)}));
         setFiles(() => files);

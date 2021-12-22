@@ -111,12 +111,16 @@ export function Edit() {
                     <Form className='edit-form'>
 
                         {formik.values.isNewImage
-                            ? <div className="dropzone-wrapper"><FileDropzone name="files" /><button type='button' onClick={() => formik.setFieldValue('isNewImage', !formik.values.isNewImage)} >Cancel upload</button></div>
-                            : <div className={'selected-file'} >
-                                <header className="item-header">
-                                    <button type='button' className='remove remove-input' onClick={() => formik.setFieldValue('isNewImage', !formik.values.isNewImage)}><FaTrashAlt /></button>
-                                </header>
-                                <img src={formik.values.image} alt='' />
+                            ? <div className="dropzone-wrapper">
+                                <FileDropzone name="files" />
+                                <button className='button secondary cancel-upload' type='button' onClick={() => {formik.setFieldValue('isNewImage', !formik.values.isNewImage); formik.setTouched({files: false});}} >Cancel upload</button>
+                            </div>
+                            : <div className='image-preview' >
+                                <label>image<Required /></label>
+                                <div className="image-container">
+                                    <button type='button' className='preview-remove remove-input' onClick={() => formik.setFieldValue('isNewImage', !formik.values.isNewImage)}><FaTrashAlt /></button>
+                                    <img src={formik.values.image} alt='' />
+                                </div>
                             </div>
                         }
 
@@ -185,7 +189,7 @@ export function Edit() {
                             <Field name="discountPercentage">{({meta, field}) => <input type="number" id="discountPercentage" className={isError(meta)} {...field} />}</Field>
                             <ErrorMessage component="div" className="errors" name="discountPercentage" />
 
-                            <input type="submit" className="button submit-button" value="Create Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
+                            <input type="submit" className="button submit-button" value="Edit Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
 
                         </div>
                     </Form>
