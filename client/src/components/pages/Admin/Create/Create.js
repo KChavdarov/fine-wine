@@ -154,7 +154,14 @@ export function Create() {
                         }
 
                         <input type="submit" className="button submit-button" value="Create Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
+
+                        {formik.values.files.length
+                            ? formik.values.files.map(({preview}) => (<img key={preview} src={preview} alt='' />))
+                            : null
+                        }
+                        
                     </Form>
+
                 )}
             </Formik>
 

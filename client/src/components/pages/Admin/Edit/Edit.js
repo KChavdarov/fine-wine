@@ -73,7 +73,7 @@ export function Edit() {
         } catch (error) {
             error.forEach(err => toast.error(err));
         }
-    }, [navigate]);
+    }, [navigate, wine._id]);
 
     const isError = useCallback(({touched, error}) => {
         return (touched && error) ? 'error' : '';
