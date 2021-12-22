@@ -64,6 +64,7 @@ export function Details() {
                         <img src={wine.image} alt={wine.name} />
                     </div>
                     <div className="wine-data">
+
                         <div className="data-group">
                             <h4 className="group-title">Specifications</h4>
                             <ul className="data-list">
@@ -105,6 +106,20 @@ export function Details() {
                         <div className="data-group">
                             <h4 className="group-title">Description</h4>
                             <p className="description">{wine.description}</p>
+                        </div>
+
+                        <div className="prices">
+                            {wine.isPromo
+                                ? <p className="price">
+                                    <span className='discounted-label'>Super Price:</span>
+                                    <span className="old-price">{wine.basePrice.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                                    <span className="current-price">{wine.currentPrice.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                                </p>
+                                : <p>
+                                    <span>Price:</span>
+                                    <span className="base-price">{wine.currentPrice.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                                </p>
+                            }
                         </div>
 
                         <div className="buttons">
