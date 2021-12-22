@@ -1,7 +1,7 @@
 import {Fragment, useCallback, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useEffect} from 'react/cjs/react.development';
-import {getOne} from '../../../../services/wineService';
+import {getOne, update} from '../../../../services/wineService';
 import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
 import * as yup from 'yup';
 import {FaTrashAlt} from 'react-icons/fa';
@@ -72,12 +72,12 @@ export function Edit() {
                     }
                 }
             });
-            // const wine = await createOne(formData);
-            navigate(`/details/${wine._id}`);
+            const updatedWine = await update(wineId, formData);
+            navigate(`/details/${updatedWine._id}`);
         } catch (error) {
             error.forEach(err => toast.error(err));
         }
-    }, [navigate, wine._id]);
+    }, [navigate, wineId]);
 
     const isError = useCallback(({touched, error}) => {
         return (touched && error) ? 'error' : '';

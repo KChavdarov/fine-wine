@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import {FaTrashAlt} from 'react-icons/fa';
 import {Required} from '../../../../util/formik';
 import {FileDropzone} from '../FileDropzone';
-import {createOne} from '../../../../services/wineService';
+import {create} from '../../../../services/wineService';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
@@ -62,7 +62,7 @@ export function Create() {
                     }
                 }
             });
-            const wine = await createOne(formData);
+            const wine = await create(formData);
             navigate(`/details/${wine._id}`);
         } catch (error) {
             error.forEach(err => toast.error(err));
