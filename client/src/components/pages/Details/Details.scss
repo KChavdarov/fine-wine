@@ -115,7 +115,8 @@
                     }
                 }
 
-                &.add-to-cart {
+                &.add-to-cart,
+                &.edit-button {
                     background: $primary;
                     color: white;
                     margin-inline: auto;
