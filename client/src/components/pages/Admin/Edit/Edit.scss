@@ -1,7 +1,7 @@
 @import '/src/styles/variables.scss';
 
 
-.page.create {
+.page.edit {
     margin-top: 2rem;
 
     .section-header {
@@ -12,11 +12,42 @@
         text-transform: capitalize;
     }
 
-    .create-form {
+    .edit-form {
         display: grid;
         grid-template-columns: 1fr 1fr;
         justify-items: center;
         gap: 2em;
+
+        .image-preview {
+            width: 100%;
+            max-width: 40em;
+            min-width: 20em;
+
+            .image-container {
+                width: 100%;
+                min-height: 5em;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid $primary;
+                border-radius: 1em;
+                padding: 0.5em;
+                flex-grow: 1;
+                overflow: hidden;
+                position: relative;
+
+                img {
+                    max-height: 30em;
+                    max-width: 100%;
+                    margin-inline: auto;
+                }
+
+                .preview-remove {
+                    position: absolute;
+                    right: 0.5em;
+                    top: 0.5em;
+                }
+            }
+        }
 
         .files {
             width: 100%;
@@ -26,12 +57,14 @@
             flex-direction: column;
             align-items: center;
             gap: 1em;
+            margin-inline: auto;
 
             .file-list {
                 display: flex;
                 flex-direction: column;
                 gap: 1em;
                 width: 100%;
+                margin-bottom: 0.5em;
 
                 .selected-file {
                     width: 100%;
@@ -120,6 +153,10 @@
             }
         }
 
+        .dropzone-wrapper {
+            width: 100%;
+        }
+
         .dropzone-container {
             width: 100%;
 
@@ -165,10 +202,12 @@
         }
 
         .button.secondary {
+            display: block;
             text-transform: uppercase;
             width: 100%;
             max-width: 20em;
             margin-inline: auto;
+            justify-self: center;
             background: $secondary;
             color: white;
             border-radius: 0.9em;

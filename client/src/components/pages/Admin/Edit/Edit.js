@@ -1,12 +1,14 @@
-import './Create.scss';
+import {Fragment, useCallback, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {useEffect} from 'react/cjs/react.development';
+import {getOne, update} from '../../../../services/wineService';
 import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
-import {Fragment, useCallback} from 'react';
 import * as yup from 'yup';
 import {FaTrashAlt} from 'react-icons/fa';
 import {Required} from '../../../../util/formik';
 import {FileDropzone} from '../FileDropzone';
-import {create} from '../../../../services/wineService';
-import {useNavigate} from 'react-router-dom';
+
+import './Edit.scss';
 import {toast} from 'react-toastify';
 
 const initialValues = {
@@ -21,7 +23,9 @@ const initialValues = {
     volume: 0.75,
     basePrice: 0,
     discountPercentage: 0,
+    image: '',
     files: [],
+    isNewImage: false,
 };
 
 const validationSchema =
@@ -37,10 +41,16 @@ const validationSchema =
         volume: yup.number().required('Please enter wine volume').moreThan(0, 'Wine volume must be positive'),
         basePrice: yup.number().required('Please enter wine price').moreThan(0, 'Wine price must be greater than 0'),
         discountPercentage: yup.number().min(0, 'Discount percentage must be between 0-100').max(100, 'Discount percentage must be between 0-100'),
-        files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).min(1, 'Please upload wine image'),
+        isNewImage: yup.boolean(),
+        image: yup.string().when('isNewImage', {is: false, then: yup.string().required('Please upload at least one image')}),
+        files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).when('isNewImage', {is: true, then: yup.array().min(1, 'Please upload wine image')}),
     });
 
-export function Create() {
+
+
+export function Edit() {
+    const [wine, setWine] = useState(initialValues);
+    const {wineId} = useParams();
     const navigate = useNavigate();
 
     const onSubmit = useCallback(async (values) => {
@@ -62,29 +72,57 @@ export function Create() {
                     }
                 }
             });
-            const wine = await create(formData);
-            navigate(`/details/${wine._id}`);
+            const updatedWine = await update(wineId, formData);
+            navigate(`/details/${updatedWine._id}`);
         } catch (error) {
             error.forEach(err => toast.error(err));
         }
-    }, [navigate]);
+    }, [navigate, wineId]);
 
     const isError = useCallback(({touched, error}) => {
         return (touched && error) ? 'error' : '';
     }, []);
 
+
+    useEffect(() => {
+        try {
+            loadWine(wineId);
+        } catch {
+            navigate('/error');
+        }
+
+        async function loadWine(id) {
+            const wine = await getOne(id);
+            setWine(() => wine);
+        }
+    }, [navigate, wineId]);
+
     return (
-        <section className="create page container">
-            <h1 className="page-title">Create Form</h1>
-            <header className="section-header"><h4>New Wine Listing</h4></header>
+        <section className="edit page container">
+            <h1 className="page-title">Edit Form</h1>
+            <header className="section-header"><h4>Edit Wine Listing</h4></header>
             <Formik
-                initialValues={initialValues}
+                enableReinitialize={true}
+                initialValues={{...initialValues, ...wine, }}
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
             >
                 {(formik) => (
-                    <Form className='create-form'>
-                        <FileDropzone name="files" />
+                    <Form className='edit-form'>
+
+                        {formik.values.isNewImage
+                            ? <div className="dropzone-wrapper">
+                                <FileDropzone name="files" />
+                                <button className='button secondary cancel-upload' type='button' onClick={() => {formik.setFieldValue('isNewImage', !formik.values.isNewImage); formik.setTouched({files: false});}} >Cancel upload</button>
+                            </div>
+                            : <div className='image-preview' >
+                                <label>image<Required /></label>
+                                <div className="image-container">
+                                    <button type='button' className='preview-remove remove-input' onClick={() => formik.setFieldValue('isNewImage', !formik.values.isNewImage)}><FaTrashAlt /></button>
+                                    <img src={formik.values.image} alt='' />
+                                </div>
+                            </div>
+                        }
 
                         <div className="fields">
                             <label htmlFor="brand">brand<Required /></label>
@@ -151,14 +189,14 @@ export function Create() {
                             <Field name="discountPercentage">{({meta, field}) => <input type="number" id="discountPercentage" className={isError(meta)} {...field} />}</Field>
                             <ErrorMessage component="div" className="errors" name="discountPercentage" />
 
-                            <input type="submit" className="button submit-button" value="Create Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
+                            <input type="submit" className="button submit-button" value="Edit Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
 
                         </div>
                     </Form>
-
                 )}
             </Formik>
 
         </section>
     );
+
 }

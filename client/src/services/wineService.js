@@ -22,7 +22,12 @@ export async function getLatest(query) {
     return wines;
 }
 
-export async function createOne(data) {
+export async function create(data) {
     const wines = await http.post(endpoint, data);
+    return wines;
+}
+
+export async function update(id, data) {
+    const wines = await http.put(endpoint + '/' + id, data);
     return wines;
 }

@@ -15,7 +15,9 @@ a {
 
 form,
 input,
-button {
+button,
+textarea {
+    font-family: $primaryFont;
     line-height: 1.5;
 }
 
@@ -27,7 +29,7 @@ $size in (h1: 2.5em, h2: 2.1em, h3: 1.7em, h4: 1.45em, h5: 1.2em, h6: 1em) {
     }
 }
 
-.page-title{
+.page-title {
     text-align: center;
     margin-bottom: 1em;
 }

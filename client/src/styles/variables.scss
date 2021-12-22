@@ -22,7 +22,6 @@ $light: rgb(240, 240, 240);
 $medium: rgb(206, 206, 206);
 $primary: rgb(133, 0, 82);
 $secondary: #dcbacf;
-$accent: rgb(243, 253, 199);
 $sale: rgb(199, 0, 0);
 
 $background: white;
@@ -47,12 +46,7 @@ $gap: 1rem;
         // minmax(7em, 1fr)
         // 2rem
         // ;
-        minmax(5rem, auto)
-        2fr
-        1fr
-        1fr
-        1fr
-        2rem
+        minmax(5rem, auto) 2fr 1fr 1fr 1fr 2rem
 }
 
 @mixin breakpoint {

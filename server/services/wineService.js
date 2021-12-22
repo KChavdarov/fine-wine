@@ -7,6 +7,7 @@ module.exports = {
     deleteOne,
     getCategories,
     getLatest,
+    update,
 };
 
 async function getCategories() {
@@ -87,6 +88,16 @@ async function getOne(id) {
 async function create(data) {
     const wine = new Wine(data);
     return wine.save();
+}
+
+async function update(wineId, data) {
+    const wine = await Wine.findById(wineId);
+    if (wine) {
+        Object.assign(wine, data, {_updatedAt: Date.now()});
+        return wine.save();
+    } else {
+        return wine;
+    }
 }
 
 async function deleteOne(id) {

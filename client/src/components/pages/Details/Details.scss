@@ -54,6 +54,35 @@
             width: 100%;
             max-width: 40em;
 
+            .prices {
+                text-align: end;
+                font-size: 1.5em;
+
+                .discounted-label {
+                    color: $sale;
+                }
+
+                span {
+                    display: inline-block;
+                    margin: 0.5rem;
+                }
+
+                .old-price {
+                    color: $medium;
+                    font-size: 0.6em;
+                    text-decoration: line-through;
+                }
+
+                .current-price {
+                    font-size: 1em;
+                    color: $sale;
+                }
+
+                .base-price {
+                    color: $primary;
+                }
+            }
+
             .data-group {
                 margin-bottom: 2em;
 
@@ -115,7 +144,8 @@
                     }
                 }
 
-                &.add-to-cart {
+                &.add-to-cart,
+                &.edit-button {
                     background: $primary;
                     color: white;
                     margin-inline: auto;
