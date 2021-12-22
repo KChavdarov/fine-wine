@@ -110,8 +110,12 @@ export function Catalogue() {
 
     const filtersResetHandler = useCallback(() => {
         setSearchParams();
-        getFilters(searchParams);
-    }, [getFilters, searchParams, setSearchParams]);
+        try {
+            getFilters(searchParams);
+        } catch (error) {
+            navigate('/error');
+        }
+    }, [getFilters, navigate, searchParams, setSearchParams]);
 
     const mapFiltersToQuerystring = useCallback(() => {
         const omitFilters = ['minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];

@@ -12,7 +12,11 @@ export function ProductsShowcase({query = {}, title = ''}) {
     }).join('&');
 
     useEffect(() => {
-        getProducts();
+        try {
+            getProducts();
+        } catch (error) {
+            console.log(error);
+        }
 
         async function getProducts() {
             const products = await wineService.getLatest(queryString);

@@ -3,7 +3,7 @@ import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {useEffect} from 'react/cjs/react.development';
 import {useIsAuth} from '../../../../guards/guards';
@@ -19,6 +19,7 @@ export function Profile() {
     const [isActive, setIsActive] = useState(false);
     const isAuth = useIsAuth();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             firstName: user.firstName,
@@ -49,7 +50,11 @@ export function Profile() {
     const isError = isTouchedError.bind(null, formik);
 
     useEffect(() => {
-        loadOrders(user._id);
+        try {
+            loadOrders(user._id);
+        } catch (error) {
+            navigate('/error');
+        }
 
         async function loadOrders(userId) {
             setIsLoading(true);
@@ -60,7 +65,8 @@ export function Profile() {
                 setOrders(() => orders);
                 setIsLoading(false);
             } catch (error) {
-                error.forEach(err => toast.error(err));
+                // error.forEach(err => toast.error(err));
+                navigate('/error');
             }
         }
     }, [user._id]);

@@ -9,8 +9,12 @@ export function Logout() {
     const navigate = useNavigate();
 
     async function logoutOnLoad() {
-        await dispatch(logout());
-        navigate('/auth/login', {replace: true});
+        try {
+            await dispatch(logout());
+            navigate('/auth/login', {replace: true});
+        } catch {
+            navigate('/error');
+        }
     }
 
     useEffect(() => {

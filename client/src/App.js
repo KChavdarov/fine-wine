@@ -31,8 +31,12 @@ function App() {
   const dispatch = useDispatch();
   const mainRef = useRef();
   useEffect(() => {
-    dispatch(verify());
-    dispatch(loadCart());
+    try {
+      dispatch(verify());
+      dispatch(loadCart());
+    } catch (error) {
+      console.log(error);
+    }
   }, [dispatch]);
 
   return (
