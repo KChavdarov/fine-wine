@@ -1,5 +1,5 @@
 import './Details.scss';
-import {useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaStar, FaRegStar} from 'react-icons/fa';
@@ -108,9 +108,12 @@ export function Details() {
                         </div>
 
                         <div className="buttons">
-                            <button className="button add-to-cart" onClick={addToCartClickHandler}>
-                                Add to cart
-                            </button>
+                            {user._isAdmin
+                                ? <Link to={`/admin/edit/${wine._id}`} className="button edit-button" >Edit Wine</Link>
+                                : <button className="button add-to-cart" onClick={addToCartClickHandler}>
+                                    Add to cart
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>

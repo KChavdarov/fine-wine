@@ -1,12 +1,14 @@
-import './Create.scss';
+import {Fragment, useCallback, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {useEffect} from 'react/cjs/react.development';
+import {getOne} from '../../../../services/wineService';
 import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
-import {Fragment, useCallback} from 'react';
 import * as yup from 'yup';
 import {FaTrashAlt} from 'react-icons/fa';
 import {Required} from '../../../../util/formik';
 import {FileDropzone} from '../FileDropzone';
-import {createOne} from '../../../../services/wineService';
-import {useNavigate} from 'react-router-dom';
+
+import './Edit.scss';
 import {toast} from 'react-toastify';
 
 const initialValues = {
@@ -40,7 +42,11 @@ const validationSchema =
         files: yup.array(yup.object({errors: yup.array().max(0, 'Incorrect file')})).min(1, 'Please upload wine image'),
     });
 
-export function Create() {
+
+
+export function Edit() {
+    const [wine, setWine] = useState(initialValues);
+    const {wineId} = useParams();
     const navigate = useNavigate();
 
     const onSubmit = useCallback(async (values) => {
@@ -62,7 +68,7 @@ export function Create() {
                     }
                 }
             });
-            const wine = await createOne(formData);
+            // const wine = await createOne(formData);
             navigate(`/details/${wine._id}`);
         } catch (error) {
             error.forEach(err => toast.error(err));
@@ -73,17 +79,32 @@ export function Create() {
         return (touched && error) ? 'error' : '';
     }, []);
 
+
+    useEffect(() => {
+        try {
+            loadWine(wineId);
+        } catch {
+            navigate('/error');
+        }
+
+        async function loadWine(id) {
+            const wine = await getOne(id);
+            setWine(() => wine);
+        }
+    }, [navigate, wineId]);
+
     return (
-        <section className="create page container">
-            <h1 className="page-title">Create Form</h1>
-            <header className="section-header"><h4>New Wine Listing</h4></header>
+        <section className="edit page container">
+            <h1 className="page-title">Edit Form</h1>
+            <header className="section-header"><h4>Edit Wine Listing</h4></header>
             <Formik
-                initialValues={initialValues}
+                enableReinitialize={true}
+                initialValues={{...wine, files: []}}
                 onSubmit={onSubmit}
                 validationSchema={validationSchema}
             >
                 {(formik) => (
-                    <Form className='create-form'>
+                    <Form className='edit-form'>
                         <label htmlFor="brand">brand<Required /></label>
                         <Field name="brand">{({meta, field}) => <input type="text" id="brand" className={isError(meta)} {...field} />}</Field>
                         <ErrorMessage component="div" className="errors" name="brand" />
@@ -153,11 +174,12 @@ export function Create() {
                                 : null
                         }
 
-                        <input type="submit" className="button submit-button" value="Create Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
+                        <input type="submit" className="button submit-button" value="Edit Listing" disabled={(!formik.isValid || formik.isSubmitting || !formik.dirty)} />
                     </Form>
                 )}
             </Formik>
 
         </section>
     );
+
 }

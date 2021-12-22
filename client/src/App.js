@@ -25,6 +25,7 @@ import {Details} from './components/pages/Details/Details';
 import {Admin} from './components/pages/Admin/Admin';
 import {Create} from './components/pages/Admin/Create/Create';
 import {Error} from './components/pages/Error/Error';
+import {Edit} from './components/pages/Admin/Edit/Edit';
 
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
           </Route>
           <Route path="/admin" element={<Admin />}>
             <Route path="create" element={<Create />} />
+            <Route path="edit/:wineId" element={<Edit />} />
           </Route>
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<Navigate to="/" />} />

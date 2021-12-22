@@ -1,7 +1,7 @@
 @import '/src/styles/variables.scss';
 
 
-.page.create {
+.page.edit {
     margin-top: 2rem;
 
     .section-header {
@@ -12,7 +12,7 @@
         text-transform: capitalize;
     }
 
-    .create-form {
+    .edit-form {
         display: flex;
         flex-direction: column;
         max-width: 40em;

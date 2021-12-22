@@ -1,7 +1,7 @@
 import {useField} from 'formik';
 import {useCallback, useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
-import {Required} from '../../../../util/formik';
+import {Required} from '../../../util/formik';
 import {FaTrash} from 'react-icons/fa';
 
 
