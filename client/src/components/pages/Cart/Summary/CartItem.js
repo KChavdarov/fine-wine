@@ -4,7 +4,7 @@ import {FaTrashAlt, FaPlus, FaMinus} from 'react-icons/fa';
 import {addItem, removeItem, subtractItem} from '../../../../store/slices/cartSlice';
 import {Link} from 'react-router-dom';
 
-export function CartItem({wine, quantity, itemTotal}) {
+export function CartItem({wine, quantity, itemTotal, ordered}) {
     const dispatch = useDispatch();
 
     function quantityButtonClickHandler(event) {
@@ -33,12 +33,20 @@ export function CartItem({wine, quantity, itemTotal}) {
                 </div>
                 <div className='info price'>{Number(wine.currentPrice.toFixed(2)).toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</div>
                 <div className='info quantity'>
-                    <button className="cart-item-button decrease" onClick={quantityButtonClickHandler} id='decrease'><FaMinus /></button>
-                    <span className="quantity-value">{quantity}</span>
-                    <button className="cart-item-button increase" onClick={quantityButtonClickHandler} id='increase'><FaPlus /></button>
+                    {ordered
+                        ? <span className="quantity-value">{quantity}</span>
+                        : <>
+                            <button className="cart-item-button decrease" onClick={quantityButtonClickHandler} id='decrease'><FaMinus /></button>
+                            <span className="quantity-value">{quantity}</span>
+                            <button className="cart-item-button increase" onClick={quantityButtonClickHandler} id='increase'><FaPlus /></button>
+                        </>
+                    }
                 </div>
                 <div className='info item-total'>{itemTotal.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</div>
-                <div className='remove-item-container'><button className="cart-item-button remove-item" onClick={quantityButtonClickHandler} id="remove"><FaTrashAlt /></button></div>
+                {ordered
+                    ? null
+                    : <div className='remove-item-container'><button className="cart-item-button remove-item" onClick={quantityButtonClickHandler} id="remove"><FaTrashAlt /></button></div>
+                }
             </article>
             : null
     );

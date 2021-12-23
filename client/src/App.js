@@ -28,6 +28,7 @@ import {Error} from './components/pages/Error/Error';
 import {Edit} from './components/pages/Admin/Edit/Edit';
 import {Modal} from './components/shared/Modal/Modal';
 import {Dashboard} from './components/pages/Admin/Dashboard.js/Dashboard';
+import {OrderDetails} from './components/pages/OrderDetails/OrderDetails';
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
             <Route path="create" element={<Create />} />
             <Route path="edit/:wineId" element={<Edit />} />
           </Route>
+          <Route path="/order/:orderId" element={<OrderDetails />} />
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

@@ -8,7 +8,7 @@ module.exports = {
 };
 
 async function getOrder(orderId) {
-    const order = Order.findById(orderId);
+    const order = Order.findOne({_id: orderId}).populate({path: 'items', populate: {path: 'wine', model: 'Wine'}});
     return order;
 }
 

@@ -30,7 +30,6 @@ export function Checkout() {
                     recipient: values,
                     items: cartDetails.map(i => ({wine: i.wine._id, quantity: i.quantity, price: i.wine.currentPrice})),
                 };
-                console.log(orderData);
                 const order = await createOrder(orderData);
                 dispatch(resetCart());
                 toast.success('Thank you for your order!');
