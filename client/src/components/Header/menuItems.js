@@ -51,6 +51,12 @@ export const menuItems = [
         title: 'Dashboard',
         url: '/admin/dashboard',
         type: 'admin',
+        mobileOnly: true,
+    },
+    {
+        title: 'Catalogue',
+        url: '/catalogue',
+        type: 'admin',
         mobileOnly: false,
     },
     {

@@ -13,7 +13,7 @@ async function getOrder(orderId) {
 }
 
 async function getAllOrders(query = {}) {
-    const orders = Order.find(query);
+    const orders = Order.find(query).sort('-_createdAt');
     return orders;
 }
 

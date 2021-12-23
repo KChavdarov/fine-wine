@@ -7,7 +7,7 @@ export async function createOrder(data) {
     return order;
 }
 
-export async function getOrders(query) {
+export async function getOrders(query = '') {
     const orders = await http.get(endpoint + '?' + query);
     return orders;
 }

@@ -69,7 +69,7 @@ export function Details() {
                 </h1>
                 <header className="section-header">
                     <h4>{wine.name} {wine.year}</h4>
-                    {user._id && <div className="favorite-icon-container">{favorite}</div>}
+                    {user._id && !user._isAdmin && <div className="favorite-icon-container">{favorite}</div>}
                 </header>
 
                 <div className="wine-details">
