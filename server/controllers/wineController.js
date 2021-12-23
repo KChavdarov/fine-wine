@@ -38,7 +38,6 @@ router.post('/', isAuth(), isAdmin(), async (req, res) => {
             if (file.mimetype.startsWith('image/')) {
                 const image = await uploadImage(file.filepath);
                 const url = image.url;
-                console.log(image);
                 images.push(url);
             }
         }
@@ -96,7 +95,6 @@ router.put('/:id', isAuth(), isAdmin(), async (req, res) => {
             if (file.mimetype.startsWith('image/')) {
                 const image = await uploadImage(file.filepath);
                 const url = image.url;
-                console.log(image);
                 images.push(url);
             }
         }
