@@ -24,6 +24,10 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Wine',
     }],
+    cart: [{
+        wine: {type: Schema.Types.ObjectId, ref: 'Wine', },
+        quantity: {type: Number, default: 1, min: 1},
+    }],
     firstName: {
         type: String,
         required: true,
@@ -38,14 +42,14 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        required: true,
+        default: '',
     },
     address: {
         type: String,
-        required: true,
+        default: '',
     },
-    password:{
-        type:String,
+    password: {
+        type: String,
         required: true,
     }
 });

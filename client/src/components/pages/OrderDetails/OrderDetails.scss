@@ -1,0 +1,116 @@
+@import '/src/styles/variables.scss';
+
+.page.order {
+    margin-top: 2rem;
+
+    .button {
+        width: 100%;
+        max-width: 25em;
+        font-size: 1rem;
+        border-radius: 1em;
+        padding: 0.5em;
+        transition: transform 0.1s linear;
+        text-align: center;
+        align-self: center;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        background: $primary;
+        color: white;
+    }
+
+    .order-container {
+        width: 100%;
+
+        .table-header {
+            @extend %cart-grid;
+            text-align: center;
+            // font-size: 1.4rem;
+            padding: 1rem 4%;
+            margin-bottom: 1em;
+            border-top: 2px solid $primary;
+            border-bottom: 2px solid $primary;
+
+            .product {
+                grid-column: 1 / span 2;
+            }
+
+            .item-total {
+                grid-column: 5 / span 1;
+            }
+        }
+
+        .table-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 2em;
+            padding: 1rem 4%;
+            border-top: 2px solid $primary;
+
+            .total {
+                display: flex;
+                justify-content: flex-end;
+
+                .total-label {
+                    font-size: 1.4em;
+                    margin-right: 1em;
+                }
+
+                .total-value {
+                    font-size: 1.4em;
+                }
+            }
+
+            .complimentary {
+                flex-grow: 1;
+
+                .status {
+                    display: grid;
+                    grid-template-columns: 10em auto;
+                    gap: 1em;
+
+                    .status-label {
+                        font-size: 1.2em;
+                        margin-right: 1em;
+                    }
+
+                    .status-value {
+                        font-size: 1.2em;
+                        text-transform: capitalize;
+                    }
+                }
+
+                .date {
+                    display: grid;
+                    grid-template-columns: 10em auto;
+                    gap: 1em;
+
+                    .date-label {
+                        font-size: 1.2em;
+                        margin-right: 1em;
+                    }
+
+                    .date-value {
+                        font-size: 1.2em;
+                    }
+                }
+            }
+        }
+
+        @include breakpoint {
+
+            .table-header {
+                grid-template-columns: 1fr;
+
+                .price,
+                .quantity,
+                .item-total {
+                    display: none;
+                }
+            }
+        }
+    }
+}

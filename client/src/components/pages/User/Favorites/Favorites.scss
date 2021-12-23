@@ -1,0 +1,42 @@
+@import '/src/styles/variables.scss';
+
+.page.favorites {
+    margin-top: 2rem;
+
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+        height: 4.45em;
+        text-transform: capitalize;
+    }
+
+    .empty-cart {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+
+        .heading {
+            padding: 1rem 4%;
+            margin-bottom: 1em;
+            border-top: 2px solid $primary;
+            border-bottom: 2px solid $primary;
+        }
+
+        .main-text {
+            margin-bottom: 2em;
+        }
+    }
+
+    .products-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: $gap;
+
+        @media screen and (max-width: 450px) {
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        }
+    }
+
+}

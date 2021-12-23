@@ -1,0 +1,157 @@
+@import '/src/styles/variables.scss';
+
+.page.checkout {
+    margin-top: 2rem;
+
+    .button {
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: block;
+        border-radius: 1em;
+        padding: 0.5em;
+        margin-bottom: 0.5em;
+        align-self: center;
+        border: none;
+        grid-column: 1 /span 2;
+        max-width: 25em;
+        width: 100%;
+        font-size: 1rem;
+        text-align: center;
+        margin-top: 3em;
+        cursor: pointer;
+        transition: transform 0.1s linear;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        background: $primary;
+        color: white;
+
+        &:disabled {
+            background-color: $light;
+            color: $secondary;
+            cursor: default;
+
+            &:hover {
+                transform: scale(1);
+            }
+        }
+
+    }
+
+    .logout-container {
+        margin-top: 4em;
+        border-top: 2px solid $primary;
+
+
+        .logout-button {
+            background-color: $sale;
+            margin-inline: auto;
+        }
+    }
+
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+    }
+
+    .checkout-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        gap: 2em;
+
+        .group-title {
+            color: $primary;
+            margin-bottom: 0.5em;
+            border-bottom: 2px solid $secondary;
+        }
+
+        .order-history {
+            width: 100%;
+            max-width: 30em;
+
+            .order-list {
+                .order-info {
+                    display: grid;
+                    grid-template-columns: minmax(5.5em, 1fr) minmax(6em, 1fr) minmax(2em, auto) minmax(5.5em, 1fr);
+                    align-items: center;
+                    gap: 1%;
+                    margin-bottom: 0.8em;
+
+                    .order-items,
+                    .order-total {
+                        justify-self: end;
+                    }
+
+                    .order-status {
+                        text-transform: capitalize;
+                    }
+                }
+            }
+
+            .list-total {
+                color: $primary;
+                border-top: 2px solid $secondary;
+                ;
+                display: flex;
+                justify-content: space-between;
+                padding-top: 1em;
+            }
+        }
+
+        .form-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            max-width: 30em;
+        }
+
+        label {
+            text-transform: capitalize;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .required-label {
+                font-size: 0.5em;
+                opacity: 0.5;
+            }
+        }
+
+        input,
+        textarea {
+            border: 1px solid $primary;
+            border-radius: 1em;
+            padding: 0.5em;
+            margin-bottom: 0.5em;
+
+            &.error {
+                border-color: $sale;
+                color: $sale;
+            }
+
+            &:disabled {
+                border-color: $secondary;
+            }
+        }
+
+        .errors {
+            font-size: 0.8em;
+            color: $sale;
+        }
+
+        @media screen and (max-width: 800px) {
+            & {
+                grid-template-columns: 1fr;
+
+                .submit-button {
+                    grid-column: 1;
+                }
+            }
+        }
+    }
+}

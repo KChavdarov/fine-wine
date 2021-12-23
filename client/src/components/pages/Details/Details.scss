@@ -1,0 +1,169 @@
+@import '/src/styles/variables.scss';
+
+.page.details {
+    margin-top: 2rem;
+
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+        display: flex;
+        justify-content: space-between;
+
+        .favorite-icon-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $primary;
+            cursor: pointer;
+
+            svg {
+                font-size: 2.2em;
+
+                transition: transform 0.1s ease-in;
+
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+
+    .wine-details {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        justify-items: center;
+        gap: 2em;
+
+        .image-container {
+            width: 100%;
+            max-width: 30em;
+            min-width: 20em;
+            display: flex;
+            align-items: center;
+
+            img {
+                max-height: 30em;
+                max-width: 100%;
+                margin-inline: auto;
+            }
+        }
+
+        .wine-data {
+            width: 100%;
+            max-width: 40em;
+
+            .prices {
+                text-align: end;
+                font-size: 1.5em;
+
+                .discounted-label {
+                    color: $sale;
+                }
+
+                span {
+                    display: inline-block;
+                    margin: 0.5rem;
+                }
+
+                .old-price {
+                    color: $medium;
+                    font-size: 0.6em;
+                    text-decoration: line-through;
+                }
+
+                .current-price {
+                    font-size: 1em;
+                    color: $sale;
+                }
+
+                .base-price {
+                    color: $primary;
+                }
+            }
+
+            .data-group {
+                margin-bottom: 2em;
+
+                .group-title {
+                    color: $primary;
+                    margin-bottom: 0.5em;
+                    border-bottom: 2px solid $secondary;
+                }
+
+                .data-list {
+                    padding-inline: 2%;
+
+                    .list-item {
+                        letter-spacing: 0.02em;
+                        text-transform: capitalize;
+                        display: grid;
+                        grid-template-columns: 7em 1fr;
+
+                        .label {
+                            color: $primary;
+                        }
+                    }
+                }
+
+                .description {
+                    letter-spacing: 0.02em;
+                    padding-inline: 2%;
+                }
+            }
+
+            .button {
+                display: block;
+                border-radius: 1em;
+                padding: 0.5em;
+                margin-bottom: 0.5em;
+                align-self: center;
+                border: none;
+                max-width: 25em;
+                width: 100%;
+                font-size: 1rem;
+                text-align: center;
+                margin-top: 3em;
+                cursor: pointer;
+                transition: transform 0.1s linear;
+                background: $primary;
+                color: white;
+
+                &:hover {
+                    transform: scale(1.05);
+                }
+
+                &:disabled {
+                    background-color: $light;
+                    color: $secondary;
+                    cursor: default;
+
+                    &:hover {
+                        transform: scale(1);
+                    }
+                }
+
+                &.add-to-cart,
+                &.edit-button {
+                    background: $primary;
+                    color: white;
+                    margin-inline: auto;
+                }
+
+                &.delete-button{
+                    background: $sale;
+                    color: white;
+                    margin-inline: auto;
+                }
+            }
+        }
+
+        @media screen and (max-width: 800px) {
+            & {
+                grid-template-columns: 1fr;
+
+            }
+        }
+    }
+}

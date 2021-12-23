@@ -1,0 +1,36 @@
+@import '/src/styles/variables.scss';
+
+.auth-page {
+    margin-top: 2rem;
+
+    .section-header {
+        font-size: 1.4rem;
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+
+        .auth-link-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .auth-link-list-item {
+                flex-basis: 20rem;
+                text-align: center;
+
+                .auth-link {
+                    color: $medium;
+                    display: block;
+                    width: 100%;
+                    border-bottom: 2px solid $secondary;
+
+                    &.active {
+                        color: $dark;
+                        border-bottom: 2px solid $primary;
+                    }
+                }
+            }
+        }
+    }
+}

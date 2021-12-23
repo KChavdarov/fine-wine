@@ -1,0 +1,74 @@
+@import '/src/styles/variables.scss';
+
+.overlay {
+    position: fixed;
+    z-index: 5000;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(126, 121, 121, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .dialog-box {
+        width: 100%;
+        max-width: 30em;
+        min-height: 15em;
+        padding: 2em;
+        border-radius: 1em;
+        overflow: hidden;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1em;
+        box-shadow: 0 0 2em 0px rgba(0, 0, 0, 0.7);
+
+        .message{
+            font-size: 1.1em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1em;
+            width: 100%;
+
+            .button {
+                letter-spacing: 0.05em;
+                display: block;
+                border-radius: 1em;
+                padding: 0.5em;
+                align-self: center;
+                border: none;
+                max-width: 25em;
+                width: 100%;
+                font-size: 1rem;
+                text-align: center;
+                cursor: pointer;
+                transition: transform 0.1s linear;
+
+                &:hover {
+                    transform: scale(1.05);
+                }
+
+                &.accept {
+                    background: $primary;
+                    color: white;
+                }
+
+                &.reject {
+                    background: $sale;
+                    color: white;
+                }
+            }
+        }
+    }
+}

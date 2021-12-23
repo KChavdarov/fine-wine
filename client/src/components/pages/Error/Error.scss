@@ -1,0 +1,44 @@
+@import '/src/styles/variables.scss';
+
+.page.error {
+    margin-top: 2rem;
+
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+        text-align: center;
+    }
+
+    .main-text {
+        text-align: center;
+        color: $primary;
+    }
+
+    .button.return {
+        text-align: center;
+        display: block;
+        margin-inline: auto;
+        border-radius: 1em;
+        padding: 0.5em;
+        flex-grow: 1;
+        width: 100%;
+        max-width: 25em;
+        margin-inline: auto;
+        border: none;
+        font-size: 1rem;
+        margin-top: 3em;
+        cursor: pointer;
+        transition: transform 0.1s linear;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        background: $primary;
+        color: white;
+
+    }
+
+}
