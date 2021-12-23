@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {getOrders} from '../../../../services/orderService';
 import './Dashboard.scss';
 
@@ -32,7 +32,7 @@ export function Dashboard() {
             </header>
             <div className="dashboard-content">
                 <ul className='order-list'>
-                    <li className="order-info">
+                    <li className="order-info headers">
                         <span className='order-id'>Number</span>
                         <span className='order-date'>Date</span>
                         <span className='order-status'>Status</span>
@@ -40,12 +40,14 @@ export function Dashboard() {
                         <span className='order-total'>Total</span>
                     </li>
                     {orders.map(({_id, _createdAt, value, status, items}) => (
-                        <li key={_id} className="order-info">
-                            <span className="order-id">{_id}</span>
-                            <span className='order-date'>{(new Date(_createdAt)).toLocaleDateString()}</span>
-                            <span className='order-status'>{status}</span>
-                            <span className='order-items'>{items.length}</span>
-                            <span className='order-total'>{value.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                        <li>
+                            <Link to={`/order/${_id}`} key={_id} className="order-info">
+                                <span className="order-id">{_id}</span>
+                                <span className='order-date'>{(new Date(_createdAt)).toLocaleDateString()}</span>
+                                <span className='order-status'>{status}</span>
+                                <span className='order-items'>{items.length}</span>
+                                <span className='order-total'>{value.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                            </Link>
                         </li>
                     ))}
                 </ul>

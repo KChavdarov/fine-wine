@@ -76,7 +76,12 @@ export function Header({mainRef}) {
                                 </div>
                                 <Link className="nav-icon-link" to="/cart"><BsCart2 /><IconBadge>{itemCount}</IconBadge></Link>
                             </>
-                            : <Link className="nav-icon-link" to="/admin/dashboard"><FaRegChartBar /></Link>
+                            : <>
+                                <div className="user-links">
+                                    <Link className="nav-icon-link" to="/user/profile"><BsPerson /></Link>
+                                </div>
+                                <Link className="nav-icon-link" to="/admin/dashboard"><FaRegChartBar /></Link>
+                            </>
                         }
                     </div>
 

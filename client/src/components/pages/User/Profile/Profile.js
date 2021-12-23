@@ -73,11 +73,13 @@ export function Profile() {
 
     const orderSummary = orders.map(({_id, _createdAt, value, status, items}) => {
         return (
-            <li key={_id} className="order-info">
-                <span className='order-date'>{(new Date(_createdAt)).toLocaleDateString()}</span>
-                <span className='order-status'>{status}</span>
-                <span className='order-items'>{items.length}</span>
-                <span className='order-total'>{value.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+            <li>
+                <Link to={`/order/${_id}`} key={_id} className="order-info">
+                    <span className='order-date'>{(new Date(_createdAt)).toLocaleDateString()}</span>
+                    <span className='order-status'>{status}</span>
+                    <span className='order-items'>{items.length}</span>
+                    <span className='order-total'>{value.toLocaleString('en-GB', {style: 'currency', currency: 'EUR'})}</span>
+                </Link>
             </li>
         );
     });

@@ -16,7 +16,7 @@ router.get('/', isAuth(), isOwnerByUserId(), async (req, res) => {
     }
 });
 
-router.get('/orderId', isAuth(), preloadOrder(), isOwnerAfterPreload(), async (req, res) => {
+router.get('/:orderId', isAuth(), preloadOrder(), isOwnerAfterPreload(), async (req, res) => {
     const order = req.data;
     res.status(200).json(order);
 });
