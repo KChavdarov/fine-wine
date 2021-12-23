@@ -1,0 +1,46 @@
+@import '/src/styles/variables.scss';
+
+.page.dashboard {
+    margin-top: 2rem;
+
+
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 2em;
+        border-top: 2px solid $primary;
+        border-bottom: 2px solid $primary;
+    }
+
+    .dashboard-content {
+
+        .order-list {
+            margin-top: 3em;
+            width: 100%;
+            max-width: 70em;
+            margin-inline: auto;
+            overflow-x: scroll;
+
+            .order-info {
+                display: grid;
+                grid-template-columns: minmax(15em, 2fr) minmax(5.5em, 1fr) minmax(6em, 1fr) minmax(2em, auto) minmax(5.5em, 1fr);
+                align-items: center;
+                gap: 1%;
+                margin-bottom: 0.8em;
+
+                &:first-of-type{
+                    border-bottom: 1px solid black;
+                    font-weight: bold;
+                }
+
+                .order-items,
+                .order-total {
+                    justify-self: end;
+                }
+
+                .order-status {
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+}

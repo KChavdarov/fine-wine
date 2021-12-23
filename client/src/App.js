@@ -27,6 +27,7 @@ import {Create} from './components/pages/Admin/Create/Create';
 import {Error} from './components/pages/Error/Error';
 import {Edit} from './components/pages/Admin/Edit/Edit';
 import {Modal} from './components/shared/Modal/Modal';
+import {Dashboard} from './components/pages/Admin/Dashboard.js/Dashboard';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
             <Route path="checkout" element={<Checkout />} />
           </Route>
           <Route path="/admin" element={<Admin />}>
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="create" element={<Create />} />
             <Route path="edit/:wineId" element={<Edit />} />
           </Route>

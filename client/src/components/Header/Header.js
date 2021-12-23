@@ -8,6 +8,7 @@ import {useSelector} from 'react-redux';
 import {selectUser} from '../../store/slices/userSlice';
 import {selectCart} from '../../store/slices/cartSlice';
 import {useEffect} from 'react/cjs/react.development';
+import {FaChartLine, FaRegChartBar} from 'react-icons/fa';
 
 export function Header({mainRef}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ export function Header({mainRef}) {
     useEffect(() => {
         const main = mainRef.current;
         const mainObserver = new IntersectionObserver(([main]) => {
-            setIsScrolled(!main.isIntersecting);           
+            setIsScrolled(!main.isIntersecting);
         }, {
             root: null,
             threshold: 0,
@@ -66,11 +67,17 @@ export function Header({mainRef}) {
 
 
                     <div className="nav-button" onClick={closeMenu}>
-                        <div className="user-links">
-                            <Link className="nav-icon-link" to="/user/favorites"><BsStar /><IconBadge>{user.favorites.length}</IconBadge></Link>
-                            <Link className="nav-icon-link" to="/user/profile"><BsPerson /></Link>
-                        </div>
-                        <Link className="nav-icon-link" to="/cart"><BsCart2 /><IconBadge>{itemCount}</IconBadge></Link>
+                        {!user._isAdmin
+                            ?
+                            <>
+                                <div className="user-links">
+                                    <Link className="nav-icon-link" to="/user/favorites"><BsStar /><IconBadge>{user.favorites.length}</IconBadge></Link>
+                                    <Link className="nav-icon-link" to="/user/profile"><BsPerson /></Link>
+                                </div>
+                                <Link className="nav-icon-link" to="/cart"><BsCart2 /><IconBadge>{itemCount}</IconBadge></Link>
+                            </>
+                            : <Link className="nav-icon-link" to="/admin/dashboard"><FaRegChartBar /></Link>
+                        }
                     </div>
 
                 </nav>

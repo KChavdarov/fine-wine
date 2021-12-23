@@ -1,10 +1,11 @@
 import './ProductCard.scss';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FaStar, FaRegStar} from 'react-icons/fa';
 import {useSelector} from 'react-redux';
 import {addFavorite, removeFavorite, selectUser} from '../../../store/slices/userSlice';
 import {useDispatch} from 'react-redux';
 import {addItem} from '../../../store/slices/cartSlice';
+import {toast} from 'react-toastify';
 
 export function ProductCard({product}) {
     const navigate = useNavigate();
@@ -24,6 +25,8 @@ export function ProductCard({product}) {
 
     function addToCartClickHandler() {
         dispatch(addItem(product._id));
+        toast.success('Wine added to cart');
+
     }
 
     const favorite = user.favorites.includes(product?._id)
@@ -38,7 +41,7 @@ export function ProductCard({product}) {
                 <header className="card-header" >
                     <div className="spacer"></div>
                     <p className="brand">{product.brand}</p>
-                    {user._id && <div className="favorite-icon-container">{favorite}</div>}
+                    {user._id && !user._isAdmin && <div className="favorite-icon-container">{favorite}</div>}
                 </header>
 
                 <div className="image-container">
@@ -67,9 +70,12 @@ export function ProductCard({product}) {
 
             </div>
 
-            <div className="buttons">
-                <button className="action-button" onClick={addToCartClickHandler}>Add to cart</button>
-            </div>
+            {!user._isAdmin
+                ? <div className="buttons">
+                    <button className="action-button" onClick={addToCartClickHandler}>Add to cart</button>
+                </div>
+                : null
+            }
 
         </article>
     );
