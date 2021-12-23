@@ -1,13 +1,14 @@
 import './Details.scss';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FaStar, FaRegStar} from 'react-icons/fa';
-import {getOne} from '../../../services/wineService';
+import {deleteOne, getOne} from '../../../services/wineService';
 import {Loader} from '../../shared/Loader/Loader';
 import {addFavorite, removeFavorite, selectUser} from '../../../store/slices/userSlice';
 import {addItem} from '../../../store/slices/cartSlice';
 import {toast} from 'react-toastify';
+import {ModalContext} from '../../shared/Modal/Modal';
 
 export function Details() {
     const {wineId} = useParams();
@@ -16,6 +17,7 @@ export function Details() {
     const {user} = useSelector(selectUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {createModal} = useContext(ModalContext);
 
     useEffect(() => {
         getDetails(wineId);
@@ -40,6 +42,17 @@ export function Details() {
     function addToCartClickHandler() {
         dispatch(addItem(wine._id));
         toast.success('Wine added to cart');
+    }
+
+    async function DeleteClickHandler(confirmed) {
+        if (confirmed) {
+            try {
+                await deleteOne(wine._id);
+                navigate('/');
+            } catch {
+                navigate('/error');
+            }
+        }
     }
 
     const favorite = user.favorites.includes(wine?._id)
@@ -124,7 +137,10 @@ export function Details() {
 
                         <div className="buttons">
                             {user._isAdmin
-                                ? <Link to={`/admin/edit/${wine._id}`} className="button edit-button" >Edit Wine</Link>
+                                ? <>
+                                    <Link to={`/admin/edit/${wine._id}`} className="button edit-button" >Edit Wine</Link>
+                                    <button className="button delete-button" onClick={() => createModal('Are you sure you want to delete this wine listing?', DeleteClickHandler)}>Delete Wine</button>
+                                </>
                                 : <button className="button add-to-cart" onClick={addToCartClickHandler}>
                                     Add to cart
                                 </button>

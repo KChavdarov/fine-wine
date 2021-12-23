@@ -150,6 +150,12 @@
                     color: white;
                     margin-inline: auto;
                 }
+
+                &.delete-button{
+                    background: $sale;
+                    color: white;
+                    margin-inline: auto;
+                }
             }
         }
 

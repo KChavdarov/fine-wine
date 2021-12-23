@@ -148,6 +148,18 @@ router.put('/:id', isAuth(), isAdmin(), async (req, res) => {
     }
 });
 
+router.delete('/:id', isAuth(), isAdmin(), async (req, res) => {
+    const wineId = req.params.id;
+    const wineService = req.storage.wine;
+    try {
+        const wine = await wineService.deleteOne(wineId);
+        res.status(200).json(wine);
+    } catch (error) {
+        const errors = parseErrorMessage(error);
+        res.status(400).json(errors);
+    }
+});
+
 router.get('/latest', async (req, res) => {
     const wineService = req.storage.wine;
     try {
@@ -164,7 +176,11 @@ router.get('/:id', async (req, res) => {
     const wineId = req.params.id;
     try {
         const wine = await wineService.getOne(wineId);
-        res.status(200).json(wine);
+        if (wine) {
+            res.status(200).json(wine);
+        } else {
+            res.status(404).json(['Item not found']);
+        }
     } catch (error) {
         const errors = parseErrorMessage(error);
         res.status(400).json(errors);
