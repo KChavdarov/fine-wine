@@ -26,6 +26,7 @@ import {Admin} from './components/pages/Admin/Admin';
 import {Create} from './components/pages/Admin/Create/Create';
 import {Error} from './components/pages/Error/Error';
 import {Edit} from './components/pages/Admin/Edit/Edit';
+import {Modal} from './components/shared/Modal/Modal';
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
         <ToastContainer />
       </main>
       <Footer />
+      <Modal />
     </div>
   );
 }
