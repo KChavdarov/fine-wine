@@ -1,30 +1,30 @@
 export const carouselContent = [
     {
-        image: 'grapes.jpg',
+        image: 'grapes.webp',
         title: 'Get a taste of our exquisite ruby red wines selection',
         text: 'Explore catalogue',
         link: '/catalogue?type=red',
     },
     {
-        image: 'gold-grapes.jpg',
+        image: 'gold-grapes.webp',
         title: 'Dive into an endless ocean of gold sensations',
         text: 'Explore catalogue',
         link: '/catalogue?type=white',
     },
     {
-        image: 'rose.jpg',
+        image: 'rose.webp',
         title: 'Enjoy countless moments with our premium rose offering',
         text: 'Explore catalogue',
         link: '/catalogue?type=rose',
     },
     {
-        image: 'corks2.jpg',
+        image: 'corks2.webp',
         title: 'Make your celebrations truly special with our sparkling wines',
         text: 'Explore catalogue',
         link: '/catalogue?type=sparkling',
     },
     {
-        image: 'four-glasses.jpg',
+        image: 'four-glasses.webp',
         title: 'Find the best companion for your sweet desserts',
         text: 'Explore catalogue',
         link: '/catalogue?type=dessert',
