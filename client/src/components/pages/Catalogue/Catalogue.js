@@ -195,9 +195,6 @@ export function Catalogue() {
 
             <div className="products-container">
                 {content}
-                {content}
-                {content}
-                {content}
             </div>
 
         </section>

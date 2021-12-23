@@ -78,7 +78,7 @@ async function getAll(data = {}) {
 async function getLatest(data = {}) {
     const query = {...data};
     query._isDeleted = false;
-    return Wine.find(query).limit(data.limit || 5).sort('-_createdAt');
+    return Wine.find(query).limit(data.limit || 4).sort('-_createdAt');
 }
 
 async function getOne(id) {

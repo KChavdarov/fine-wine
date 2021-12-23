@@ -33,7 +33,7 @@ export function Checkout() {
                 const order = await createOrder(orderData);
                 dispatch(resetCart());
                 toast.success('Thank you for your order!');
-                navigate('/', {replace: true});
+                navigate(`/order/${order._id}`, {replace: true});
             } catch (error) {
                 error.forEach(err => toast.error(err));
             }

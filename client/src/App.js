@@ -75,7 +75,7 @@ function App() {
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <ToastContainer />
+        <ToastContainer style={{ 'marginTop': '6em' }} />
       </main>
       <Footer />
       <Modal />
