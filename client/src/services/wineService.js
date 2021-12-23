@@ -31,3 +31,7 @@ export async function update(id, data) {
     const wines = await http.put(endpoint + '/' + id, data);
     return wines;
 }
+
+export async function deleteOne(id) {
+    http.del(endpoint + '/' + id);
+}
