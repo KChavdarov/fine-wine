@@ -65,4 +65,10 @@ export const menuItems = [
         type: 'admin',
         mobileOnly: false,
     },
+    {
+        title: 'Profile',
+        url: '/user/profile',
+        type: 'admin',
+        mobileOnly: true,
+    },
 ];

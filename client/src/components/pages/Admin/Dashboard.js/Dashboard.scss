@@ -27,9 +27,8 @@
                 gap: 1%;
                 margin-bottom: 0.8em;
 
-                &:first-of-type{
+                &.headers {
                     border-bottom: 1px solid black;
-                    font-weight: bold;
                 }
 
                 .order-items,
