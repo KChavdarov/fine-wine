@@ -38,8 +38,12 @@
     .selection {
         text-align: center;
 
-        .price {
+        .Price {
             margin: auto 0.5em;
+
+            &::before {
+                content: '€';
+            }
         }
     }
 

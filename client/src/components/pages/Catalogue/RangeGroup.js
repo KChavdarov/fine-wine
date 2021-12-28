@@ -2,19 +2,16 @@ import './FormGroup.scss';
 import {useEffect, useState} from 'react';
 import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
-export function RangeGroup({filters, rangeHandler}) {
+export function RangeGroup({filters, name, min, max, range, rangeHandler}) {
     const [isOpen, setIsOpen] = useState(false);
-    const minRange = filters.priceRange.min;
-    const maxRange = filters.priceRange.max;
-    const range = maxRange - minRange;
-    const minPrice = filters.minPrice;
-    const maxPrice = filters.maxPrice;
-    let left = ((minPrice - minRange) / range * 100) * 0.98 + '%';
-    let right = ((maxRange - maxPrice) / range * 100) * 0.98 + '%';
+    const minRange = range.min;
+    const maxRange = range.max;
+    let left = ((min - minRange) / (maxRange - minRange) * 100) * 0.98 + '%';
+    let right = ((maxRange - max) / (maxRange - minRange) * 100) * 0.98 + '%';
 
     useEffect(() => {
-        setIsOpen(() => (minPrice !== minRange) || (maxPrice !== maxRange));
-    }, [minPrice, maxPrice, minRange, maxRange, filters]);
+        setIsOpen(() => (min !== minRange) || (max !== maxRange));
+    }, [max, maxRange, min, minRange, filters]);
 
     function toggleOpen() {
         setIsOpen(isOpen => !isOpen);
@@ -23,17 +20,17 @@ export function RangeGroup({filters, rangeHandler}) {
     return (
         <div className="filter-group range-group">
             <div className="filter-group-header" onClick={toggleOpen}>
-                <h5 className="filter-group-heading" >Price</h5>
+                <h5 className="filter-group-heading" >{name}</h5>
                 {isOpen ? <FaChevronUp /> : <FaChevronDown />}
             </div>
             <div className={isOpen ? 'filter-group-content active' : 'filter-group-content'}>
 
                 <div className="selection">
-                    <div >Between: <span className="price">&euro;{minPrice}</span> - <span className="price">&euro;{maxPrice}</span></div>
+                    <div >Between: <span className={name}>{min}</span> - <span className={name}>{max}</span></div>
                 </div>
                 <div className="slider-container">
-                    <input type="range" id="input-left" name="minPrice" min={minRange} max={maxRange} value={minPrice} onChange={rangeHandler} />
-                    <input type="range" id="input-right" name="maxPrice" min={minRange} max={maxRange} value={maxPrice} onChange={rangeHandler} />
+                    <input type="range" id="input-left" name={`min${name}`} min={minRange} max={maxRange} value={min} onChange={rangeHandler} />
+                    <input type="range" id="input-right" name={`max${name}`} min={minRange} max={maxRange} value={max} onChange={rangeHandler} />
 
                     <div className="slider">
                         <div className="track"></div>
