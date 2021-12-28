@@ -4,7 +4,7 @@ import {RangeGroup} from './RangeGroup';
 import {useState} from 'react/cjs/react.development';
 import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
-const omitFilters = ['minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];
+const omitFilters = ['minYear', 'maxYear', 'yearRange', 'minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];
 
 export function Filters({filters, handlers}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ export function Filters({filters, handlers}) {
     }
 
     const content = Object.entries(filters)
-        .filter(([category, fields]) => !(omitFilters.includes(category)))
+        .filter(([category]) => !(omitFilters.includes(category)))
         .map(([category, fields]) => <CheckboxGroup key={category} category={category} fields={fields} checkboxHandler={handlers.checkboxHandler} />);
 
     return (
@@ -32,7 +32,8 @@ export function Filters({filters, handlers}) {
             </div>
             <form className={isOpen ? 'filter-form active' : 'filter-form'} onSubmit={closeOnInput(handlers.filtersSubmitHandler)} >
                 <div className="filters-groups-container">
-                    <RangeGroup rangeHandler={handlers.rangeHandler} filters={filters} />
+                    <RangeGroup rangeHandler={handlers.rangeHandler} min={filters.minPrice} max={filters.maxPrice} range={filters.priceRange} name="Price" filters={filters} />
+                    <RangeGroup rangeHandler={handlers.rangeHandler} min={filters.minYear} max={filters.maxYear} range={filters.yearRange} name="Year" filters={filters} />
                     {content}
                 </div>
                 <div className="buttons">

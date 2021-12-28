@@ -32,20 +32,23 @@ async function getCategories() {
     categories.minPrice = Math.floor(Math.min(...categories.currentPrice));
     categories.maxPrice = Math.ceil(Math.max(...categories.currentPrice));
 
+    categories.minYear = Math.floor(Math.min(...categories.year));
+    categories.maxYear = Math.ceil(Math.max(...categories.year));
+
     delete categories.currentPrice;
+    delete categories.year;
 
     return categories;
 }
 
 async function getAll(data = {}) {
-    const {_id, type, brand, grape, country, region, year, volume, minPrice, maxPrice, page = 1, perPage = 12, sort = '-isPromo'} = data;
+    const {_id, type, brand, grape, country, region, minYear, maxYear, volume, minPrice, maxPrice, page = 1, perPage = 12, sort = '-isPromo'} = data;
     const query = {_isDeleted: false};
     if (_id) {query._id = _id;}
     if (type) {query.type = type;}
     if (brand) {query.brand = brand;}
     if (country) {query.country = country;}
     if (region) {query.region = region;}
-    if (year) {query.year = year;}
     if (volume) {query.volume = volume;}
     if (grape) {query.grape = {$in: grape};}
     if (minPrice || maxPrice) {
@@ -59,10 +62,21 @@ async function getAll(data = {}) {
             query.currentPrice['$lte'] = data.maxPrice;
         }
     }
+    if (minYear || maxYear) {
+        query.year = {};
+
+        if (minYear) {
+            query.year['$gte'] = data.minYear;
+        };
+
+        if (maxYear) {
+            query.year['$lte'] = data.maxYear;
+        }
+    }
     const wines = await Wine.find(query)
-        .skip(Number(perPage) * (Math.max(Number(page) - 1, 0)))
-        .limit(Number(perPage))
-        .sort(sort);
+        .skip(Number(perPage) * (Math.max(Number(page) - 1, 0)) || 0)
+        .limit(Number(perPage) || 12)
+        .sort(sort || '');
     const count = await Wine.countDocuments(query);
 
     return {
