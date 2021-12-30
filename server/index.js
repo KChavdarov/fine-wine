@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const {PORT, CLOUDINARY} = require('./config/index');
 const expressConfig = require('./config/express');
@@ -16,7 +17,6 @@ async function start() {
     await databaseConfig();
     expressConfig(app);
     cloudinary.config(CLOUDINARY);
-
 
     // const user = await userService.createUser({
     //     firstName: 'Admin',
