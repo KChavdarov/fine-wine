@@ -1,4 +1,4 @@
-# FINE WINE
+# [FINE WINE](https://fine-wine-app.herokuapp.com/)
 ## React JS project for SoftUni React course
 Online wine shop with a rich product catalogue
 ### Application stack:
