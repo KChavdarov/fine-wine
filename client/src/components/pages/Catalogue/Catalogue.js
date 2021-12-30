@@ -4,7 +4,7 @@ import * as wineService from '../../../services/wineService';
 import {ProductCard} from '../../shared/ProductCard/ProductCard';
 import {Filters} from './Filters';
 import {useNavigate, useSearchParams} from 'react-router-dom';
-import {useCallback} from 'react/cjs/react.development';
+import {useCallback} from 'react';
 import {Paginator} from '../../shared/Paginator/Paginator';
 import {Loader} from '../../shared/Loader/Loader';
 

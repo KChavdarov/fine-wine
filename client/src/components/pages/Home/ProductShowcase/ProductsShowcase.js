@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useState} from 'react/cjs/react.development';
+import {useState} from 'react';
 import * as wineService from '../../../../services/wineService';
 import {ProductCard} from '../../../shared/ProductCard/ProductCard';
 import './ProductsShowcase.scss';

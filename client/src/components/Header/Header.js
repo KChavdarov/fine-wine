@@ -7,8 +7,8 @@ import {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../store/slices/userSlice';
 import {selectCart} from '../../store/slices/cartSlice';
-import {useEffect} from 'react/cjs/react.development';
-import {FaChartLine, FaRegChartBar} from 'react-icons/fa';
+import {useEffect} from 'react';
+import {FaRegChartBar} from 'react-icons/fa';
 
 export function Header({mainRef}) {
     const [isOpen, setIsOpen] = useState(false);
