@@ -1,7 +1,7 @@
 import './Filters.scss';
 import {CheckboxGroup} from './CheckboxGroup';
 import {RangeGroup} from './RangeGroup';
-import {useState} from 'react/cjs/react.development';
+import {useState} from 'react';
 import {FaChevronDown, FaChevronUp} from 'react-icons/fa';
 
 const omitFilters = ['minYear', 'maxYear', 'yearRange', 'minPrice', 'maxPrice', 'priceRange', 'page', 'perPage', 'sort'];

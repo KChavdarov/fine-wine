@@ -1,6 +1,6 @@
 import {Fragment, useCallback, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {useEffect} from 'react/cjs/react.development';
+import {useEffect} from 'react';
 import {getOne, update} from '../../../../services/wineService';
 import {ErrorMessage, Field, FieldArray, Form, Formik} from 'formik';
 import * as yup from 'yup';

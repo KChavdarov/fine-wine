@@ -5,7 +5,7 @@ import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import {useEffect} from 'react/cjs/react.development';
+import {useEffect} from 'react';
 import {useIsAuth} from '../../../../guards/guards';
 import {getOrders} from '../../../../services/orderService';
 import {selectUser, update} from '../../../../store/slices/userSlice';
