@@ -1,4 +1,13 @@
-export const endpoint = 'http://localhost:5000/api';
+export const endpoint = process.env.REACT_APP_API_URL;
+
+// const environment = process.env.NODE_ENV;
+
+// const endpoints = {
+//     development: 'http://localhost:5000/api',
+//     production: 'https://fine-wine-app.herokuapp.com/api',
+// };
+
+// export const endpoint = endpoints[environment];
 
 async function request(url, options) {
     try {

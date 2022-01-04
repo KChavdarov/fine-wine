@@ -1,9 +1,9 @@
-const environment = 'development';
+const environment = process.env.NODE_ENV || 'development';
 
 const config = {
     development: {
-        PORT: 5000,
-        DB_CONNECTION_STRING: 'mongodb://localhost:27017/fine-wine',
+        PORT: process.env.PORT || 5000,
+        DB_CONNECTION_STRING: process.env.DB_CONNECTION_FINE_WINE,
         COOKIE_NAME: 'X-Authorization',
         TOKEN_SECRET: 'proper secret 123',
         SALT_ROUNDS: 10,
@@ -12,12 +12,29 @@ const config = {
             credentials: true
         },
         CLOUDINARY: {
-            cloud_name: 'dm2dq27dn',
-            api_key: '675932744897211',
-            api_secret: '15ylVjWRAr09g5hcnQ43CSrFjxs',
+            cloud_name: process.env.CLOUDINARY_NAME,
+            api_key: process.env.CLOUDINARY_KEY,
+            api_secret: process.env.CLOUDINARY_SECRET,
         }
     },
-    production: {},
+    production: {
+        PORT: process.env.PORT || 80,
+        DB_CONNECTION_STRING: process.env.DB_CONNECTION,
+        COOKIE_NAME: 'X-Authorization',
+        TOKEN_SECRET: 'proper secret 123',
+        SALT_ROUNDS: 10,
+        CORS: {
+            origin: ['http://fine-wine-app.herokuapp.com'],
+            credentials: true
+        },
+        CLOUDINARY: {
+            cloud_name: process.env.CLOUDINARY_NAME,
+            api_key: process.env.CLOUDINARY_KEY,
+            api_secret: process.env.CLOUDINARY_SECRET,
+        }
+    },
 };
+
+// mongodb+srv://kirencevr:YkhQpGf5TBwk4Q8@prod-aws-shared.jw4l2.mongodb.net/fine-wine?retryWrites=true&w=majority
 
 module.exports = config[environment];
